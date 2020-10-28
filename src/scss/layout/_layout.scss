@@ -1,0 +1,71 @@
+body {
+	background: $black;
+	font-family: 'Trebuchet MS', sans-serif;
+	font-size: $font-size;
+	margin: 0;
+}
+
+#main {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+#header,
+#footer {
+	background: $darker-purple;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 1px;
+	left: 0;
+	position: fixed;
+	right: 0;
+	z-index: 1;
+}
+
+#article {
+	flex: 1 1 auto;
+	margin: $nav-height auto;
+	max-width: $max-width;
+	width: 100%;
+}
+
+.nav {
+	display: flex;
+	justify-content: space-between;
+	margin: 0 auto;
+	max-width: $max-width;
+
+	a {
+		@include gradient($light-purple, $dark-purple, $black);
+
+		color: $white;
+		height: $nav-height;
+		text-shadow: 0 2px 0 $black;
+
+		&.active {
+			background: $black;
+			border-color: transparent;
+			border-radius: 0;
+			box-shadow: none;
+			text-decoration: none;
+		}
+
+		&:hover {
+			@include gradient($light-purple, $purple, $black);
+		}
+
+		& + a {
+			margin-left: 2px;
+		}
+	}
+}
+
+.nav a,
+h1 {
+	align-items: center;
+	display: flex;
+	flex: 1 1 auto;
+	justify-content: center;
+	text-decoration: none;
+}

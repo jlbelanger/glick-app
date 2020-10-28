@@ -1,0 +1,31 @@
+input {
+	@include gradient(#fff, #f0f0f0, #ccc);
+
+	appearance: none;
+	background: #f0f0f0;
+	border-color: #ccc;
+	border-radius: $border-radius 0 0 $border-radius;
+	border-style: solid;
+	border-width: $border-width 0 $border-width $border-width;
+	color: $black;
+	line-height: 1;
+	max-width: 80px;
+	min-width: 0;
+	padding: $padding;
+}
+
+.input-container {
+	position: relative;
+
+	span {
+		border-color: transparent;
+		border-style: solid;
+		border-width: $border-width 0;
+		bottom: 0;
+		color: $black;
+		padding: $padding 12px;
+		position: absolute;
+		right: #{$border-width * -1};
+		top: 0;
+	}
+}

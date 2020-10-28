@@ -1,0 +1,28 @@
+#list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	& > li {
+		align-items: center;
+		border-color: transparent;
+		border-style: solid;
+		border-width: 1px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		padding: $list-padding-top $list-padding-side;
+
+		h2 {
+			margin: #{$list-padding-top * -1} #{$list-padding-side * -1};
+		}
+	}
+}
+
+#list > li + li {
+	border-top-color: $purple;
+}
+
+.active-item {
+	background: $darker-purple;
+}

@@ -1,0 +1,33 @@
+button {
+	@include gradient($lighter-green, $green, $dark-green);
+
+	border-color: $dark-green;
+	border-radius: $border-radius;
+	border-style: solid;
+	border-width: $border-width;
+	font-weight: bold;
+	margin: 4px;
+	padding: $padding;
+	text-shadow: 0 1px 0 $lighter-green;
+	text-transform: uppercase;
+
+	&:hover {
+		@include gradient($lighter-green, $light-green, $dark-green);
+	}
+
+	&:active,
+	&:focus {
+		@include gradient($darker-green, $dark-green, $green);
+
+		border-color: $darker-green;
+		text-shadow: 0 -1px 0 $green;
+	}
+}
+
+.active {
+	@include gradient($darkest-green, $darker-green, $dark-green);
+
+	border-color: $darkest-green;
+	color: $white;
+	text-shadow: 0 1px 0 $dark-green;
+}

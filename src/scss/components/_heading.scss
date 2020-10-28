@@ -1,0 +1,11 @@
+h2 {
+	background: $dark-purple;
+	color: $white;
+	display: block;
+	flex: 1 1 auto;
+	font-size: $font-size;
+	letter-spacing: 2px;
+	padding: $list-padding-top $list-padding-side;
+	text-shadow: 0 2px 0 $black;
+	text-transform: uppercase;
+}

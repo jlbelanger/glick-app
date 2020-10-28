@@ -1,0 +1,9 @@
+.postfix-container {
+	display: flex;
+}
+
+.postfix {
+	border-radius: 0 $border-radius $border-radius 0;
+	border-width: $border-width $border-width $border-width 0;
+	margin: 0;
+}

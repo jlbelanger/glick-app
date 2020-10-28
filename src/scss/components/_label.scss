@@ -1,0 +1,8 @@
+label {
+	color: $white;
+	margin: 8px 8px 8px 0;
+
+	&[for] {
+		cursor: pointer;
+	}
+}
