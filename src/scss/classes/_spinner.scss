@@ -1,0 +1,36 @@
+.spinner {
+	align-content: center;
+	align-items: center;
+	align-self: center;
+	bottom: 0;
+	display: flex;
+	font-size: 0;
+	justify-content: center;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 9997;
+
+	&::before {
+		animation-duration: 4s;
+		animation-iteration-count: infinite;
+		animation-name: spin;
+		animation-timing-function: linear;
+		background-color: $darkest-green;
+		border-color: $lightest-green;
+		border-radius: 100px;
+		border-style: dotted;
+		border-width: 8px;
+		box-shadow: 0 0 0 8px $darkest-green;
+		content: '';
+		display: block;
+		height: 32px;
+		width: 32px;
+	}
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
