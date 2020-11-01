@@ -10,8 +10,14 @@ $darker-purple: #101;
 $dark-purple: #202;
 $purple: #303;
 $light-purple: #414;
-$lighter-purple: #747;
+$lighter-purple: #636;
 $lightest-purple: #969;
+
+$red: #903;
+$darker-red: scale-color($red, $lightness: -40%);
+$dark-red: scale-color($red, $lightness: -20%);
+$light-red: scale-color($red, $lightness: 10%);
+$lighter-red: scale-color($red, $lightness: 20%);
 
 $bright-purple: #b656b6;
 

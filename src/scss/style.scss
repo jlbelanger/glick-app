@@ -11,6 +11,15 @@
 @import 'components/label';
 @import 'components/p';
 @import 'components/small';
+@import 'classes/field';
+@import 'classes/form';
 @import 'classes/list';
 @import 'classes/postfix';
+@import 'classes/radio';
 @import 'classes/spinner';
+
+h2,
+p,
+.field {
+	margin: 28px 0 0;
+}

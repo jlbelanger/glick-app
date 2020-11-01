@@ -1,53 +1,51 @@
-import Field from './Log/Field';
+import {
+	Route,
+	BrowserRouter as Router,
+	Switch,
+} from 'react-router-dom';
+import EventList from './Pages/EventList';
+import EventTypeEdit from './Pages/EventTypeEdit';
+import EventTypeList from './Pages/EventTypeList';
+import EventTypeNew from './Pages/EventTypeNew';
 import Footer from './Footer';
 import Header from './Header';
-import Jsona from 'jsona';
-import Label from './Log/Label';
+import Home from './Pages/Home';
+import Profile from './Pages/Profile';
 import React from 'react';
 import Spinner from './Spinner';
-import { trackPromise } from 'react-promise-tracker';
 
-export default class App extends React.Component {
-	state = {
-		actionTypes: [],
-	}
-
-	componentDidMount() {
-		trackPromise(
-			fetch(`${process.env.REACT_APP_API_URL}/action-types`)
-				.then(response => (response.json()))
-				.then(response => (new Jsona().deserialize(response)))
-				.then((actionTypes) => {
-					this.setState({ actionTypes });
-				})
-		);
-	}
-
-	onSubmit = (e) => {
-		e.preventDefault();
-	}
-
-	render() {
-		return (
+export default function App() {
+	return (
+		<Router>
 			<main id="main">
 				<Header />
 				<Footer />
 
 				<article id="article">
-					<ul id="list">
-						{this.state.actionTypes.map(actionType => (
-							<li key={actionType.id}>
-								<form action={`${process.env.REACT_APP_API_URL}/actions`} method="POST" onSubmit={this.onSubmit}>
-									<Label actionType={actionType} />
-									<Field actionType={actionType} />
-								</form>
-							</li>
-						))}
-					</ul>
+					<Switch>
+						<Route exact path="/">
+							<Home />
+						</Route>
+						<Route exact path="/event-types">
+							<EventTypeList />
+						</Route>
+						<Route path="/event-types/new">
+							<EventTypeNew />
+						</Route>
+						<Route path="/event-types/:id">
+							<EventTypeEdit />
+						</Route>
+						<Route path="/events">
+							<EventList />
+						</Route>
+						<Route path="/profile">
+							<Profile />
+						</Route>
+					</Switch>
 				</article>
 
 				<Spinner />
 			</main>
-		);
-	}
+		</Router>
+	);
 }

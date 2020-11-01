@@ -1,21 +1,42 @@
-input {
+input,
+select,
+textarea {
 	@include gradient(#fff, #f0f0f0, #ccc);
 
 	appearance: none;
 	background: #f0f0f0;
 	border-color: #ccc;
-	border-radius: $border-radius 0 0 $border-radius;
+	border-radius: $border-radius;
 	border-style: solid;
-	border-width: $border-width 0 $border-width $border-width;
+	border-width: $border-width;
 	color: $black;
 	line-height: 1;
-	max-width: 80px;
 	min-width: 0;
 	padding: $padding;
+	width: 100%;
+}
+
+select {
+	height: 39px;
+}
+
+input[type="checkbox"] {
+	cursor: pointer;
+	display: block;
+	height: 32px;
+	width: 32px;
+
+	&:checked {
+		@include gradient($light-green, $green, $dark-green);
+	}
 }
 
 .input-container {
 	position: relative;
+
+	input {
+		max-width: 80px;
+	}
 
 	span {
 		border-color: transparent;

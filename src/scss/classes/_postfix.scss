@@ -2,8 +2,20 @@
 	display: flex;
 }
 
+.prefix {
+	border-radius: $border-radius 0 0 $border-radius;
+	border-width: $border-width 0 $border-width $border-width;
+	margin: 0;
+}
+
+.infix {
+	border-radius: 0;
+	border-width: $border-width 0 $border-width 1px;
+	margin: 0;
+}
+
 .postfix {
 	border-radius: 0 $border-radius $border-radius 0;
-	border-width: $border-width $border-width $border-width 0;
+	border-width: $border-width $border-width $border-width 1px;
 	margin: 0;
 }

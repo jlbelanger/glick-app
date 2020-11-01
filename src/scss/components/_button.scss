@@ -1,4 +1,5 @@
-button {
+button,
+.button {
 	@include gradient($lighter-green, $green, $dark-green);
 
 	border-color: $dark-green;
@@ -11,6 +12,7 @@ button {
 	padding: $padding;
 	text-shadow: 0 1px 0 $lighter-green;
 	text-transform: uppercase;
+	white-space: nowrap;
 
 	&:hover {
 		@include gradient($lighter-green, $light-green, $dark-green);
@@ -22,6 +24,46 @@ button {
 
 		border-color: $darker-green;
 		text-shadow: 0 -1px 0 $green;
+	}
+
+	&.button--secondary {
+		@include gradient($lighter-purple, $purple, $dark-purple);
+
+		border-color: $dark-purple;
+		color: $white;
+		text-shadow: 0 1px 0 $lighter-purple;
+
+		&:hover {
+			@include gradient($lighter-purple, $light-purple, $dark-purple);
+		}
+
+		&:active,
+		&:focus {
+			@include gradient($darker-purple, $dark-purple, $purple);
+
+			border-color: $darker-purple;
+			text-shadow: 0 -1px 0 $purple;
+		}
+	}
+
+	&.button--danger {
+		@include gradient($lighter-red, $red, $dark-red);
+
+		border-color: $dark-red;
+		color: $white;
+		text-shadow: 0 1px 0 $lighter-red;
+
+		&:hover {
+			@include gradient($lighter-red, $light-red, $dark-red);
+		}
+
+		&:active,
+		&:focus {
+			@include gradient($darker-red, $dark-red, $red);
+
+			border-color: $darker-red;
+			text-shadow: 0 -1px 0 $red;
+		}
 	}
 }
 

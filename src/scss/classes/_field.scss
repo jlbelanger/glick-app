@@ -1,0 +1,12 @@
+.field {
+	padding: 0 $list-padding-side;
+}
+
+.field__label {
+	display: inline-block;
+	margin: 0 0 12px;
+}
+
+.field__input-wrapper {
+	display: flex;
+}

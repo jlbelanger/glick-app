@@ -6,7 +6,7 @@ export default function Field({ actionType }) {
 		return (
 			<div className="postfix-container">
 				<div className="input-container">
-					<input id={actionType.slug} type="text" />
+					<input className="prefix" id={actionType.slug} type="text" />
 					{actionType.suffix && <span>{actionType.suffix}</span>}
 				</div>
 				<button className="postfix" type="submit">Add</button>
