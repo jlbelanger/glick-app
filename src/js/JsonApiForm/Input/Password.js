@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 
 export default function Password({
 	name,
-	row,
-	setRow,
-	type,
+	required,
 }) {
-	const [tempType, setTempType] = useState(type);
+	const [tempType, setTempType] = useState('password');
 
 	const togglePassword = () => {
 		if (tempType === 'password') {
@@ -23,8 +21,7 @@ export default function Password({
 			<Input
 				className="prefix"
 				name={name}
-				row={row}
-				setRow={setRow}
+				required={required}
 				type={tempType}
 			/>
 			<button className="postfix button--secondary" onClick={togglePassword} type="button">
@@ -36,7 +33,9 @@ export default function Password({
 
 Password.propTypes = {
 	name: PropTypes.string.isRequired,
-	row: PropTypes.object.isRequired,
-	setRow: PropTypes.func.isRequired,
-	type: PropTypes.string.isRequired,
+	required: PropTypes.bool,
+};
+
+Password.defaultProps = {
+	required: false,
 };

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import API from '../Helpers/API';
-import Field from '../Field';
-import Form from '../Form';
-import Submit from '../Submit';
+import API from '../../JsonApiForm/Helpers/API';
+import Field from '../../JsonApiForm/Field';
+import Fields from './Fields';
+import Form from '../../JsonApiForm/Form';
+import Submit from '../../JsonApiForm/Submit';
+import { useHistory } from 'react-router-dom';
 
-export default function Profile() {
-	const id = 2; // TODO
+export default function Edit() {
+	const id = '1'; // TODO
 	const [row, setRow] = useState(null);
+	const history = useHistory();
 	useEffect(() => {
 		if (row === null) {
 			API.get(`users/${id}`)
@@ -21,25 +24,16 @@ export default function Profile() {
 		return null;
 	}
 
+	const afterSubmit = () => {
+		history.push('/');
+	};
+
 	return (
 		<>
 			<h2>Edit profile</h2>
 
-			<Form action={`users/${row.id}`} method="PUT">
-				<Field
-					label="Username"
-					name="username"
-					row={row}
-					setRow={setRow}
-				/>
-
-				<Field
-					label="Email"
-					name="email"
-					row={row}
-					setRow={setRow}
-					type="email"
-				/>
+			<Form path="users" id={row.id} method="PUT" row={row}>
+				<Fields />
 
 				<Submit />
 
@@ -48,24 +42,18 @@ export default function Profile() {
 				<Field
 					label="Current password"
 					name="password"
-					row={row}
-					setRow={setRow}
 					type="password"
 				/>
 
 				<Field
 					label="New password"
 					name="new_password"
-					row={row}
-					setRow={setRow}
 					type="password"
 				/>
 
 				<Field
 					label="Confirm new password"
 					name="new_password_confirmation"
-					row={row}
-					setRow={setRow}
 					type="password"
 				/>
 
@@ -74,7 +62,7 @@ export default function Profile() {
 
 			<h2>Delete account</h2>
 
-			<Form action={`users/${row.id}`} method="DELETE">
+			<Form afterSubmit={afterSubmit} path="users" id={row.id} method="DELETE">
 				<Submit className="button--danger" label="Delete" />
 			</Form>
 		</>

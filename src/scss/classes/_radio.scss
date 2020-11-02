@@ -7,8 +7,23 @@
 
 .radio__label {
 	color: $black;
+	display: inline-block;
+	position: relative;
 }
 
 .radio__input {
-	display: none;
+	appearance: none;
+	background: transparent;
+	border-color: transparent;
+	bottom: 0;
+	box-shadow: none;
+	cursor: pointer;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+
+	&:focus {
+		position: absolute;
+	}
 }

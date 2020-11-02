@@ -1,16 +1,25 @@
+import React, { useContext } from 'react';
+import FormContext from '../FormContext';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 export default function Radio({
 	name,
 	options,
-	row,
-	setRow,
+	required,
 }) {
+	const { formState, setFormState } = useContext(FormContext);
 	const onChange = (e) => {
-		setRow({
-			...row,
-			[e.target.name]: e.target.value,
+		const newDirty = [...formState.dirty];
+		if (!newDirty.includes(e.target.name)) {
+			newDirty.push(e.target.name);
+		}
+		setFormState({
+			...formState,
+			dirty: newDirty,
+			row: {
+				...formState.row,
+				[e.target.name]: e.target.value,
+			},
 		});
 	};
 	const keys = Object.keys(options);
@@ -19,24 +28,22 @@ export default function Radio({
 	return (
 		<ul className="radio">
 			{keys.map((value, i) => {
-				const checked = row[name] === value;
+				const checked = formState.row[name] === value;
 				let className = 'infix';
 				if (i === 0) {
 					className = 'prefix';
 				} else if (i === numKeys - 1) {
 					className = 'postfix';
 				}
-				if (checked) {
-					className += ' active';
-				}
 				return (
 					<li className="radio__item" key={value}>
-						<label className={`radio__label button ${className}`}>
+						<label className={`radio__label button ${className}${checked ? ' active' : ''}`}>
 							<input
-								className="radio__input"
+								className={`radio__input ${className}`}
 								checked={checked}
 								name={name}
 								onChange={onChange}
+								required={required}
 								type="radio"
 								value={value}
 							/>
@@ -52,6 +59,9 @@ export default function Radio({
 Radio.propTypes = {
 	name: PropTypes.string.isRequired,
 	options: PropTypes.object.isRequired,
-	row: PropTypes.object.isRequired,
-	setRow: PropTypes.func.isRequired,
+	required: PropTypes.bool,
+};
+
+Radio.defaultProps = {
+	required: false,
 };

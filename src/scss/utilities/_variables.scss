@@ -1,23 +1,25 @@
-$darkest-green: #030;
-$darker-green: #063;
 $dark-green: #096;
+$darker-green: scale-color($dark-green, $lightness: -30%);
+$darkest-green: scale-color($darker-green, $lightness: -30%);
 $green: #3c9;
 $light-green: #4da;
 $lighter-green: #6fc;
 $lightest-green: #8fe;
 
-$darker-purple: #101;
-$dark-purple: #202;
-$purple: #303;
-$light-purple: #414;
+$darkest-purple: #101;
+$darker-purple: #202;
+$dark-purple: #303;
+$purple: #414;
+$light-purple: #525;
 $lighter-purple: #636;
-$lightest-purple: #969;
+$lightest-purple: #747;
 
 $red: #903;
-$darker-red: scale-color($red, $lightness: -40%);
-$dark-red: scale-color($red, $lightness: -20%);
-$light-red: scale-color($red, $lightness: 10%);
+$darker-red: scale-color($red, $lightness: -50%);
+$dark-red: scale-color($red, $lightness: -35%);
+$light-red: scale-color($red, $lightness: 5%);
 $lighter-red: scale-color($red, $lightness: 20%);
+$lightest-red: scale-color($red, $lightness: 50%);
 
 $bright-purple: #b656b6;
 
@@ -30,6 +32,8 @@ $font-size: 16px;
 $max-width: 600px;
 $nav-height: 50px;
 $padding: 8px;
+
+$checkbox-size: 32px;
 
 $list-padding-top: 12px;
 $list-padding-side: 16px;

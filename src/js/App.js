@@ -3,14 +3,15 @@ import {
 	BrowserRouter as Router,
 	Switch,
 } from 'react-router-dom';
-import EventList from './Pages/EventList';
-import EventTypeEdit from './Pages/EventTypeEdit';
-import EventTypeList from './Pages/EventTypeList';
-import EventTypeNew from './Pages/EventTypeNew';
+import { Slide, ToastContainer } from 'react-toastify';
+import EventList from './Pages/Events/List';
+import EventTypeEdit from './Pages/EventTypes/Edit';
+import EventTypeList from './Pages/EventTypes/List';
+import EventTypeNew from './Pages/EventTypes/New';
 import Footer from './Footer';
 import Header from './Header';
 import Home from './Pages/Home';
-import Profile from './Pages/Profile';
+import Profile from './Pages/Users/Edit';
 import React from 'react';
 import Spinner from './Spinner';
 
@@ -29,21 +30,27 @@ export default function App() {
 						<Route exact path="/event-types">
 							<EventTypeList />
 						</Route>
-						<Route path="/event-types/new">
+						<Route exact path="/event-types/new">
 							<EventTypeNew />
 						</Route>
 						<Route path="/event-types/:id">
 							<EventTypeEdit />
 						</Route>
-						<Route path="/events">
+						<Route exact path="/events">
 							<EventList />
 						</Route>
-						<Route path="/profile">
+						<Route exact path="/profile">
 							<Profile />
 						</Route>
 					</Switch>
 				</article>
 
+				<ToastContainer
+					autoClose={3000}
+					draggable={false}
+					hideProgressBar
+					transition={Slide}
+				/>
 				<Spinner />
 			</main>
 		</Router>

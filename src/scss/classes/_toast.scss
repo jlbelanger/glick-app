@@ -1,0 +1,51 @@
+.Toastify {
+	bottom: #{$nav-height + 8px};
+	position: fixed;
+	right: 8px;
+	z-index: 9998;
+}
+
+.Toastify__toast {
+	align-items: center;
+	background: $light-purple;
+	box-shadow: 0 0 10px $darker-purple;
+	display: flex;
+	margin-top: 8px;
+}
+
+.Toastify__toast--error {
+	background: $red;
+}
+
+.Toastify__toast--success {
+	background: $green;
+	color: $black;
+
+	.Toastify__close-button {
+		path {
+			fill: $black;
+		}
+	}
+}
+
+.Toastify__toast-body {
+	padding: 16px;
+}
+
+.Toastify__close-button {
+	background: transparent;
+	border: 0;
+	height: 32px;
+	margin: 0 8px 0 0;
+	width: 32px;
+
+	path {
+		fill: $white;
+	}
+
+	&:hover,
+	&:active,
+	&:focus {
+		background: transparent;
+	}
+}

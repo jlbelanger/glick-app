@@ -6,7 +6,9 @@
 }
 
 h1 {
+	align-items: center;
 	color: $white;
+	display: flex;
 	font-size: 30px;
 	letter-spacing: -3px;
 	margin: 0;

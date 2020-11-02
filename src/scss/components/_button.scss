@@ -8,6 +8,7 @@ button,
 	border-width: $border-width;
 	cursor: pointer;
 	font-weight: bold;
+	line-height: 1;
 	margin: 4px;
 	padding: $padding;
 	text-shadow: 0 1px 0 $lighter-green;
@@ -20,29 +21,29 @@ button,
 
 	&:active,
 	&:focus {
-		@include gradient($darker-green, $dark-green, $green);
+		@include gradient($dark-green, scale-color($green, $lightness: -10%), $green);
 
 		border-color: $darker-green;
-		text-shadow: 0 -1px 0 $green;
+		text-shadow: 0 -1px 0 $light-green;
 	}
 
 	&.button--secondary {
-		@include gradient($lighter-purple, $purple, $dark-purple);
+		@include gradient($lightest-purple, $light-purple, $dark-purple);
 
-		border-color: $dark-purple;
+		border-color: $purple;
 		color: $white;
-		text-shadow: 0 1px 0 $lighter-purple;
+		text-shadow: 0 1px 0 $darkest-purple;
 
 		&:hover {
-			@include gradient($lighter-purple, $light-purple, $dark-purple);
+			@include gradient($lightest-purple, $lighter-purple, $dark-purple);
 		}
 
 		&:active,
 		&:focus {
-			@include gradient($darker-purple, $dark-purple, $purple);
+			@include gradient($purple, scale-color($light-purple, $lightness: -5%), $lighter-purple);
 
-			border-color: $darker-purple;
-			text-shadow: 0 -1px 0 $purple;
+			border-color: $dark-purple;
+			text-shadow: 0 -1px 0 $darkest-purple;
 		}
 	}
 
@@ -51,7 +52,7 @@ button,
 
 		border-color: $dark-red;
 		color: $white;
-		text-shadow: 0 1px 0 $lighter-red;
+		text-shadow: 0 1px 0 $darker-red;
 
 		&:hover {
 			@include gradient($lighter-red, $light-red, $dark-red);
@@ -59,18 +60,33 @@ button,
 
 		&:active,
 		&:focus {
-			@include gradient($darker-red, $dark-red, $red);
+			@include gradient(scale-color($red, $lightness: -15%), $red, scale-color($light-red, $lightness: 3%));
 
 			border-color: $darker-red;
-			text-shadow: 0 -1px 0 $red;
+			text-shadow: 0 -1px 0 $darker-red;
 		}
 	}
 }
 
 .active {
-	@include gradient($darkest-green, $darker-green, $dark-green);
+	@include gradient($darkest-green, $darker-green, $darker-green);
 
-	border-color: $darkest-green;
 	color: $white;
-	text-shadow: 0 1px 0 $dark-green;
+	text-shadow: 0 -1px 0 $darkest-green;
+
+	&.radio__label {
+		color: $white;
+	}
+
+	&:hover {
+		@include gradient($darkest-green, $darker-green, $darker-green);
+	}
+
+	&:active,
+	&:focus {
+		@include gradient($darkest-green, $darker-green, $darker-green);
+
+		border-color: $dark-green;
+		text-shadow: 0 -1px 0 $dark-green;
+	}
 }

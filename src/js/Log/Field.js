@@ -16,14 +16,23 @@ export default function Field({ actionType }) {
 
 	if (actionType.options) {
 		const options = actionType.options.split(',');
+		const numOptions = options.length;
 		return (
 			<div>
-				{options.map(option => (
-					<button key={option} type="submit">
-						{/* className="active" */}
-						{option}
-					</button>
-				))}
+				{options.map((option, i) => {
+					let className = 'infix';
+					if (i === 0) {
+						className = 'prefix';
+					} else if (i === numOptions - 1) {
+						className = 'postfix';
+					}
+					return (
+						<button className={className} key={option} type="submit">
+							{/* className="active" */}
+							{option}
+						</button>
+					);
+				})}
 				{/* <button type="submit">Stop</button> */}
 			</div>
 		);

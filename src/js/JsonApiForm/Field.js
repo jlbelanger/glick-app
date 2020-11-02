@@ -1,3 +1,4 @@
+import Checkbox from './Input/Checkbox';
 import Input from './Input';
 import Password from './Input/Password';
 import PropTypes from 'prop-types';
@@ -9,8 +10,7 @@ export default function Field({
 	name,
 	note,
 	options,
-	row,
-	setRow,
+	required,
 	type,
 }) {
 	let Component = Input;
@@ -18,37 +18,46 @@ export default function Field({
 		Component = Password;
 	} else if (type === 'radio') {
 		Component = Radio;
+	} else if (type === 'checkbox') {
+		Component = Checkbox;
+	}
+	const input = (
+		<Component
+			name={name}
+			options={options}
+			required={required}
+			type={type}
+		/>
+	);
+
+	if (type === 'hidden') {
+		return input;
 	}
 
 	return (
 		<div className="field">
-			<label className="field__label" htmlFor={name}>{label}</label>
+			<label className={`field__label${required ? ' field__label--required' : ''}`} htmlFor={name}>{label}</label>
 			{note && <small>{`(${note})`}</small>}
-			<div className="field__input-wrapper">
-				<Component
-					name={name}
-					options={options}
-					row={row}
-					setRow={setRow}
-					type={type}
-				/>
+			<div className={`field__input-wrapper field__input-wrapper--${type}`}>
+				{input}
 			</div>
 		</div>
 	);
 }
 
 Field.propTypes = {
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	note: PropTypes.string,
 	options: PropTypes.object,
-	row: PropTypes.object.isRequired,
-	setRow: PropTypes.func.isRequired,
+	required: PropTypes.bool,
 	type: PropTypes.string,
 };
 
 Field.defaultProps = {
+	label: '',
 	note: '',
 	options: {},
+	required: false,
 	type: 'text',
 };

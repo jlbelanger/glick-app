@@ -1,11 +1,10 @@
 input,
 select,
 textarea {
-	@include gradient(#fff, #f0f0f0, #ccc);
+	@include gradient(#fff, #fff, #ccc);
 
 	appearance: none;
-	background: #f0f0f0;
-	border-color: #ccc;
+	border-color: #bbb;
 	border-radius: $border-radius;
 	border-style: solid;
 	border-width: $border-width;
@@ -23,11 +22,13 @@ select {
 input[type="checkbox"] {
 	cursor: pointer;
 	display: block;
-	height: 32px;
-	width: 32px;
+	height: $checkbox-size;
+	width: $checkbox-size;
 
 	&:checked {
 		@include gradient($light-green, $green, $dark-green);
+
+		border-color: $dark-green;
 	}
 }
 

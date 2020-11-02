@@ -4,11 +4,11 @@ import React from 'react';
 export default function Footer() {
 	return (
 		<footer id="footer">
-			<nav className="nav" id="footer__nav">
-				<NavLink activeClassName="active" exact to="/">New Event</NavLink>
-				<NavLink activeClassName="active" to="/events">Past Events</NavLink>
-				<NavLink activeClassName="active" to="/event-types">Event Types</NavLink>
-				<NavLink activeClassName="active" to="/profile">Profile</NavLink>
+			<nav id="nav">
+				<NavLink activeClassName="active" className="nav__link" exact to="/">New Event</NavLink>
+				<NavLink activeClassName="active" className="nav__link" to="/events">Past Events</NavLink>
+				<NavLink activeClassName="active" className="nav__link" to="/event-types">Event Types</NavLink>
+				<NavLink activeClassName="active" className="nav__link" to="/profile">Profile</NavLink>
 			</nav>
 		</footer>
 	);

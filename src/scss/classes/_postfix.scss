@@ -4,18 +4,28 @@
 
 .prefix {
 	border-radius: $border-radius 0 0 $border-radius;
-	border-width: $border-width 0 $border-width $border-width;
+	border-right-width: 0;
 	margin: 0;
 }
 
 .infix {
+	border-left-width: 1px;
 	border-radius: 0;
-	border-width: $border-width 0 $border-width 1px;
+	border-right-width: 0;
 	margin: 0;
 }
 
 .postfix {
+	border-left-width: 1px;
 	border-radius: 0 $border-radius $border-radius 0;
-	border-width: $border-width $border-width $border-width 1px;
 	margin: 0;
+}
+
+.prefix,
+.infix,
+.postfix {
+	&:focus {
+		position: relative;
+		z-index: 1;
+	}
 }

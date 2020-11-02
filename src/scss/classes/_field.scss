@@ -7,6 +7,35 @@
 	margin: 0 0 12px;
 }
 
+.field__label--required {
+	&::after {
+		content: " *";
+	}
+}
+
 .field__input-wrapper {
 	display: flex;
+}
+
+.field__input-wrapper--checkbox {
+	position: relative;
+}
+
+.field__check {
+	bottom: 0;
+	height: $checkbox-size;
+	left: 0;
+	padding: 6px;
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	width: $checkbox-size;
+
+	path {
+		fill: transparent;
+	}
+
+	:checked + & path {
+		fill: $black;
+	}
 }

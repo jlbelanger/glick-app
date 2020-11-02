@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import API from '../Helpers/API';
+import API from '../../JsonApiForm/Helpers/API';
 import { Link } from 'react-router-dom';
 
-export default function EventList() {
+export default function List() {
 	const [rows, setRows] = useState(null);
 	useEffect(() => {
 		if (rows === null) {
