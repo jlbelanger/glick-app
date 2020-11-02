@@ -33,7 +33,7 @@ export default function List() {
 		return (
 			<>
 				<h2>Past events</h2>
-				<p>No events found!</p>
+				<p>No events found.</p>
 			</>
 		);
 	}

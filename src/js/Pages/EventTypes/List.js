@@ -29,15 +29,6 @@ export default function List() {
 		return null;
 	}
 
-	if (rows.length <= 0) {
-		return (
-			<>
-				<h2>Event types</h2>
-				<p>No event types found!</p>
-			</>
-		);
-	}
-
 	return (
 		<>
 			<h2>Event types</h2>
