@@ -35,6 +35,7 @@ export default class API {
 					if (!response.ok) {
 						return response.json()
 							.then((json) => {
+								json.status = response.status;
 								throw json;
 							});
 					}

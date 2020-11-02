@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
+import Error from '../../Error';
 import Field from '../../JsonApiForm/Field';
 import Fields from './Fields';
 import Form from '../../JsonApiForm/Form';
@@ -9,16 +10,26 @@ import { useHistory } from 'react-router-dom';
 export default function Edit() {
 	const id = '1'; // TODO
 	const [row, setRow] = useState(null);
+	const [error, setError] = useState(false);
 	const history = useHistory();
 	useEffect(() => {
 		if (row === null) {
 			API.get(`users/${id}`)
 				.then((response) => {
 					setRow(response);
+				})
+				.catch((response) => {
+					setError(response.status);
 				});
 		}
 		return () => {};
 	});
+
+	if (error) {
+		return (
+			<Error status={error} />
+		);
+	}
 
 	if (row === null) {
 		return null;

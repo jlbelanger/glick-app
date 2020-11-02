@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import API from '../../JsonApiForm/Helpers/API';
+import Error from '../../Error';
 import Fields from './Fields';
 import Form from '../../JsonApiForm/Form';
 import Submit from '../../JsonApiForm/Submit';
@@ -8,16 +9,26 @@ import Submit from '../../JsonApiForm/Submit';
 export default function Edit() {
 	const { id } = useParams();
 	const [row, setRow] = useState(null);
+	const [error, setError] = useState(false);
 	const history = useHistory();
 	useEffect(() => {
 		if (row === null) {
 			API.get(`action-types/${id}`)
 				.then((response) => {
 					setRow(response);
+				})
+				.catch((response) => {
+					setError(response.status);
 				});
 		}
 		return () => {};
 	});
+
+	if (error) {
+		return (
+			<Error status={error} />
+		);
+	}
 
 	if (row === null) {
 		return null;

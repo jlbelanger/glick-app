@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import API from '../JsonApiForm/Helpers/API';
+import Error from '../Error';
 import Field from '../Log/Field';
 import Form from '../JsonApiForm/Form';
 import Label from '../Log/Label';
 
 export default function Home() {
 	const [rows, setRows] = useState(null);
+	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
 			API.get('action-types')
 				.then((response) => {
 					setRows(response);
+				})
+				.catch((response) => {
+					setError(response.status);
 				});
 		}
 		return () => {};
 	});
+
+	if (error) {
+		return (
+			<Error status={error} />
+		);
+	}
 
 	if (rows === null) {
 		return null;
