@@ -18,7 +18,9 @@ export default function FormInner({
 		e.preventDefault();
 
 		if (method === 'DELETE') {
-			// TODO: Show modal.
+			if (!window.confirm('Are you sure you want to delete this?')) {
+				return;
+			}
 		}
 
 		let url = path;
