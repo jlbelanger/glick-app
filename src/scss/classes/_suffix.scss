@@ -1,0 +1,11 @@
+.suffix {
+	border-color: transparent;
+	border-style: solid;
+	border-width: $border-width 0;
+	bottom: 0;
+	color: $black;
+	padding: $padding 12px;
+	position: absolute;
+	right: #{$border-width * -1};
+	top: 0;
+}

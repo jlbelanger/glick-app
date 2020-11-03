@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function Field({ actionType }) {
-	if (['float', 'number'].includes(actionType.field_type)) {
+	if (actionType.field_type === 'number') {
 		return (
 			<div className="postfix-container">
 				<div className="input-container">
-					<input className="prefix" id={actionType.slug} type="text" />
-					{actionType.suffix && <span>{actionType.suffix}</span>}
+					<input className="prefix" id={actionType.slug} inputMode="numeric" type="text" />
+					{actionType.suffix && <span className="suffix">{actionType.suffix}</span>}
 				</div>
 				<button className="postfix" type="submit">Add</button>
 			</div>
@@ -40,7 +40,9 @@ export default function Field({ actionType }) {
 
 	return (
 		<div>
-			<button type="submit">Start</button>
+			<button type="submit">
+				{actionType.is_continuous ? 'Start' : 'Add'}
+			</button>
 		</div>
 	);
 }

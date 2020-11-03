@@ -4,6 +4,7 @@ import {
 	Switch,
 } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
+import EventEdit from './Pages/Events/Edit';
 import EventList from './Pages/Events/List';
 import EventTypeEdit from './Pages/EventTypes/Edit';
 import EventTypeList from './Pages/EventTypes/List';
@@ -38,6 +39,9 @@ export default function App() {
 						</Route>
 						<Route exact path="/events">
 							<EventList />
+						</Route>
+						<Route exact path="/events/:id">
+							<EventEdit />
 						</Route>
 						<Route exact path="/profile">
 							<Profile />

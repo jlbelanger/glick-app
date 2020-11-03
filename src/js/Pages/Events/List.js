@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
 import { Link } from 'react-router-dom';
+import Row from './Row';
 
 export default function List() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('actions')
+			API.get('actions?include=action_type')
 				.then((response) => {
 					setRows(response);
 				})
@@ -38,19 +39,30 @@ export default function List() {
 		);
 	}
 
+	const rowsByDate = {};
+	rows.forEach((row) => {
+		const date = row.start_date.substring(0, 10);
+		if (!Object.prototype.hasOwnProperty.call(rowsByDate, date)) {
+			rowsByDate[date] = [];
+		}
+		rowsByDate[date].push(row);
+	});
+
 	return (
 		<>
 			<h2>Past events</h2>
-			<ul className="list">
-				<li className="list__item">
-					<Link className="list__link" to="/">+ Add New</Link>
-				</li>
-				{rows.map(row => (
-					<li className="list__item" key={row.id}>
-						<Link className="list__link" to={`/events/${row.id}`}>{row.label}</Link>
-					</li>
-				))}
-			</ul>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<Link className="table__link" to="/">+ Add New</Link>
+						</td>
+					</tr>
+					{Object.keys(rowsByDate).map(date => (
+						<Row key={date} date={date} rows={rowsByDate[date]} />
+					))}
+				</tbody>
+			</table>
 		</>
 	);
 }

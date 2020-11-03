@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
-import Field from '../../JsonApiForm/Field';
 import Fields from './Fields';
 import Form from '../../JsonApiForm/Form';
 import Submit from '../../JsonApiForm/Submit';
-import { useHistory } from 'react-router-dom';
 
 export default function Edit() {
-	const id = '1'; // TODO
+	const { id } = useParams();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
 	const history = useHistory();
 	useEffect(() => {
 		if (row === null) {
-			API.get(`users/${id}`)
+			API.get(`actions/${id}?include=action_type`)
 				.then((response) => {
-					setRow(response);
+					setRow({
+						...response,
+						start_date: response.start_date ? response.start_date.replace(' ', 'T') : null,
+						end_date: response.end_date ? response.end_date.replace(' ', 'T') : null,
+					});
 				})
 				.catch((response) => {
 					setError(response.status);
@@ -36,47 +39,21 @@ export default function Edit() {
 	}
 
 	const afterSubmit = () => {
-		history.push('/');
+		history.push('/events');
 	};
 
 	return (
 		<>
-			<h2>Edit profile</h2>
+			<h2>{`Edit ${row.action_type.label}`}</h2>
 
-			<Form path="users" id={row.id} method="PUT" row={row}>
+			<Form path="actions" id={id} method="PUT" row={row}>
 				<Fields />
-
-				<Submit />
-
-				<h2>Change password</h2>
-
-				<Field
-					autocomplete="current-password"
-					label="Current password"
-					name="password"
-					type="password"
-				/>
-
-				<Field
-					autcomplete="new-password"
-					label="New password"
-					name="new_password"
-					type="password"
-				/>
-
-				<Field
-					autcomplete="new-password"
-					label="Confirm new password"
-					name="new_password_confirmation"
-					type="password"
-				/>
-
 				<Submit />
 			</Form>
 
-			<h2>Delete account</h2>
+			<h2>{`Delete ${row.action_type.label}`}</h2>
 
-			<Form afterSubmit={afterSubmit} path="users" id={row.id} method="DELETE">
+			<Form afterSubmit={afterSubmit} path="actions" id={id} method="DELETE">
 				<Submit className="button--danger" label="Delete" />
 			</Form>
 		</>

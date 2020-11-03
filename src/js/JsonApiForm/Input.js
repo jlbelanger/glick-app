@@ -3,9 +3,13 @@ import FormContext from './FormContext';
 import PropTypes from 'prop-types';
 
 export default function Input({
+	autoComplete,
 	className,
+	inputMode,
 	name,
+	pattern,
 	required,
+	suffix,
 	type,
 }) {
 	const { formState, setFormState } = useContext(FormContext);
@@ -34,28 +38,42 @@ export default function Input({
 	}
 
 	return (
-		<input
-			checked={checked}
-			className={className}
-			id={name}
-			name={name}
-			onChange={onChange}
-			required={required}
-			type={type}
-			value={value}
-		/>
+		<>
+			<input
+				autoComplete={autoComplete}
+				checked={checked}
+				className={className}
+				id={name}
+				inputMode={inputMode}
+				name={name}
+				onChange={onChange}
+				pattern={pattern}
+				required={required}
+				type={type}
+				value={value}
+			/>
+			{suffix && <span className="suffix">{suffix}</span>}
+		</>
 	);
 }
 
 Input.propTypes = {
+	autoComplete: PropTypes.string,
 	className: PropTypes.string,
+	inputMode: PropTypes.string,
 	name: PropTypes.string.isRequired,
+	pattern: PropTypes.string,
 	required: PropTypes.bool,
+	suffix: PropTypes.string,
 	type: PropTypes.string,
 };
 
 Input.defaultProps = {
+	autoComplete: '',
 	className: '',
+	inputMode: '',
+	pattern: '',
 	required: false,
+	suffix: '',
 	type: 'text',
 };

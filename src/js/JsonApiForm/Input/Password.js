@@ -3,6 +3,7 @@ import Input from '../Input';
 import PropTypes from 'prop-types';
 
 export default function Password({
+	autoComplete,
 	name,
 	required,
 }) {
@@ -19,6 +20,7 @@ export default function Password({
 	return (
 		<>
 			<Input
+				autoComplete={autoComplete}
 				className="prefix"
 				name={name}
 				required={required}
@@ -32,10 +34,12 @@ export default function Password({
 }
 
 Password.propTypes = {
+	autoComplete: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	required: PropTypes.bool,
 };
 
 Password.defaultProps = {
+	autoComplete: '',
 	required: false,
 };

@@ -6,11 +6,15 @@ import Radio from './Input/Radio';
 import React from 'react';
 
 export default function Field({
+	autoComplete,
+	inputMode,
 	label,
 	name,
 	note,
 	options,
+	pattern,
 	required,
+	suffix,
 	type,
 }) {
 	let Component = Input;
@@ -23,9 +27,13 @@ export default function Field({
 	}
 	const input = (
 		<Component
+			autoComplete={autoComplete}
+			inputMode={inputMode}
 			name={name}
 			options={options}
+			pattern={pattern}
 			required={required}
+			suffix={suffix}
 			type={type}
 		/>
 	);
@@ -46,18 +54,26 @@ export default function Field({
 }
 
 Field.propTypes = {
+	autoComplete: PropTypes.string,
+	inputMode: PropTypes.string,
 	label: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	note: PropTypes.string,
 	options: PropTypes.object,
+	pattern: PropTypes.string,
 	required: PropTypes.bool,
+	suffix: PropTypes.string,
 	type: PropTypes.string,
 };
 
 Field.defaultProps = {
+	autoComplete: '',
+	inputMode: '',
 	label: '',
 	note: '',
 	options: {},
+	pattern: '',
 	required: false,
+	suffix: '',
 	type: 'text',
 };
