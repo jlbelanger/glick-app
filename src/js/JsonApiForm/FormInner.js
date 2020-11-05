@@ -74,9 +74,21 @@ export default function FormInner({
 				});
 				afterSubmit(response);
 			})
-			.catch(() => {
+			.catch((response) => {
 				toast.error('Error.');
-				// TODO: Show inline errors.
+				const errors = {};
+				let key;
+				response.errors.forEach((error) => {
+					key = error.source.pointer.replace('/data/attributes/', '');
+					if (!Object.prototype.hasOwnProperty.call(errors, key)) {
+						errors[key] = [];
+					}
+					errors[key].push(error.title);
+				});
+				setFormState({
+					...formState,
+					errors,
+				});
 			});
 	};
 

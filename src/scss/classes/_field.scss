@@ -40,3 +40,19 @@
 		fill: $black;
 	}
 }
+
+.field--has-error {
+	.field__label {
+		color: $lighter-red;
+	}
+
+	.field__input {
+		border-color: $red;
+		box-shadow: 0 0 0 3px $lighter-red;
+	}
+}
+
+.field__error {
+	color: $lighter-red;
+	margin-top: 8px;
+}

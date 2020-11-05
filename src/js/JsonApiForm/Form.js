@@ -14,6 +14,7 @@ export default function Form({
 }) {
 	const [formState, setFormState] = useState({
 		dirty: [],
+		errors: [],
 		row,
 	});
 

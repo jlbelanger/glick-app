@@ -37,20 +37,33 @@ export default function Input({
 		value = 1;
 	}
 
+	const props = {};
+	if (autoComplete) {
+		props.autoComplete = autoComplete;
+	}
+	if (checked) {
+		props.checked = checked;
+	}
+	if (inputMode) {
+		props.inputMode = inputMode;
+	}
+	if (pattern) {
+		props.pattern = pattern;
+	}
+	if (required) {
+		props.required = required;
+	}
+
 	return (
 		<>
 			<input
-				autoComplete={autoComplete}
-				checked={checked}
-				className={className}
+				className={`field__input ${className}`.trim()}
 				id={name}
-				inputMode={inputMode}
 				name={name}
 				onChange={onChange}
-				pattern={pattern}
-				required={required}
 				type={type}
 				value={value}
+				{...props}
 			/>
 			{suffix && <span className="suffix">{suffix}</span>}
 		</>

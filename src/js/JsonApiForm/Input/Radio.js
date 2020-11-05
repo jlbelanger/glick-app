@@ -39,7 +39,7 @@ export default function Radio({
 					<li className="radio__item" key={value}>
 						<label className={`radio__label button ${className}${checked ? ' active' : ''}`}>
 							<input
-								className={`radio__input ${className}`}
+								className={`field__input radio__input ${className}`.trim()}
 								checked={checked}
 								name={name}
 								onChange={onChange}

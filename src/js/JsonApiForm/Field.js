@@ -1,9 +1,10 @@
+import React, { useContext } from 'react';
 import Checkbox from './Input/Checkbox';
+import FormContext from './FormContext';
 import Input from './Input';
 import Password from './Input/Password';
 import PropTypes from 'prop-types';
 import Radio from './Input/Radio';
-import React from 'react';
 
 export default function Field({
 	autoComplete,
@@ -17,6 +18,7 @@ export default function Field({
 	suffix,
 	type,
 }) {
+	const { formState } = useContext(FormContext);
 	let Component = Input;
 	if (type === 'password') {
 		Component = Password;
@@ -42,13 +44,16 @@ export default function Field({
 		return input;
 	}
 
+	const hasError = Object.prototype.hasOwnProperty.call(formState.errors, name);
+
 	return (
-		<div className="field">
+		<div className={`field${hasError ? ' field--has-error' : ''}`}>
 			<label className={`field__label${required ? ' field__label--required' : ''}`} htmlFor={name}>{label}</label>
 			{note && <small>{`(${note})`}</small>}
 			<div className={`field__input-wrapper field__input-wrapper--${type}`}>
 				{input}
 			</div>
+			{hasError && <div className="field__error">{formState.errors[name].join((<br />))}</div>}
 		</div>
 	);
 }
