@@ -4,6 +4,7 @@ import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
 import Fields from './Fields';
 import Form from '../../JsonApiForm/Form';
+import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';
 
 export default function Edit() {
@@ -38,9 +39,13 @@ export default function Edit() {
 		history.push('/event-types');
 	};
 
+	const title = `Edit ${row.label}`;
+
 	return (
 		<>
-			<h2>{`Edit ${row.label}`}</h2>
+			<MetaTitle title={title} />
+
+			<h2>{title}</h2>
 
 			<Form path="action-types" id={id} method="PUT" row={row}>
 				<Fields />

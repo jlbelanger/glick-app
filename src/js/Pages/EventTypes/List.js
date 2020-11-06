@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
 import { Link } from 'react-router-dom';
+import MetaTitle from '../../MetaTitle';
 
 export default function List() {
 	const [rows, setRows] = useState(null);
@@ -29,9 +30,14 @@ export default function List() {
 		return null;
 	}
 
+	const title = 'Event types';
+
 	return (
 		<>
-			<h2>Event types</h2>
+			<MetaTitle title={title} />
+
+			<h2>{title}</h2>
+
 			<ul className="list">
 				<li className="list__item">
 					<Link className="list__link" to="/event-types/new">+ Add New</Link>

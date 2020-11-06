@@ -4,6 +4,7 @@ import Error from '../../Error';
 import Field from '../../JsonApiForm/Field';
 import Fields from './Fields';
 import Form from '../../JsonApiForm/Form';
+import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';
 import { useHistory } from 'react-router-dom';
 
@@ -39,9 +40,13 @@ export default function Edit() {
 		history.push('/');
 	};
 
+	const title = 'Edit profile';
+
 	return (
 		<>
-			<h2>Edit profile</h2>
+			<MetaTitle title={title} />
+
+			<h2>{title}</h2>
 
 			<Form path="users" id={row.id} method="PUT" row={row}>
 				<Fields />

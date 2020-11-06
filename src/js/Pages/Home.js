@@ -4,6 +4,7 @@ import Error from '../Error';
 import Field from '../Log/Field';
 import Form from '../JsonApiForm/Form';
 import Label from '../Log/Label';
+import MetaTitle from '../MetaTitle';
 
 export default function Home() {
 	const [rows, setRows] = useState(null);
@@ -32,23 +33,27 @@ export default function Home() {
 	}
 
 	return (
-		<ul className="list" id="list">
-			{rows.map((row) => {
-				const defaultRow = {
-					action_type: {
-						id: row.id,
-						type: 'action_types',
-					},
-				};
-				return (
-					<li className="list__item" key={row.id}>
-						<Form path="actions" method="POST" relationshipNames={['action_type']} row={defaultRow}>
-							<Label actionType={row} />
-							<Field actionType={row} />
-						</Form>
-					</li>
-				);
-			})}
-		</ul>
+		<>
+			<MetaTitle />
+
+			<ul className="list" id="list">
+				{rows.map((row) => {
+					const defaultRow = {
+						action_type: {
+							id: row.id,
+							type: 'action_types',
+						},
+					};
+					return (
+						<li className="list__item" key={row.id}>
+							<Form path="actions" method="POST" relationshipNames={['action_type']} row={defaultRow}>
+								<Label actionType={row} />
+								<Field actionType={row} />
+							</Form>
+						</li>
+					);
+				})}
+			</ul>
+		</>
 	);
 }

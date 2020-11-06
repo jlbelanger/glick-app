@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
 import { Link } from 'react-router-dom';
+import MetaTitle from '../../MetaTitle';
 import Row from './Row';
 
 export default function List() {
@@ -48,9 +49,14 @@ export default function List() {
 		rowsByDate[date].push(row);
 	});
 
+	const title = 'Past events';
+
 	return (
 		<>
-			<h2>Past events</h2>
+			<MetaTitle title={title} />
+
+			<h2>{title}</h2>
+
 			<table>
 				<tbody>
 					<tr>
