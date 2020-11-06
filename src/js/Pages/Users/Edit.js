@@ -81,7 +81,7 @@ export default function Edit() {
 
 			<h2>Delete account</h2>
 
-			<Form afterSubmit={afterSubmit} path="users" id={row.id} method="DELETE">
+			<Form afterSubmit={afterSubmit} path="users" id={row.id} method="DELETE" warnOnUnload={false}>
 				<Submit className="button--danger" label="Delete" />
 			</Form>
 		</>

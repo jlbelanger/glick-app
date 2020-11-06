@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FormContext from './FormContext';
 import FormInner from './FormInner';
+import { Prompt } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default function Form({
@@ -11,6 +12,7 @@ export default function Form({
 	path,
 	relationshipNames,
 	row,
+	warnOnUnload,
 }) {
 	const [formState, setFormState] = useState({
 		dirty: [],
@@ -29,6 +31,7 @@ export default function Form({
 			>
 				{children}
 			</FormInner>
+			<Prompt when={warnOnUnload && formState.dirty.length > 0} message="You have unsaved changes. Are you sure you want to leave this page?" />
 		</FormContext.Provider>
 	);
 }
@@ -41,6 +44,7 @@ Form.propTypes = {
 	path: PropTypes.string.isRequired,
 	relationshipNames: PropTypes.array,
 	row: PropTypes.object,
+	warnOnUnload: PropTypes.bool,
 };
 
 Form.defaultProps = {
@@ -48,4 +52,5 @@ Form.defaultProps = {
 	id: '',
 	relationshipNames: [],
 	row: {},
+	warnOnUnload: true,
 };

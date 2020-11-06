@@ -1,8 +1,4 @@
-import {
-	Route,
-	BrowserRouter as Router,
-	Switch,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
 import EventEdit from './Pages/Events/Edit';
 import EventList from './Pages/Events/List';
@@ -18,7 +14,7 @@ import Spinner from './Spinner';
 
 export default function App() {
 	return (
-		<Router>
+		<BrowserRouter>
 			<main id="main">
 				<Header />
 				<Footer />
@@ -57,6 +53,6 @@ export default function App() {
 				/>
 				<Spinner />
 			</main>
-		</Router>
+		</BrowserRouter>
 	);
 }

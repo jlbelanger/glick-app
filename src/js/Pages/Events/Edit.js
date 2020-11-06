@@ -58,7 +58,7 @@ export default function Edit() {
 
 			<h2>{`Delete ${row.action_type.label}`}</h2>
 
-			<Form afterSubmit={afterSubmit} path="actions" id={id} method="DELETE">
+			<Form afterSubmit={afterSubmit} path="actions" id={id} method="DELETE" warnOnUnload={false}>
 				<Submit className="button--danger" label="Delete" />
 			</Form>
 		</>
