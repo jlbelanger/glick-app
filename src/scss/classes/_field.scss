@@ -2,6 +2,10 @@
 	padding: 0 $list-padding-side;
 }
 
+.field--submit {
+	text-align: right;
+}
+
 .field__label {
 	display: inline-block;
 	margin: 0 0 12px;
@@ -13,13 +17,18 @@
 	}
 }
 
+.field__label--checkbox {
+	margin-bottom: 0;
+	margin-left: 8px;
+}
+
 .field__input-wrapper {
 	display: flex;
 	position: relative;
 }
 
 .field__input-wrapper--checkbox {
-	position: relative;
+	align-items: center;
 }
 
 .field__check {

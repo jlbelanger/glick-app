@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Checkbox from './Input/Checkbox';
 import FormContext from './FormContext';
 import Input from './Input';
+import Label from './Label';
 import Password from './Input/Password';
 import PropTypes from 'prop-types';
 import Radio from './Input/Radio';
@@ -44,14 +45,25 @@ export default function Field({
 		return input;
 	}
 
+	const labelComponent = (
+		<Label
+			label={label}
+			name={name}
+			note={note}
+			required={required}
+			type={type}
+		/>
+	);
+	const showLabelBefore = type !== 'checkbox';
+
 	const hasError = Object.prototype.hasOwnProperty.call(formState.errors, name);
 
 	return (
 		<div className={`field${hasError ? ' field--has-error' : ''}`}>
-			<label className={`field__label${required ? ' field__label--required' : ''}`} htmlFor={name}>{label}</label>
-			{note && <small>{`(${note})`}</small>}
+			{showLabelBefore && labelComponent}
 			<div className={`field__input-wrapper field__input-wrapper--${type}`}>
 				{input}
+				{!showLabelBefore && labelComponent}
 			</div>
 			{hasError && <div className="field__error">{formState.errors[name].join((<br />))}</div>}
 		</div>

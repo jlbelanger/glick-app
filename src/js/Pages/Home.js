@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import API from '../JsonApiForm/Helpers/API';
+import Auth from '../Auth/Auth';
 import Error from '../Error';
 import Field from '../Log/Field';
 import Form from '../JsonApiForm/Form';
 import Label from '../Log/Label';
+import { Link } from 'react-router-dom';
 import MetaTitle from '../MetaTitle';
 
 export default function Home() {
@@ -11,7 +13,7 @@ export default function Home() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('action-types')
+			API.get(`action-types?filter[user_id][eq]=${Auth.id()}`)
 				.then((response) => {
 					setRows(response);
 				})
@@ -30,6 +32,12 @@ export default function Home() {
 
 	if (rows === null) {
 		return null;
+	}
+
+	if (rows.length <= 0) {
+		return (
+			<Link className="list__link" to="/event-types/new">+ Add an event type to get started</Link>
+		);
 	}
 
 	return (

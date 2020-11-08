@@ -1,3 +1,4 @@
+import Auth from '../../Auth/Auth';
 import Jsona from 'jsona';
 import { trackPromise } from 'react-promise-tracker';
 
@@ -25,6 +26,9 @@ export default class API {
 				'Content-Type': 'application/json',
 			},
 		};
+		if (Auth.token()) {
+			options.headers.Authorization = `Bearer ${Auth.token()}`;
+		}
 		if (body) {
 			options.body = body;
 		}
@@ -44,7 +48,12 @@ export default class API {
 					}
 					return response.json();
 				})
-				.then(json => (new Jsona().deserialize(json)))
+				.then((json) => {
+					if (Object.prototype.hasOwnProperty.call(json, 'data')) {
+						return new Jsona().deserialize(json);
+					}
+					return json;
+				})
 		);
 	}
 }

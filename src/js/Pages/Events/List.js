@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
+import Auth from '../../Auth/Auth';
 import Error from '../../Error';
 import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
@@ -10,7 +11,7 @@ export default function List() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('actions?include=action_type')
+			API.get(`actions?include=action_type&filter[action_types.user_id][eq]=${Auth.id()}`)
 				.then((response) => {
 					setRows(response);
 				})
@@ -29,15 +30,6 @@ export default function List() {
 
 	if (rows === null) {
 		return null;
-	}
-
-	if (rows.length <= 0) {
-		return (
-			<>
-				<h2>Past events</h2>
-				<p>No events found.</p>
-			</>
-		);
 	}
 
 	const rowsByDate = {};

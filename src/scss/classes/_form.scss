@@ -1,6 +1,8 @@
 .form__submit {
-	display: block;
-	margin: 0 0 0 auto;
 	max-width: 200px;
 	width: 100%;
+}
+
+a + .form__submit {
+	margin-left: 12px;
 }

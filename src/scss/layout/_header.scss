@@ -5,11 +5,31 @@
 	top: 0;
 }
 
+#header__contain {
+	display: flex;
+
+	.nav__link {
+		flex: 0 0 auto;
+		padding: 16px;
+	}
+
+	.nav__button {
+		border-radius: 0;
+		border-width: 0;
+		font-weight: normal;
+		margin: 0;
+		padding: 16px;
+		text-transform: none;
+	}
+}
+
 h1 {
 	align-items: center;
 	color: $white;
 	display: flex;
+	flex: 1 1 auto;
 	font-size: 30px;
+	justify-content: center;
 	letter-spacing: -3px;
 	margin: 0;
 	text-shadow: 0 2px 0 $black;

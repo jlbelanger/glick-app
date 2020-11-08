@@ -1,7 +1,9 @@
+import React, { useContext } from 'react';
 import Field from '../../JsonApiForm/Field';
-import React from 'react';
+import FormContext from '../../JsonApiForm/FormContext';
 
 export default function Fields() {
+	const { formState } = useContext(FormContext);
 	return (
 		<>
 			<Field
@@ -18,6 +20,17 @@ export default function Fields() {
 				required
 				type="email"
 			/>
+
+			{formState.dirty.includes('email') && (
+				<Field
+					autocomplete="current-password"
+					label="Current password"
+					name="password"
+					note="You must provide your current password to change your email."
+					required
+					type="password"
+				/>
+			)}
 		</>
 	);
 }

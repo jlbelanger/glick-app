@@ -1,3 +1,4 @@
+import Auth from '../../Auth/Auth';
 import Fields from './Fields';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
@@ -9,7 +10,7 @@ export default function New() {
 	const history = useHistory();
 	const row = {
 		user: {
-			id: '1', // TODO
+			id: Auth.id(),
 			type: 'users',
 		},
 	};

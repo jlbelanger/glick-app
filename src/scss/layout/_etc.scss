@@ -7,3 +7,13 @@ input:focus {
 	border-color: $lighter-purple;
 	box-shadow: 0 0 0 3px $bright-purple;
 }
+
+a {
+	color: $green;
+
+	&:hover,
+	&:active,
+	&:focus {
+		text-decoration: none;
+	}
+}

@@ -8,33 +8,17 @@ import { toast } from 'react-toastify';
 export default function FormInner({
 	afterSubmit,
 	children,
+	filterBody,
 	id,
 	method,
 	path,
 	relationshipNames,
+	successMessage,
 }) {
 	const { formState, setFormState } = useContext(FormContext);
-	const onSubmit = (e) => {
-		e.preventDefault();
-
-		if (method === 'DELETE') {
-			if (!window.confirm('Are you sure you want to delete this?')) {
-				return;
-			}
-		}
-
-		let url = path;
-		if (id) {
-			url = `${path}/${id}`;
-		}
-
+	const getBody = () => {
 		let body = null;
-		if (method === 'PUT') {
-			if (formState.dirty.length <= 0) {
-				toast('No changes to save.');
-				return;
-			}
-		}
+
 		if (method === 'PUT' || method === 'POST') {
 			let stuff = {};
 
@@ -56,16 +40,51 @@ export default function FormInner({
 			}
 
 			body = new Jsona().serialize({ stuff });
+			if (filterBody) {
+				body = filterBody(body);
+			}
 			body = JSON.stringify(body);
 		}
 
+		return body;
+	};
+	const onSubmit = (e) => {
+		e.preventDefault();
+
+		if (method === 'DELETE') {
+			if (!window.confirm('Are you sure you want to delete this?')) {
+				return;
+			}
+		}
+
+		let url = path;
+		if (id) {
+			url = `${path}/${id}`;
+		}
+
+		if (method === 'PUT') {
+			if (formState.dirty.length <= 0) {
+				toast('No changes to save.');
+				return;
+			}
+		}
+
+		const body = getBody();
+		setFormState({
+			...formState,
+			errors: [],
+		});
+
 		API.request(method, url, body)
 			.then((response) => {
-				let message = 'Saved successfully.';
-				if (method === 'POST') {
-					message = 'Added successfully.';
-				} else if (method === 'DELETE') {
-					message = 'Deleted successfully.';
+				let message = successMessage;
+				if (!message) {
+					message = 'Saved successfully.';
+					if (method === 'POST') {
+						message = 'Added successfully.';
+					} else if (method === 'DELETE') {
+						message = 'Deleted successfully.';
+					}
 				}
 				toast.success(message);
 				setFormState({
@@ -75,11 +94,21 @@ export default function FormInner({
 				afterSubmit(response);
 			})
 			.catch((response) => {
+				if (!Object.prototype.hasOwnProperty.call(response, 'errors')) {
+					throw response;
+				}
 				toast.error('Error.');
 				const errors = {};
 				let key;
 				response.errors.forEach((error) => {
-					key = error.source.pointer.replace('/data/attributes/', '');
+					if (Object.prototype.hasOwnProperty.call(error, 'source')) {
+						key = error.source.pointer.replace('/data/attributes/', '');
+						if (!Object.prototype.hasOwnProperty.call(formState.row, key)) {
+							key = '';
+						}
+					} else {
+						key = '';
+					}
 					if (!Object.prototype.hasOwnProperty.call(errors, key)) {
 						errors[key] = [];
 					}
@@ -91,9 +120,11 @@ export default function FormInner({
 				});
 			});
 	};
+	const hasErrors = Object.prototype.hasOwnProperty.call(formState.errors, '');
 
 	return (
 		<form onSubmit={onSubmit}>
+			{hasErrors && (<p className="message message--error">{formState.errors[''].join(<br />)}</p>)}
 			{children}
 		</form>
 	);
@@ -101,9 +132,15 @@ export default function FormInner({
 
 FormInner.propTypes = {
 	afterSubmit: PropTypes.func.isRequired,
+	filterBody: PropTypes.func,
 	children: PropTypes.node.isRequired,
 	id: PropTypes.string.isRequired,
 	method: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
 	relationshipNames: PropTypes.array.isRequired,
+	successMessage: PropTypes.string.isRequired,
+};
+
+FormInner.defaultProps = {
+	filterBody: null,
 };

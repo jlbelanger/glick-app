@@ -8,20 +8,23 @@
 	display: flex;
 	justify-content: space-between;
 	margin: 0 auto;
-	max-width: $max-width;
 }
 
+.nav__button,
 .nav__link {
 	@include gradient($light-purple, $dark-purple, $black);
 
-	align-items: center;
 	color: $white;
+	height: $nav-height;
+	text-shadow: 0 2px 0 $black;
+}
+
+.nav__link {
+	align-items: center;
 	display: flex;
 	flex: 1 1 auto;
-	height: $nav-height;
 	justify-content: center;
 	text-decoration: none;
-	text-shadow: 0 2px 0 $black;
 
 	&.active {
 		background: $darkest-purple;

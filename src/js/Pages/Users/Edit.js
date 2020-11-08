@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
+import Auth from '../../Auth/Auth';
 import Error from '../../Error';
 import Field from '../../JsonApiForm/Field';
 import Fields from './Fields';
@@ -9,7 +10,7 @@ import Submit from '../../JsonApiForm/Submit';
 import { useHistory } from 'react-router-dom';
 
 export default function Edit() {
-	const id = '1'; // TODO
+	const id = Auth.id();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
 	const history = useHistory();
