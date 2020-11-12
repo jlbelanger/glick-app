@@ -12,13 +12,9 @@ export default function Login() {
 		window.location.reload();
 	};
 
-	const title = 'Login';
-
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Login" />
 
 			<Form
 				afterSubmit={afterSubmit}

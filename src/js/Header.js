@@ -18,7 +18,7 @@ export default function Header() {
 	return (
 		<header id="header">
 			<div className="contain" id="header__contain">
-				{Auth.isLoggedIn() && <NavLink activeClassName="active" className="nav__link" to="/profile">Profile</NavLink>}
+				{Auth.isLoggedIn() && <NavLink activeClassName="nav__link--active" className="nav__link" to="/profile">Profile</NavLink>}
 				<h1>212</h1>
 				{Auth.isLoggedIn() && <button className="nav__button" onClick={logout} type="button">Logout</button>}
 			</div>

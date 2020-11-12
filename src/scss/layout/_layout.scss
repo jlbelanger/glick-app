@@ -19,9 +19,6 @@ body {
 #header,
 #footer {
 	background: $darker-purple;
-	border-color: transparent;
-	border-style: solid;
-	border-width: 1px;
 	height: $nav-height;
 	left: 0;
 	position: fixed;
@@ -31,12 +28,8 @@ body {
 
 #article {
 	flex: 1 1 auto;
-	margin: $nav-height auto;
+	margin: 0 auto $nav-height;
 	padding-bottom: 20px;
-
-	& > :first-child {
-		margin-top: 0;
-	}
 }
 
 .contain {

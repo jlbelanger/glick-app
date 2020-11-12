@@ -12,13 +12,10 @@ export default function New() {
 			type: 'users',
 		},
 	};
-	const title = 'Add new event type';
 
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Add new event type" />
 
 			<Form
 				path="action-types"

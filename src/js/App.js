@@ -27,6 +27,9 @@ export default function App() {
 		<BrowserRouter>
 			<main id="main">
 				<Header />
+				<h2 id="title">
+					<span className="contain" id="title__text" />
+				</h2>
 				<Footer />
 
 				<article className="contain" id="article">

@@ -28,6 +28,14 @@ export default class MetaTitle extends React.Component {
 		}
 		title += defaultTitle;
 		document.querySelector('title').innerText = title;
+
+		const elem = document.getElementById('title__text');
+		if (this.props.title) {
+			elem.innerText = this.props.title;
+			elem.style.display = '';
+		} else {
+			elem.style.display = 'none';
+		}
 	}
 
 	render() {

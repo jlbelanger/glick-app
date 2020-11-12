@@ -5,19 +5,15 @@ import MetaTitle from '../../MetaTitle';
 import React from 'react';
 import Submit from '../../JsonApiForm/Submit';
 
-export default function Edit() {
+export default function Register() {
 	const afterSubmit = (response) => {
 		Auth.login(response.id, response.token);
 		window.location.reload();
 	};
 
-	const title = 'Register';
-
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Register" />
 
 			<Form
 				afterSubmit={afterSubmit}

@@ -31,13 +31,9 @@ export default function List() {
 		return null;
 	}
 
-	const title = 'Event types';
-
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Event types" />
 
 			<ul className="list">
 				<li className="list__item">

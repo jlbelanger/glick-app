@@ -8,14 +8,14 @@ export default function Footer() {
 			<nav className="contain" id="nav">
 				{Auth.isLoggedIn() ? (
 					<>
-						<NavLink activeClassName="active" className="nav__link" exact to="/">New Event</NavLink>
-						<NavLink activeClassName="active" className="nav__link" to="/events">Past Events</NavLink>
-						<NavLink activeClassName="active" className="nav__link" to="/event-types">Event Types</NavLink>
+						<NavLink activeClassName="nav__link--active" className="nav__link" exact to="/">New Event</NavLink>
+						<NavLink activeClassName="nav__link--active" className="nav__link" to="/events">Past Events</NavLink>
+						<NavLink activeClassName="nav__link--active" className="nav__link" to="/event-types">Event Types</NavLink>
 					</>
 				) : (
 					<>
-						<NavLink activeClassName="active" className="nav__link" exact to="/">Login</NavLink>
-						<NavLink activeClassName="active" className="nav__link" to="/register">Register</NavLink>
+						<NavLink activeClassName="nav__link--active" className="nav__link" exact to="/">Login</NavLink>
+						<NavLink activeClassName="nav__link--active" className="nav__link" to="/register">Register</NavLink>
 					</>
 				)}
 			</nav>

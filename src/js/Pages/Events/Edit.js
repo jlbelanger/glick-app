@@ -38,13 +38,9 @@ export default function Edit() {
 		return null;
 	}
 
-	const title = `Edit ${row.action_type.label}`;
-
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title={`Edit ${row.action_type.label}`} />
 
 			<Form
 				path="actions"
@@ -58,8 +54,6 @@ export default function Edit() {
 				<Submit />
 			</Form>
 
-			<h2>{`Delete ${row.action_type.label}`}</h2>
-
 			<Form
 				path="actions"
 				id={id}
@@ -68,6 +62,8 @@ export default function Edit() {
 				successToastMessage="Event deleted successfully."
 				warnOnUnload={false}
 			>
+				<h3>{`Delete ${row.action_type.label}`}</h3>
+
 				<Submit className="button--danger" label="Delete" />
 			</Form>
 		</>

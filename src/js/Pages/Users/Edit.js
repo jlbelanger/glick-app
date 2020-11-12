@@ -39,13 +39,9 @@ export default function Edit() {
 		Auth.logout();
 	};
 
-	const title = 'Edit profile';
-
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Edit profile" />
 
 			<Form
 				path="users"
@@ -58,8 +54,16 @@ export default function Edit() {
 				<Fields />
 
 				<Submit />
+			</Form>
 
-				<h2>Change password</h2>
+			<Form
+				path="users"
+				id={row.id}
+				method="PUT"
+				preventEmptyRequest
+				successToastMessage="Password changed successfully."
+			>
+				<h3>Change password</h3>
 
 				<Field
 					autocomplete="current-password"
@@ -88,8 +92,6 @@ export default function Edit() {
 				<Submit />
 			</Form>
 
-			<h2>Delete account</h2>
-
 			<Form
 				afterSubmit={afterDelete}
 				path="users"
@@ -97,6 +99,8 @@ export default function Edit() {
 				method="DELETE"
 				warnOnUnload={false}
 			>
+				<h3>Delete account</h3>
+
 				<Submit className="button--danger" label="Delete" />
 			</Form>
 		</>

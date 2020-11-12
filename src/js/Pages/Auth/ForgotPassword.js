@@ -5,13 +5,9 @@ import React from 'react';
 import Submit from '../../JsonApiForm/Submit';
 
 export default function ForgotPassword() {
-	const title = 'Forgot your password?';
-
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Forgot your password?" />
 
 			<Form
 				clearOnSubmit

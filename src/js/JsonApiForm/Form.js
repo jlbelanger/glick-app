@@ -12,6 +12,7 @@ export default function Form({
 	filterBody,
 	method,
 	path,
+	preventEmptyRequest,
 	redirectOnSuccess,
 	relationshipNames,
 	row,
@@ -35,6 +36,7 @@ export default function Form({
 				filterBody={filterBody}
 				method={method}
 				path={path}
+				preventEmptyRequest={preventEmptyRequest}
 				redirectOnSuccess={redirectOnSuccess}
 				relationshipNames={relationshipNames}
 				successFlashMessage={successFlashMessage}
@@ -55,6 +57,7 @@ Form.propTypes = {
 	id: PropTypes.string,
 	method: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
+	preventEmptyRequest: PropTypes.bool,
 	redirectOnSuccess: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.func,
@@ -71,6 +74,7 @@ Form.defaultProps = {
 	clearOnSubmit: false,
 	filterBody: null,
 	id: '',
+	preventEmptyRequest: false,
 	redirectOnSuccess: null,
 	relationshipNames: [],
 	row: {},

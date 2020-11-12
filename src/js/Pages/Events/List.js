@@ -41,13 +41,9 @@ export default function List() {
 		rowsByDate[date].push(row);
 	});
 
-	const title = 'Past events';
-
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Past events" />
 
 			<table>
 				<tbody>

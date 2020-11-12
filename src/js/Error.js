@@ -1,3 +1,4 @@
+import MetaTitle from './MetaTitle';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,7 +9,8 @@ export default function Error({ status }) {
 	}
 	return (
 		<>
-			<h2>Error</h2>
+			<MetaTitle title="Error" />
+
 			<p>{message}</p>
 		</>
 	);

@@ -7,13 +7,10 @@ import { useParams } from 'react-router-dom';
 
 export default function ResetPassword() {
 	const { token } = useParams();
-	const title = 'Reset your password';
 
 	return (
 		<>
-			<MetaTitle title={title} />
-
-			<h2>{title}</h2>
+			<MetaTitle title="Reset your password" />
 
 			<Form
 				path={`auth/reset-password/${token}`}

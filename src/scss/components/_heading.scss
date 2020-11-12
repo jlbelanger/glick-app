@@ -1,12 +1,31 @@
 h2 {
 	background: $dark-purple;
-	color: $white;
 	display: block;
-	flex: 1 1 auto;
 	font-size: $font-size;
 	letter-spacing: 2px;
 	margin: 0;
+	text-shadow: 0 2px 0 $black;
+	text-transform: uppercase;
+}
+
+h3 {
+	border-color: $purple;
+	border-style: solid;
+	border-width: 0 0 1px;
+	font-size: $font-size;
+	letter-spacing: 2px;
 	padding: $list-padding-top $list-padding-side;
 	text-shadow: 0 2px 0 $black;
 	text-transform: uppercase;
+}
+
+#title {
+	margin-top: $nav-height;
+}
+
+#title__text {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: $list-padding-top $list-padding-side;
 }
