@@ -57,8 +57,8 @@ export default function Edit() {
 			</Form>
 
 			<Form
-				path="users"
-				id={row.id}
+				clearOnSubmit
+				path={`users/${row.id}/change-password`}
 				method="PUT"
 				preventEmptyRequest
 				successToastMessage="Password changed successfully."
