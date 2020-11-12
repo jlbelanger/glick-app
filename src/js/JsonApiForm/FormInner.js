@@ -84,16 +84,6 @@ export default function FormInner({
 
 		API.request(method, url, body)
 			.then((response) => {
-				if (redirectOnSuccess) {
-					let redirectPath = redirectOnSuccess;
-					if (typeof redirectPath === 'function') {
-						redirectPath = redirectOnSuccess(response);
-					}
-					history.push(redirectPath);
-				}
-				if (successToastMessage) {
-					toast.success(successToastMessage);
-				}
 				const newState = {
 					...formState,
 					dirty: [],
@@ -104,6 +94,17 @@ export default function FormInner({
 					newState.row = {};
 				}
 				setFormState(newState);
+
+				if (redirectOnSuccess) {
+					let redirectPath = redirectOnSuccess;
+					if (typeof redirectPath === 'function') {
+						redirectPath = redirectOnSuccess(response);
+					}
+					history.push(redirectPath);
+				}
+				if (successToastMessage) {
+					toast.success(successToastMessage);
+				}
 				afterSubmit(response);
 			})
 			.catch((response) => {
