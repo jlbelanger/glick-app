@@ -54,7 +54,13 @@ export default function Home() {
 					};
 					return (
 						<li className="list__item" key={row.id}>
-							<Form path="actions" method="POST" relationshipNames={['action_type']} row={defaultRow}>
+							<Form
+								path="actions"
+								method="POST"
+								relationshipNames={['action_type']}
+								row={defaultRow}
+								successToastMessage="Event added successfully."
+							>
 								<Label actionType={row} />
 								<Field actionType={row} />
 							</Form>

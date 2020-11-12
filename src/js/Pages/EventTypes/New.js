@@ -4,18 +4,13 @@ import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';
 import Submit from '../../JsonApiForm/Submit';
-import { useHistory } from 'react-router-dom';
 
 export default function New() {
-	const history = useHistory();
 	const row = {
 		user: {
 			id: Auth.id(),
 			type: 'users',
 		},
-	};
-	const afterSubmit = (response) => {
-		history.push(`/event-types/${response.id}`);
 	};
 	const title = 'Add new event type';
 
@@ -25,7 +20,13 @@ export default function New() {
 
 			<h2>{title}</h2>
 
-			<Form afterSubmit={afterSubmit} path="action-types" method="POST" relationshipNames={['user']} row={row}>
+			<Form
+				path="action-types"
+				method="POST"
+				relationshipNames={['user']}
+				redirectOnSuccess={response => (`/event-types/${response.id}`)}
+				row={row}
+			>
 				<Fields />
 				<Submit />
 			</Form>

@@ -12,12 +12,14 @@ import EventTypeEdit from './Pages/EventTypes/Edit';
 import EventTypeList from './Pages/EventTypes/List';
 import EventTypeNew from './Pages/EventTypes/New';
 import Footer from './Footer';
+import ForgotPassword from './Pages/Auth/ForgotPassword';
 import Header from './Header';
 import Home from './Pages/Home';
 import Login from './Pages/Auth/Login';
 import Profile from './Pages/Users/Edit';
 import React from 'react';
 import Register from './Pages/Auth/Register';
+import ResetPassword from './Pages/Auth/ResetPassword';
 import Spinner from './Spinner';
 
 export default function App() {
@@ -34,6 +36,12 @@ export default function App() {
 						</Route>
 						<Route exact path="/register">
 							{Auth.isLoggedIn() ? <Redirect to="/" /> : <Register />}
+						</Route>
+						<Route exact path="/forgot-password">
+							{Auth.isLoggedIn() ? <Redirect to="/" /> : <ForgotPassword />}
+						</Route>
+						<Route exact path="/reset-password/:token">
+							{Auth.isLoggedIn() ? <Redirect to="/" /> : <ResetPassword />}
 						</Route>
 						<Route exact path="/event-types">
 							{Auth.isLoggedIn() ? <EventTypeList /> : <Redirect to="/" />}

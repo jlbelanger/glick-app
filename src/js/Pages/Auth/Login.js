@@ -11,13 +11,6 @@ export default function Login() {
 		Auth.login(response.id, response.token);
 		window.location.reload();
 	};
-	const filterBody = body => (
-		{
-			username: body.data.attributes.username,
-			password: body.data.attributes.password,
-			remember: body.data.attributes.remember,
-		}
-	);
 
 	const title = 'Login';
 
@@ -29,10 +22,9 @@ export default function Login() {
 
 			<Form
 				afterSubmit={afterSubmit}
-				filterBody={filterBody}
 				path="auth/login"
 				method="POST"
-				successMessage="Logged in successfully."
+				warnOnUnload={false}
 			>
 				<Field
 					autocomplete="username"
@@ -56,7 +48,11 @@ export default function Login() {
 					type="checkbox"
 				/>
 
-				<Submit before={(<NavLink exact to="/register">Register</NavLink>)} label="Log in" />
+				<Submit label="Log in" />
+
+				<p style={{ textAlign: 'right' }}>
+					<NavLink to="/forgot-password">Forgot your password?</NavLink>
+				</p>
 			</Form>
 		</>
 	);

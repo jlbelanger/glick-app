@@ -1,17 +1,13 @@
-import Auth from '../../Auth/Auth';
 import Field from '../../JsonApiForm/Field';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';
 import Submit from '../../JsonApiForm/Submit';
+import { useParams } from 'react-router-dom';
 
-export default function Edit() {
-	const afterSubmit = (response) => {
-		Auth.login(response.id, response.token);
-		window.location.reload();
-	};
-
-	const title = 'Register';
+export default function ResetPassword() {
+	const { token } = useParams();
+	const title = 'Reset your password';
 
 	return (
 		<>
@@ -20,18 +16,12 @@ export default function Edit() {
 			<h2>{title}</h2>
 
 			<Form
-				afterSubmit={afterSubmit}
-				path="auth/register"
-				method="POST"
+				path={`auth/reset-password/${token}`}
+				method="PUT"
+				redirectOnSuccess="/"
+				successToastMessage="Password reset successfully."
+				warnOnUnload={false}
 			>
-				<Field
-					autocomplete="username"
-					label="Username"
-					name="username"
-					required
-					type="text"
-				/>
-
 				<Field
 					autocomplete="email"
 					label="Email"
@@ -42,21 +32,21 @@ export default function Edit() {
 
 				<Field
 					autocomplete="new-password"
-					label="Password"
-					name="password"
+					label="New password"
+					name="new_password"
 					required
 					type="password"
 				/>
 
 				<Field
 					autocomplete="new-password"
-					label="Confirm password"
-					name="password_confirmation"
+					label="Confirm new password"
+					name="new_password_confirmation"
 					required
 					type="password"
 				/>
 
-				<Submit label="Register" />
+				<Submit label="Reset password" />
 			</Form>
 		</>
 	);

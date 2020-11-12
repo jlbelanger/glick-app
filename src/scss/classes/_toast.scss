@@ -1,7 +1,7 @@
 .Toastify {
-	bottom: #{$nav-height + 8px};
+	bottom: $nav-height;
 	position: fixed;
-	right: 8px;
+	right: 0;
 	z-index: 9998;
 }
 
@@ -10,7 +10,7 @@
 	background: $light-purple;
 	box-shadow: 0 0 10px $darker-purple;
 	display: flex;
-	margin-top: 8px;
+	margin: 8px;
 }
 
 .Toastify__toast--error {

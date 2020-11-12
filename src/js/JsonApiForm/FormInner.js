@@ -4,18 +4,24 @@ import FormContext from './FormContext';
 import Jsona from 'jsona';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 
 export default function FormInner({
 	afterSubmit,
 	children,
+	clearOnSubmit,
 	filterBody,
 	id,
 	method,
 	path,
+	preventEmptyRequest,
+	redirectOnSuccess,
 	relationshipNames,
-	successMessage,
+	successFlashMessage,
+	successToastMessage,
 }) {
 	const { formState, setFormState } = useContext(FormContext);
+	const history = useHistory();
 	const getBody = () => {
 		let body = null;
 
@@ -24,10 +30,12 @@ export default function FormInner({
 
 			if (method === 'PUT') {
 				stuff = {
-					id,
 					type: path,
 					relationshipNames,
 				};
+				if (id) {
+					stuff.id = id;
+				}
 				formState.dirty.forEach((key) => {
 					stuff[key] = formState.row[key];
 				});
@@ -62,35 +70,40 @@ export default function FormInner({
 			url = `${path}/${id}`;
 		}
 
-		if (method === 'PUT') {
-			if (formState.dirty.length <= 0) {
-				toast('No changes to save.');
-				return;
-			}
+		if (preventEmptyRequest && formState.dirty.length <= 0) {
+			toast('No changes to save.');
+			return;
 		}
 
 		const body = getBody();
 		setFormState({
 			...formState,
-			errors: [],
+			errors: {},
+			flash: '',
 		});
 
 		API.request(method, url, body)
 			.then((response) => {
-				let message = successMessage;
-				if (!message) {
-					message = 'Saved successfully.';
-					if (method === 'POST') {
-						message = 'Added successfully.';
-					} else if (method === 'DELETE') {
-						message = 'Deleted successfully.';
+				if (redirectOnSuccess) {
+					let redirectPath = redirectOnSuccess;
+					if (typeof redirectPath === 'function') {
+						redirectPath = redirectOnSuccess(response);
 					}
+					history.push(redirectPath);
 				}
-				toast.success(message);
-				setFormState({
+				if (successToastMessage) {
+					toast.success(successToastMessage);
+				}
+				const newState = {
 					...formState,
 					dirty: [],
-				});
+					errors: {},
+					flash: successFlashMessage,
+				};
+				if (clearOnSubmit) {
+					newState.row = {};
+				}
+				setFormState(newState);
 				afterSubmit(response);
 			})
 			.catch((response) => {
@@ -103,7 +116,7 @@ export default function FormInner({
 				response.errors.forEach((error) => {
 					if (Object.prototype.hasOwnProperty.call(error, 'source')) {
 						key = error.source.pointer.replace('/data/attributes/', '');
-						if (!Object.prototype.hasOwnProperty.call(formState.row, key)) {
+						if (!document.querySelector(`[name="${key}"]`)) {
 							key = '';
 						}
 					} else {
@@ -117,6 +130,7 @@ export default function FormInner({
 				setFormState({
 					...formState,
 					errors,
+					flash: '',
 				});
 			});
 	};
@@ -124,7 +138,8 @@ export default function FormInner({
 
 	return (
 		<form onSubmit={onSubmit}>
-			{hasErrors && (<p className="message message--error">{formState.errors[''].join(<br />)}</p>)}
+			{hasErrors && (<p className="message message--error">{formState.errors[''].join(' ')}</p>)}
+			{formState.flash && (<p className="message message--success">{formState.flash}</p>)}
 			{children}
 		</form>
 	);
@@ -132,15 +147,22 @@ export default function FormInner({
 
 FormInner.propTypes = {
 	afterSubmit: PropTypes.func.isRequired,
-	filterBody: PropTypes.func,
 	children: PropTypes.node.isRequired,
+	clearOnSubmit: PropTypes.bool,
+	filterBody: PropTypes.func,
 	id: PropTypes.string.isRequired,
 	method: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
+	preventEmptyRequest: PropTypes.bool,
+	redirectOnSuccess: PropTypes.string,
 	relationshipNames: PropTypes.array.isRequired,
-	successMessage: PropTypes.string.isRequired,
+	successFlashMessage: PropTypes.string.isRequired,
+	successToastMessage: PropTypes.string.isRequired,
 };
 
 FormInner.defaultProps = {
+	clearOnSubmit: false,
 	filterBody: null,
+	preventEmptyRequest: false,
+	redirectOnSuccess: null,
 };

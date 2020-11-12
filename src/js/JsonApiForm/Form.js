@@ -7,18 +7,22 @@ import PropTypes from 'prop-types';
 export default function Form({
 	afterSubmit,
 	children,
+	clearOnSubmit,
 	id,
 	filterBody,
 	method,
 	path,
+	redirectOnSuccess,
 	relationshipNames,
 	row,
-	successMessage,
+	successFlashMessage,
+	successToastMessage,
 	warnOnUnload,
 }) {
 	const [formState, setFormState] = useState({
 		dirty: [],
-		errors: [],
+		errors: {},
+		flash: '',
 		row,
 	});
 
@@ -26,12 +30,15 @@ export default function Form({
 		<FormContext.Provider value={{ formState, setFormState }}>
 			<FormInner
 				afterSubmit={afterSubmit}
+				clearOnSubmit={clearOnSubmit}
 				id={id}
 				filterBody={filterBody}
 				method={method}
 				path={path}
+				redirectOnSuccess={redirectOnSuccess}
 				relationshipNames={relationshipNames}
-				successMessage={successMessage}
+				successFlashMessage={successFlashMessage}
+				successToastMessage={successToastMessage}
 			>
 				{children}
 			</FormInner>
@@ -43,22 +50,31 @@ export default function Form({
 Form.propTypes = {
 	afterSubmit: PropTypes.func,
 	children: PropTypes.node.isRequired,
+	clearOnSubmit: PropTypes.bool,
 	filterBody: PropTypes.func,
 	id: PropTypes.string,
 	method: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
+	redirectOnSuccess: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func,
+	]),
 	relationshipNames: PropTypes.array,
 	row: PropTypes.object,
-	successMessage: PropTypes.string,
+	successFlashMessage: PropTypes.string,
+	successToastMessage: PropTypes.string,
 	warnOnUnload: PropTypes.bool,
 };
 
 Form.defaultProps = {
 	afterSubmit: () => {},
+	clearOnSubmit: false,
 	filterBody: null,
 	id: '',
+	redirectOnSuccess: null,
 	relationshipNames: [],
 	row: {},
-	successMessage: '',
+	successFlashMessage: '',
+	successToastMessage: '',
 	warnOnUnload: true,
 };

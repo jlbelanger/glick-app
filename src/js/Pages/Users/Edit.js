@@ -7,13 +7,11 @@ import Fields from './Fields';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';
-import { useHistory } from 'react-router-dom';
 
 export default function Edit() {
 	const id = Auth.id();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
-	const history = useHistory();
 	useEffect(() => {
 		if (row === null) {
 			API.get(`users/${id}`)
@@ -37,8 +35,8 @@ export default function Edit() {
 		return null;
 	}
 
-	const afterSubmit = () => {
-		history.push('/');
+	const afterDelete = () => {
+		Auth.logout();
 	};
 
 	const title = 'Edit profile';
@@ -49,7 +47,14 @@ export default function Edit() {
 
 			<h2>{title}</h2>
 
-			<Form path="users" id={row.id} method="PUT" row={row}>
+			<Form
+				path="users"
+				id={row.id}
+				method="PUT"
+				preventEmptyRequest
+				row={row}
+				successToastMessage="Profile saved successfully."
+			>
 				<Fields />
 
 				<Submit />
@@ -60,6 +65,7 @@ export default function Edit() {
 					autocomplete="current-password"
 					label="Current password"
 					name="password"
+					required
 					type="password"
 				/>
 
@@ -67,6 +73,7 @@ export default function Edit() {
 					autcomplete="new-password"
 					label="New password"
 					name="new_password"
+					required
 					type="password"
 				/>
 
@@ -74,6 +81,7 @@ export default function Edit() {
 					autcomplete="new-password"
 					label="Confirm new password"
 					name="new_password_confirmation"
+					required
 					type="password"
 				/>
 
@@ -82,7 +90,13 @@ export default function Edit() {
 
 			<h2>Delete account</h2>
 
-			<Form afterSubmit={afterSubmit} path="users" id={row.id} method="DELETE" warnOnUnload={false}>
+			<Form
+				afterSubmit={afterDelete}
+				path="users"
+				id={row.id}
+				method="DELETE"
+				warnOnUnload={false}
+			>
 				<Submit className="button--danger" label="Delete" />
 			</Form>
 		</>
