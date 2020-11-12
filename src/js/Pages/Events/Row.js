@@ -18,7 +18,7 @@ export default function Row({ date, rows }) {
 			hour: 'numeric',
 			minute: 'numeric',
 		};
-		return new Date(datetime.replace(' ', 'T')).toLocaleTimeString('en-CA', options);
+		return new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleTimeString('en-CA', options);
 	};
 
 	return (
