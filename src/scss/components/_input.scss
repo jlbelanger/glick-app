@@ -32,10 +32,6 @@ input[type="checkbox"] {
 	}
 }
 
-.input-container {
-	position: relative;
-
-	input {
-		max-width: 80px;
-	}
+[inputmode="numeric"] {
+	max-width: 80px;
 }

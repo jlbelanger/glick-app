@@ -3,7 +3,7 @@ import API from '../../JsonApiForm/Helpers/API';
 import Auth from '../../Auth/Auth';
 import Error from '../../Error';
 import Field from '../../JsonApiForm/Field';
-import Fields from './Fields';
+import Fields from './Partials/Fields';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';

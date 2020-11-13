@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 export default function Password({
 	autoComplete,
+	id,
 	name,
 	required,
 }) {
@@ -22,6 +23,7 @@ export default function Password({
 			<Input
 				autoComplete={autoComplete}
 				className="prefix"
+				id={id}
 				name={name}
 				required={required}
 				type={tempType}
@@ -35,11 +37,13 @@ export default function Password({
 
 Password.propTypes = {
 	autoComplete: PropTypes.string,
+	id: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	required: PropTypes.bool,
 };
 
 Password.defaultProps = {
-	autoComplete: '',
+	autoComplete: null,
+	id: null,
 	required: false,
 };

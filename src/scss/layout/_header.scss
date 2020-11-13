@@ -51,3 +51,20 @@ h1 {
 	margin: 0;
 	text-shadow: 0 2px 0 $black;
 }
+
+#title {
+	background: $dark-purple;
+	display: block;
+	font-size: $font-size;
+	letter-spacing: 2px;
+	margin: $nav-height 0 0;
+	text-shadow: 0 2px 0 $black;
+	text-transform: uppercase;
+}
+
+#title__text {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: $list-padding-top $list-padding-side;
+}

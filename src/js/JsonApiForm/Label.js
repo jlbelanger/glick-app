@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function Label({
+	htmlFor,
 	label,
-	name,
 	note,
 	required,
 	type,
@@ -17,22 +17,24 @@ export default function Label({
 	}
 	return (
 		<>
-			<label className={className} htmlFor={name}>{label}</label>
+			<label className={className} htmlFor={htmlFor}>{label}</label>
 			{note && <small>{`(${note})`}</small>}
 		</>
 	);
 }
 
 Label.propTypes = {
+	htmlFor: PropTypes.string,
 	label: PropTypes.string,
-	name: PropTypes.string.isRequired,
 	note: PropTypes.string,
 	required: PropTypes.bool,
-	type: PropTypes.string.isRequired,
+	type: PropTypes.string,
 };
 
 Label.defaultProps = {
+	htmlFor: '',
 	label: '',
 	note: '',
 	required: false,
+	type: '',
 };

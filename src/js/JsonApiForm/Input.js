@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 export default function Input({
 	autoComplete,
 	className,
+	id,
 	inputMode,
 	name,
 	pattern,
@@ -58,7 +59,7 @@ export default function Input({
 		<>
 			<input
 				className={`field__input ${className}`.trim()}
-				id={name}
+				id={id || name}
 				name={name}
 				onChange={onChange}
 				type={type}
@@ -73,6 +74,7 @@ export default function Input({
 Input.propTypes = {
 	autoComplete: PropTypes.string,
 	className: PropTypes.string,
+	id: PropTypes.string,
 	inputMode: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	pattern: PropTypes.string,
@@ -84,6 +86,7 @@ Input.propTypes = {
 Input.defaultProps = {
 	autoComplete: '',
 	className: '',
+	id: null,
 	inputMode: '',
 	pattern: '',
 	required: false,

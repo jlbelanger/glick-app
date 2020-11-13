@@ -8,4 +8,5 @@
 	position: absolute;
 	right: #{$border-width * -1};
 	top: 0;
+	z-index: 1;
 }

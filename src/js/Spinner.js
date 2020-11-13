@@ -9,7 +9,7 @@ const Spinner = () => {
 	}
 	return (
 		<div className="spinner">
-			<SpinnerIcon />
+			<SpinnerIcon className="spinner__svg" />
 		</div>
 	);
 };

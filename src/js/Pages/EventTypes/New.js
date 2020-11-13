@@ -1,5 +1,5 @@
 import Auth from '../../Auth/Auth';
-import Fields from './Fields';
+import Fields from './Partials/Fields';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';

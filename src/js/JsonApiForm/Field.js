@@ -8,7 +8,10 @@ import PropTypes from 'prop-types';
 import Radio from './Input/Radio';
 
 export default function Field({
+	afterChange,
 	autoComplete,
+	className,
+	id,
 	inputMode,
 	label,
 	name,
@@ -30,7 +33,10 @@ export default function Field({
 	}
 	const input = (
 		<Component
+			afterChange={afterChange}
 			autoComplete={autoComplete}
+			className={className}
+			id={id}
 			inputMode={inputMode}
 			name={name}
 			options={options}
@@ -47,8 +53,8 @@ export default function Field({
 
 	const labelComponent = (
 		<Label
+			htmlFor={id || name}
 			label={label}
-			name={name}
 			note={note}
 			required={required}
 			type={type}
@@ -60,10 +66,10 @@ export default function Field({
 
 	return (
 		<div className={`field${hasError ? ' field--has-error' : ''}`}>
-			{showLabelBefore && labelComponent}
+			{label && showLabelBefore && labelComponent}
 			<div className={`field__input-wrapper field__input-wrapper--${type}`}>
 				{input}
-				{!showLabelBefore && labelComponent}
+				{label && !showLabelBefore && labelComponent}
 			</div>
 			{hasError && <div className="field__error">{formState.errors[name].join((<br />))}</div>}
 		</div>
@@ -71,12 +77,18 @@ export default function Field({
 }
 
 Field.propTypes = {
+	afterChange: PropTypes.func,
 	autoComplete: PropTypes.string,
+	className: PropTypes.string,
+	id: PropTypes.string,
 	inputMode: PropTypes.string,
 	label: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	note: PropTypes.string,
-	options: PropTypes.object,
+	options: PropTypes.oneOfType([
+		PropTypes.array,
+		PropTypes.object,
+	]),
 	pattern: PropTypes.string,
 	required: PropTypes.bool,
 	suffix: PropTypes.string,
@@ -84,11 +96,14 @@ Field.propTypes = {
 };
 
 Field.defaultProps = {
+	afterChange: null,
 	autoComplete: '',
+	className: '',
+	id: null,
 	inputMode: '',
 	label: '',
 	note: '',
-	options: {},
+	options: [],
 	pattern: '',
 	required: false,
 	suffix: '',

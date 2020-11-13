@@ -4,14 +4,14 @@ import Auth from '../../Auth/Auth';
 import Error from '../../Error';
 import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
-import Row from './Row';
+import Row from './Partials/Row';
 
 export default function List() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get(`actions?include=action_type&filter[action_types.user_id][eq]=${Auth.id()}`)
+			API.get(`actions?include=action_type&filter[action_type.user_id][eq]=${Auth.id()}`)
 				.then((response) => {
 					setRows(response);
 				})
@@ -34,7 +34,7 @@ export default function List() {
 
 	const rowsByDate = {};
 	rows.forEach((row) => {
-		const date = row.start_date.substring(0, 10);
+		const date = new Date(`${row.start_date.replace(' ', 'T')}.000Z`).toLocaleString('en-CA').substring(0, 10);
 		if (!Object.prototype.hasOwnProperty.call(rowsByDate, date)) {
 			rowsByDate[date] = [];
 		}

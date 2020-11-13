@@ -8,13 +8,13 @@ import { Slide, ToastContainer } from 'react-toastify';
 import Auth from './Auth/Auth';
 import EventEdit from './Pages/Events/Edit';
 import EventList from './Pages/Events/List';
+import EventNew from './Pages/Events/New';
 import EventTypeEdit from './Pages/EventTypes/Edit';
 import EventTypeList from './Pages/EventTypes/List';
 import EventTypeNew from './Pages/EventTypes/New';
 import Footer from './Footer';
 import ForgotPassword from './Pages/Auth/ForgotPassword';
 import Header from './Header';
-import Home from './Pages/Home';
 import Login from './Pages/Auth/Login';
 import Profile from './Pages/Users/Edit';
 import React from 'react';
@@ -28,14 +28,14 @@ export default function App() {
 			<main id="main">
 				<Header />
 				<h2 id="title">
-					<span className="contain" id="title__text" />
+					<span className="contain" id="title__text" style={{ display: 'none' }} />
 				</h2>
 				<Footer />
 
 				<article className="contain" id="article">
 					<Switch>
 						<Route exact path="/">
-							{Auth.isLoggedIn() ? <Home /> : <Login />}
+							{Auth.isLoggedIn() ? <EventNew /> : <Login />}
 						</Route>
 						<Route exact path="/register">
 							{Auth.isLoggedIn() ? <Redirect to="/" /> : <Register />}
@@ -58,7 +58,7 @@ export default function App() {
 						<Route exact path="/events">
 							{Auth.isLoggedIn() ? <EventList /> : <Redirect to="/" />}
 						</Route>
-						<Route exact path="/events/:id">
+						<Route path="/events/:id">
 							{Auth.isLoggedIn() ? <EventEdit /> : <Redirect to="/" />}
 						</Route>
 						<Route exact path="/profile">

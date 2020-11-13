@@ -3,6 +3,7 @@ import FormContext from '../FormContext';
 import PropTypes from 'prop-types';
 
 export default function Radio({
+	afterChange,
 	name,
 	options,
 	required,
@@ -21,8 +22,18 @@ export default function Radio({
 				[e.target.name]: e.target.value,
 			},
 		});
+		if (afterChange) {
+			afterChange(e);
+		}
 	};
-	const keys = Object.keys(options);
+	let normalizedOptions = options;
+	if (Array.isArray(normalizedOptions)) {
+		normalizedOptions = {};
+		options.forEach((option) => {
+			normalizedOptions[option] = option;
+		});
+	}
+	const keys = Object.keys(normalizedOptions);
 	const numKeys = keys.length;
 
 	return (
@@ -47,7 +58,7 @@ export default function Radio({
 								type="radio"
 								value={value}
 							/>
-							{options[value]}
+							{normalizedOptions[value]}
 						</label>
 					</li>
 				);
@@ -57,11 +68,16 @@ export default function Radio({
 }
 
 Radio.propTypes = {
+	afterChange: PropTypes.func,
 	name: PropTypes.string.isRequired,
-	options: PropTypes.object.isRequired,
+	options: PropTypes.oneOfType([
+		PropTypes.array,
+		PropTypes.object,
+	]).isRequired,
 	required: PropTypes.bool,
 };
 
 Radio.defaultProps = {
+	afterChange: null,
 	required: false,
 };

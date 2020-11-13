@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import Field from '../../JsonApiForm/Field';
-import FormContext from '../../JsonApiForm/FormContext';
+import Field from '../../../JsonApiForm/Field';
+import FormContext from '../../../JsonApiForm/FormContext';
 
 export default function Fields() {
 	const { formState } = useContext(FormContext);

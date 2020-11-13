@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 export default function Checkbox({
 	className,
+	id,
 	name,
 	required,
 }) {
@@ -15,7 +16,7 @@ export default function Checkbox({
 			<Input
 				checked={!!formState.row[name]}
 				className={className}
-				id={name}
+				id={id || name}
 				name={name}
 				required={required}
 				type="checkbox"
@@ -27,11 +28,13 @@ export default function Checkbox({
 
 Checkbox.propTypes = {
 	className: PropTypes.string,
+	id: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	required: PropTypes.bool,
 };
 
 Checkbox.defaultProps = {
 	className: '',
+	id: null,
 	required: false,
 };
