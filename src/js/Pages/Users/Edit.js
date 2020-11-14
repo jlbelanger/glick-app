@@ -3,7 +3,6 @@ import API from '../../JsonApiForm/Helpers/API';
 import Auth from '../../Auth/Auth';
 import Error from '../../Error';
 import Field from '../../JsonApiForm/Field';
-import Fields from './Partials/Fields';
 import Flash from '../../JsonApiForm/Flash';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
@@ -45,14 +44,50 @@ export default function Edit() {
 			<MetaTitle title="Edit profile" />
 
 			<Form
-				path="users"
 				id={row.id}
 				method="PUT"
+				path="users"
 				preventEmptyRequest
 				row={row}
 				successToastMessage="Profile saved successfully."
 			>
-				<Fields />
+				<Field
+					autocomplete="username"
+					label="Username"
+					name="username"
+					required
+				/>
+
+				<Submit />
+			</Form>
+
+			<Form
+				hideFlash
+				method="PUT"
+				path={`users/${row.id}/change-email`}
+				preventEmptyRequest
+				row={row}
+				successToastMessage="Email changed successfully."
+			>
+				<h3>Change email</h3>
+
+				<Flash />
+
+				<Field
+					autocomplete="email"
+					label="Email"
+					name="email"
+					required
+					type="email"
+				/>
+
+				<Field
+					autocomplete="current-password"
+					label="Current password"
+					name="password"
+					required
+					type="password"
+				/>
 
 				<Submit />
 			</Form>
@@ -70,14 +105,6 @@ export default function Edit() {
 				<Flash />
 
 				<Field
-					autocomplete="current-password"
-					label="Current password"
-					name="password"
-					required
-					type="password"
-				/>
-
-				<Field
 					autcomplete="new-password"
 					label="New password"
 					name="new_password"
@@ -89,6 +116,14 @@ export default function Edit() {
 					autcomplete="new-password"
 					label="Confirm new password"
 					name="new_password_confirmation"
+					required
+					type="password"
+				/>
+
+				<Field
+					autocomplete="current-password"
+					label="Current password"
+					name="password"
 					required
 					type="password"
 				/>
