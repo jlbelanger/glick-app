@@ -36,6 +36,7 @@ export default function Fields() {
 					inputMode="numeric"
 					name="value"
 					suffix={formState.row.action_type.suffix}
+					wrapperClassName="field--number"
 				/>
 			)}
 

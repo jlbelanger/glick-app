@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import Radio from './Input/Radio';
 
 export default function Field({
+	after,
 	afterChange,
 	autoComplete,
 	className,
@@ -21,6 +22,7 @@ export default function Field({
 	required,
 	suffix,
 	type,
+	wrapperClassName,
 }) {
 	const { formState } = useContext(FormContext);
 	let Component = Input;
@@ -65,18 +67,20 @@ export default function Field({
 	const hasError = Object.prototype.hasOwnProperty.call(formState.errors, name);
 
 	return (
-		<div className={`field${hasError ? ' field--has-error' : ''}`}>
+		<div className={`field ${wrapperClassName}${hasError ? ' field--has-error' : ''}`.trim()}>
 			{label && showLabelBefore && labelComponent}
 			<div className={`field__input-wrapper field__input-wrapper--${type}`}>
 				{input}
 				{label && !showLabelBefore && labelComponent}
 			</div>
+			{after}
 			{hasError && <div className="field__error">{formState.errors[name].join((<br />))}</div>}
 		</div>
 	);
 }
 
 Field.propTypes = {
+	after: PropTypes.node,
 	afterChange: PropTypes.func,
 	autoComplete: PropTypes.string,
 	className: PropTypes.string,
@@ -93,9 +97,11 @@ Field.propTypes = {
 	required: PropTypes.bool,
 	suffix: PropTypes.string,
 	type: PropTypes.string,
+	wrapperClassName: PropTypes.string,
 };
 
 Field.defaultProps = {
+	after: null,
 	afterChange: null,
 	autoComplete: '',
 	className: '',
@@ -108,4 +114,5 @@ Field.defaultProps = {
 	required: false,
 	suffix: '',
 	type: 'text',
+	wrapperClassName: '',
 };

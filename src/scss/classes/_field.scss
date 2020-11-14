@@ -2,6 +2,14 @@
 	padding: 0 $list-padding-side;
 }
 
+.field--new-event {
+	display: flex;
+}
+
+.field--number {
+	max-width: 140px;
+}
+
 .field--submit {
 	text-align: right;
 }

@@ -7,6 +7,9 @@ export default function NewField({ actionType }) {
 		return (
 			<>
 				<Field
+					after={(
+						<button className="postfix" type="submit">Add</button>
+					)}
 					className="prefix"
 					id={actionType.slug}
 					name="value"
@@ -14,8 +17,8 @@ export default function NewField({ actionType }) {
 					required
 					type="text"
 					suffix={actionType.suffix}
+					wrapperClassName="field--new-event field--number"
 				/>
-				<button className="postfix" type="submit">Add</button>
 			</>
 		);
 	}
