@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
-import Auth from '../../Auth/Auth';
 import Error from '../../Error';
 import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
@@ -10,7 +9,7 @@ export default function List() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get(`action-types?filter[user_id][eq]=${Auth.id()}`)
+			API.get('action-types')
 				.then((response) => {
 					setRows(response);
 				})
