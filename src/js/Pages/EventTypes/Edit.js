@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
 import Fields from './Partials/Fields';
+import Flash from '../../JsonApiForm/Flash';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';
@@ -51,14 +52,17 @@ export default function Edit() {
 			</Form>
 
 			<Form
-				path="action-types"
+				hideFlash
 				id={id}
 				method="DELETE"
-				warnOnUnload={false}
+				path="action-types"
 				redirectOnSuccess="/events-types"
 				successToastMessage="Event type deleted successfully."
+				warnOnUnload={false}
 			>
 				<h3>{`Delete ${row.label}`}</h3>
+
+				<Flash />
 
 				<Submit className="button--danger" label="Delete" />
 			</Form>

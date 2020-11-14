@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import API from './Helpers/API';
+import Flash from './Flash';
 import FormContext from './FormContext';
 import Jsona from 'jsona';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ export default function FormInner({
 	children,
 	clearOnSubmit,
 	filterBody,
+	hideFlash,
 	id,
 	method,
 	path,
@@ -135,12 +137,10 @@ export default function FormInner({
 				});
 			});
 	};
-	const hasErrors = Object.prototype.hasOwnProperty.call(formState.errors, '');
 
 	return (
 		<form onSubmit={onSubmit}>
-			{hasErrors && (<p className="message message--error">{formState.errors[''].join(' ')}</p>)}
-			{formState.flash && (<p className="message message--success">{formState.flash}</p>)}
+			{!hideFlash && <Flash />}
 			{children}
 		</form>
 	);
@@ -151,6 +151,7 @@ FormInner.propTypes = {
 	children: PropTypes.node.isRequired,
 	clearOnSubmit: PropTypes.bool,
 	filterBody: PropTypes.func,
+	hideFlash: PropTypes.bool,
 	id: PropTypes.string.isRequired,
 	method: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
@@ -164,6 +165,7 @@ FormInner.propTypes = {
 FormInner.defaultProps = {
 	clearOnSubmit: false,
 	filterBody: null,
+	hideFlash: false,
 	preventEmptyRequest: false,
 	redirectOnSuccess: null,
 };

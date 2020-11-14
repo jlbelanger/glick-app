@@ -8,6 +8,7 @@ export default function Form({
 	afterSubmit,
 	children,
 	clearOnSubmit,
+	hideFlash,
 	id,
 	filterBody,
 	method,
@@ -32,6 +33,7 @@ export default function Form({
 			<FormInner
 				afterSubmit={afterSubmit}
 				clearOnSubmit={clearOnSubmit}
+				hideFlash={hideFlash}
 				id={id}
 				filterBody={filterBody}
 				method={method}
@@ -54,6 +56,7 @@ Form.propTypes = {
 	children: PropTypes.node.isRequired,
 	clearOnSubmit: PropTypes.bool,
 	filterBody: PropTypes.func,
+	hideFlash: PropTypes.bool,
 	id: PropTypes.string,
 	method: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
@@ -73,6 +76,7 @@ Form.defaultProps = {
 	afterSubmit: () => {},
 	clearOnSubmit: false,
 	filterBody: null,
+	hideFlash: false,
 	id: '',
 	preventEmptyRequest: false,
 	redirectOnSuccess: null,

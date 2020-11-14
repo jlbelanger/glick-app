@@ -4,6 +4,7 @@ import Auth from '../../Auth/Auth';
 import Error from '../../Error';
 import Field from '../../JsonApiForm/Field';
 import Fields from './Partials/Fields';
+import Flash from '../../JsonApiForm/Flash';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';
@@ -58,12 +59,15 @@ export default function Edit() {
 
 			<Form
 				clearOnSubmit
-				path={`users/${row.id}/change-password`}
+				hideFlash
 				method="PUT"
+				path={`users/${row.id}/change-password`}
 				preventEmptyRequest
 				successToastMessage="Password changed successfully."
 			>
 				<h3>Change password</h3>
+
+				<Flash />
 
 				<Field
 					autocomplete="current-password"
@@ -94,12 +98,15 @@ export default function Edit() {
 
 			<Form
 				afterSubmit={afterDelete}
-				path="users"
+				hideFlash
 				id={row.id}
 				method="DELETE"
+				path="users"
 				warnOnUnload={false}
 			>
 				<h3>Delete account</h3>
+
+				<Flash />
 
 				<Submit className="button--danger" label="Delete" />
 			</Form>
