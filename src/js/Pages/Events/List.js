@@ -10,7 +10,7 @@ export default function List() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('actions')
+			API.get('actions?include=action_type')
 				.then((response) => {
 					setRows(response);
 				})
