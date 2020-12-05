@@ -13,6 +13,7 @@ export default function Form({
 	id,
 	filterBody,
 	method,
+	params,
 	path,
 	preventEmptyRequest,
 	redirectOnSuccess,
@@ -39,6 +40,7 @@ export default function Form({
 				id={id}
 				filterBody={filterBody}
 				method={method}
+				params={params}
 				path={path}
 				preventEmptyRequest={preventEmptyRequest}
 				redirectOnSuccess={redirectOnSuccess}
@@ -62,6 +64,7 @@ Form.propTypes = {
 	hideFlash: PropTypes.bool,
 	id: PropTypes.string,
 	method: PropTypes.string.isRequired,
+	params: PropTypes.string,
 	path: PropTypes.string.isRequired,
 	preventEmptyRequest: PropTypes.bool,
 	redirectOnSuccess: PropTypes.oneOfType([
@@ -82,6 +85,7 @@ Form.defaultProps = {
 	filterBody: null,
 	hideFlash: false,
 	id: '',
+	params: '',
 	preventEmptyRequest: false,
 	redirectOnSuccess: null,
 	relationshipNames: [],

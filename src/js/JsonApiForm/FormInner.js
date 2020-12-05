@@ -16,6 +16,7 @@ export default function FormInner({
 	hideFlash,
 	id,
 	method,
+	params,
 	path,
 	preventEmptyRequest,
 	redirectOnSuccess,
@@ -71,6 +72,9 @@ export default function FormInner({
 		let url = path;
 		if (id) {
 			url = `${path}/${id}`;
+		}
+		if (params) {
+			url += `?${params}`;
 		}
 
 		if (preventEmptyRequest && formState.dirty.length <= 0) {
@@ -156,6 +160,7 @@ FormInner.propTypes = {
 	hideFlash: PropTypes.bool,
 	id: PropTypes.string.isRequired,
 	method: PropTypes.string.isRequired,
+	params: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
 	preventEmptyRequest: PropTypes.bool,
 	redirectOnSuccess: PropTypes.string,
