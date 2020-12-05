@@ -11,6 +11,7 @@ export default function FormInner({
 	afterSubmit,
 	children,
 	clearOnSubmit,
+	defaultRow,
 	filterBody,
 	hideFlash,
 	id,
@@ -93,7 +94,7 @@ export default function FormInner({
 					flash: successFlashMessage,
 				};
 				if (clearOnSubmit) {
-					newState.row = {};
+					newState.row = defaultRow;
 				}
 				setFormState(newState);
 
@@ -150,6 +151,7 @@ FormInner.propTypes = {
 	afterSubmit: PropTypes.func.isRequired,
 	children: PropTypes.node.isRequired,
 	clearOnSubmit: PropTypes.bool,
+	defaultRow: PropTypes.object.isRequired,
 	filterBody: PropTypes.func,
 	hideFlash: PropTypes.bool,
 	id: PropTypes.string.isRequired,

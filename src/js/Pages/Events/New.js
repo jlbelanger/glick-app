@@ -69,8 +69,9 @@ export default function New() {
 					return (
 						<li className={className} key={row.id}>
 							<Form
-								clearOnSubmit={row.field_type === 'number'}
 								filterBody={filterBody}
+								clearOnSubmit={row.field_type === 'number' || !row.is_continuous}
+								defaultRow={defaultRow}
 								method="POST"
 								path="actions"
 								relationshipNames={['action_type']}
