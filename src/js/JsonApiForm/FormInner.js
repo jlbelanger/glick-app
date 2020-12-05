@@ -21,6 +21,7 @@ export default function FormInner({
 	preventEmptyRequest,
 	redirectOnSuccess,
 	relationshipNames,
+	style,
 	successFlashMessage,
 	successToastMessage,
 }) {
@@ -144,7 +145,7 @@ export default function FormInner({
 	};
 
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={onSubmit} style={style}>
 			{!hideFlash && <Flash />}
 			{children}
 		</form>
@@ -165,6 +166,7 @@ FormInner.propTypes = {
 	preventEmptyRequest: PropTypes.bool,
 	redirectOnSuccess: PropTypes.string,
 	relationshipNames: PropTypes.array.isRequired,
+	style: PropTypes.object.isRequired,
 	successFlashMessage: PropTypes.string.isRequired,
 	successToastMessage: PropTypes.string.isRequired,
 };

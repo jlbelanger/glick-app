@@ -19,6 +19,7 @@ export default function Form({
 	redirectOnSuccess,
 	relationshipNames,
 	row,
+	style,
 	successFlashMessage,
 	successToastMessage,
 	warnOnUnload,
@@ -45,6 +46,7 @@ export default function Form({
 				preventEmptyRequest={preventEmptyRequest}
 				redirectOnSuccess={redirectOnSuccess}
 				relationshipNames={relationshipNames}
+				style={style}
 				successFlashMessage={successFlashMessage}
 				successToastMessage={successToastMessage}
 			>
@@ -73,6 +75,7 @@ Form.propTypes = {
 	]),
 	relationshipNames: PropTypes.array,
 	row: PropTypes.object,
+	style: PropTypes.object,
 	successFlashMessage: PropTypes.string,
 	successToastMessage: PropTypes.string,
 	warnOnUnload: PropTypes.bool,
@@ -90,6 +93,7 @@ Form.defaultProps = {
 	redirectOnSuccess: null,
 	relationshipNames: [],
 	row: {},
+	style: {},
 	successFlashMessage: '',
 	successToastMessage: '',
 	warnOnUnload: true,
