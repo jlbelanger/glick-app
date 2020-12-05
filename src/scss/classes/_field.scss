@@ -7,7 +7,9 @@
 }
 
 .field--number {
-	max-width: 140px;
+	.field__input-wrapper {
+		max-width: 140px;
+	}
 }
 
 .field--submit {

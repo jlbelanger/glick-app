@@ -29,3 +29,11 @@ p,
 .field {
 	margin: 28px 0 0;
 }
+
+.field--with-after {
+	flex-direction: column;
+}
+
+.after-wrapper {
+	display: flex;
+}

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Checkbox from './Input/Checkbox';
+import ConditionalWrapper from './ConditionalWrapper';
 import FormContext from './FormContext';
 import Input from './Input';
 import Label from './Label';
@@ -67,13 +68,15 @@ export default function Field({
 	const hasError = Object.prototype.hasOwnProperty.call(formState.errors, name);
 
 	return (
-		<div className={`field ${wrapperClassName}${hasError ? ' field--has-error' : ''}`.trim()}>
+		<div className={`field ${wrapperClassName}${hasError ? ' field--has-error' : ''}${after ? ' field--with-after' : ''}`.trim()}>
 			{label && showLabelBefore && labelComponent}
-			<div className={`field__input-wrapper field__input-wrapper--${type}`}>
-				{input}
-				{label && !showLabelBefore && labelComponent}
-			</div>
-			{after}
+			<ConditionalWrapper className="after-wrapper" condition={after}>
+				<div className={`field__input-wrapper field__input-wrapper--${type}`}>
+					{input}
+					{label && !showLabelBefore && labelComponent}
+				</div>
+				{after}
+			</ConditionalWrapper>
 			{hasError && <div className="field__error">{formState.errors[name].join((<br />))}</div>}
 		</div>
 	);
