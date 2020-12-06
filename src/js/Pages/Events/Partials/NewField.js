@@ -25,20 +25,29 @@ export default function NewField({ actionType }) {
 
 	if (actionType.options) {
 		const submitId = `submit-${actionType.id}`;
-		const afterChange = () => {
+		const afterChange = (e) => {
 			// TODO: Ensure afterChange is called after the form state has been
 			// updated, then remove setTimeout here.
 			setTimeout(() => {
-				document.getElementById(submitId).click();
+				if (e.target.value === 'Stop') {
+					document.getElementById(`${submitId}-stop`).click();
+				} else {
+					document.getElementById(submitId).click();
+				}
 			}, 100);
 		};
+
+		const options = actionType.options.split(', ');
+		if (actionType.in_progress) {
+			options.push('Stop');
+		}
 
 		return (
 			<>
 				<Field
 					afterChange={afterChange}
 					name="value"
-					options={actionType.options.split(', ')}
+					options={options}
 					type="radio"
 				/>
 				<button id={submitId} style={{ display: 'none' }} type="submit" />
@@ -46,10 +55,15 @@ export default function NewField({ actionType }) {
 		);
 	}
 
+	let label = 'Add';
+	if (actionType.is_continuous) {
+		label = actionType.in_progress ? 'Stop' : 'Start';
+	}
+
 	return (
 		<div>
 			<button type="submit">
-				{actionType.is_continuous ? 'Start' : 'Add'}
+				{label}
 			</button>
 		</div>
 	);

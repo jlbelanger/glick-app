@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
+import { getDateFromDatetime } from '../../Datetime';
 import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
 import Row from './Partials/Row';
@@ -33,7 +34,7 @@ export default function List() {
 
 	const rowsByDate = {};
 	rows.forEach((row) => {
-		const date = new Date(`${row.start_date.replace(' ', 'T')}.000Z`).toLocaleString('en-CA').substring(0, 10);
+		const date = getDateFromDatetime(row.start_date);
 		if (!Object.prototype.hasOwnProperty.call(rowsByDate, date)) {
 			rowsByDate[date] = [];
 		}
