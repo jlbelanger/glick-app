@@ -164,7 +164,10 @@ FormInner.propTypes = {
 	params: PropTypes.string.isRequired,
 	path: PropTypes.string.isRequired,
 	preventEmptyRequest: PropTypes.bool,
-	redirectOnSuccess: PropTypes.string,
+	redirectOnSuccess: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func,
+	]),
 	relationshipNames: PropTypes.array.isRequired,
 	style: PropTypes.object.isRequired,
 	successFlashMessage: PropTypes.string.isRequired,
