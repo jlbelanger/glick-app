@@ -1,5 +1,5 @@
 {
-	"name": "212green",
+	"name": "glick",
 	"version": "1.0.0",
 	"author": {
 		"name": "Jenny Belanger",
@@ -9,7 +9,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/jlbelanger/212green-app.git"
+		"url": "https://github.com/jlbelanger/glick-app.git"
 	},
 	"scripts": {
 		"start": "react-scripts start",
