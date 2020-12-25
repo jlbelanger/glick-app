@@ -52,7 +52,7 @@ export default function List() {
 							<Link className="table__link" to="/">+ Add New</Link>
 						</td>
 					</tr>
-					{Object.keys(rowsByDate).map(date => (
+					{Object.keys(rowsByDate).map((date) => (
 						<Row key={date} date={date} rows={rowsByDate[date]} />
 					))}
 				</tbody>

@@ -21,7 +21,7 @@ export default function New() {
 				path="action-types"
 				method="POST"
 				relationshipNames={['user']}
-				redirectOnSuccess={response => (`/event-types/${response.id}`)}
+				redirectOnSuccess={(response) => (`/event-types/${response.id}`)}
 				row={row}
 			>
 				<Fields />

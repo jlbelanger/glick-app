@@ -38,7 +38,7 @@ export default function List() {
 				<li className="list__item">
 					<Link className="list__link" to="/event-types/new">+ Add New</Link>
 				</li>
-				{rows.map(row => (
+				{rows.map((row) => (
 					<li className="list__item" key={row.id}>
 						<Link className="list__link" to={`/event-types/${row.id}`}>{row.label}</Link>
 					</li>
