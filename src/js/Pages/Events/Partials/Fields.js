@@ -16,17 +16,15 @@ export default function Fields() {
 			<Field
 				label={formState.row.action_type.is_continuous ? 'Start date' : 'Date'}
 				name="start_date"
-				pattern="\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d"
+				pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
 				required
-				type="datetime-local"
 			/>
 
 			{!!formState.row.action_type.is_continuous && (
 				<Field
 					label="End date"
 					name="end_date"
-					pattern="\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d"
-					type="datetime-local"
+					pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
 				/>
 			)}
 

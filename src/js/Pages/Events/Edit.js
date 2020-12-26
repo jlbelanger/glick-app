@@ -16,11 +16,7 @@ export default function Edit() {
 		if (row === null) {
 			API.get(`actions/${id}?include=action_type`)
 				.then((response) => {
-					setRow({
-						...response,
-						start_date: response.start_date ? response.start_date.replace(' ', 'T') : null,
-						end_date: response.end_date ? response.end_date.replace(' ', 'T') : null,
-					});
+					setRow(response);
 				})
 				.catch((response) => {
 					setError(response.status);
