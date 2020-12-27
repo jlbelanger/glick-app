@@ -4,6 +4,7 @@ import Error from '../../Error';
 import Fields from './Partials/Fields';
 import Flash from '../../JsonApiForm/Flash';
 import Form from '../../JsonApiForm/Form';
+import { getEventLabel } from '../../Utilities';
 import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';
 import { useParams } from 'react-router-dom';
@@ -14,7 +15,7 @@ export default function Edit() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (row === null) {
-			API.get(`actions/${id}?include=action_type`)
+			API.get(`actions/${id}?include=action_type,option`)
 				.then((response) => {
 					setRow(response);
 				})
@@ -37,7 +38,7 @@ export default function Edit() {
 
 	return (
 		<>
-			<MetaTitle title={`Edit ${row.action_type.label}`} />
+			<MetaTitle title={`Edit ${getEventLabel(row)}`} />
 
 			<Form
 				path="actions"

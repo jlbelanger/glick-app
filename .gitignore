@@ -1,5 +1,6 @@
 .DS_Store
 .env
+.eslintcache
 build
 node_modules
 TODO.md

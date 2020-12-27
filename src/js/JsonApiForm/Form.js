@@ -12,6 +12,7 @@ export default function Form({
 	hideFlash,
 	id,
 	filterBody,
+	filterBodyBeforeSerialize,
 	method,
 	params,
 	path,
@@ -26,6 +27,7 @@ export default function Form({
 }) {
 	const [formState, setFormState] = useState({
 		dirty: [],
+		dirtyIncluded: {},
 		errors: {},
 		flash: '',
 		row,
@@ -40,6 +42,7 @@ export default function Form({
 				hideFlash={hideFlash}
 				id={id}
 				filterBody={filterBody}
+				filterBodyBeforeSerialize={filterBodyBeforeSerialize}
 				method={method}
 				params={params}
 				path={path}
@@ -63,6 +66,7 @@ Form.propTypes = {
 	clearOnSubmit: PropTypes.bool,
 	defaultRow: PropTypes.object,
 	filterBody: PropTypes.func,
+	filterBodyBeforeSerialize: PropTypes.func,
 	hideFlash: PropTypes.bool,
 	id: PropTypes.string,
 	method: PropTypes.string.isRequired,
@@ -86,6 +90,7 @@ Form.defaultProps = {
 	clearOnSubmit: false,
 	defaultRow: {},
 	filterBody: null,
+	filterBodyBeforeSerialize: null,
 	hideFlash: false,
 	id: '',
 	params: '',

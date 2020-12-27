@@ -13,6 +13,7 @@ export default function FormInner({
 	clearOnSubmit,
 	defaultRow,
 	filterBody,
+	filterBodyBeforeSerialize,
 	hideFlash,
 	id,
 	method,
@@ -27,6 +28,34 @@ export default function FormInner({
 }) {
 	const { formState, setFormState } = useContext(FormContext);
 	const history = useHistory();
+	const getIncluded = (stuff) => {
+		const included = [];
+		stuff.relationshipNames.forEach((relationshipName) => {
+			if (Object.prototype.hasOwnProperty.call(stuff, relationshipName)) {
+				if (Array.isArray(stuff[relationshipName])) {
+					stuff[relationshipName].forEach((rel) => {
+						if (Object.keys(rel).length > 2) {
+							// It has more than just the id/type keys.
+							if (
+								Object.prototype.hasOwnProperty.call(formState.dirtyIncluded, rel.type)
+								&& Object.prototype.hasOwnProperty.call(formState.dirtyIncluded[rel.type], rel.id)
+							) {
+								const relStuff = {
+									id: rel.id,
+									type: rel.type,
+								};
+								formState.dirtyIncluded[rel.type][rel.id].forEach((key) => {
+									relStuff[key] = rel[key];
+								});
+								included.push(new Jsona().serialize({ stuff: relStuff }).data);
+							}
+						}
+					});
+				}
+			}
+		});
+		return included;
+	};
 	const getBody = () => {
 		let body = null;
 
@@ -52,7 +81,14 @@ export default function FormInner({
 				};
 			}
 
+			const included = getIncluded(stuff);
+			if (filterBodyBeforeSerialize) {
+				stuff = filterBodyBeforeSerialize(stuff);
+			}
 			body = new Jsona().serialize({ stuff });
+			if (included.length > 0) {
+				body.included = included;
+			}
 			if (filterBody) {
 				body = filterBody(body);
 			}
@@ -92,9 +128,14 @@ export default function FormInner({
 
 		API.request(method, url, body)
 			.then((response) => {
+				if (!response) {
+					return;
+				}
+
 				const newState = {
 					...formState,
 					dirty: [],
+					dirtyIncluded: {},
 					errors: {},
 					flash: successFlashMessage,
 				};
@@ -116,10 +157,13 @@ export default function FormInner({
 				afterSubmit(response);
 			})
 			.catch((response) => {
-				if (!Object.prototype.hasOwnProperty.call(response, 'errors')) {
+				if (Object.prototype.hasOwnProperty.call(response, 'errors')) {
+					toast.error('Error.');
+				} else {
+					toast.error('Server error.');
 					throw response;
 				}
-				toast.error('Error.');
+
 				const errors = {};
 				let key;
 				response.errors.forEach((error) => {
@@ -158,6 +202,7 @@ FormInner.propTypes = {
 	clearOnSubmit: PropTypes.bool,
 	defaultRow: PropTypes.object.isRequired,
 	filterBody: PropTypes.func,
+	filterBodyBeforeSerialize: PropTypes.func,
 	hideFlash: PropTypes.bool,
 	id: PropTypes.string.isRequired,
 	method: PropTypes.string.isRequired,
@@ -177,6 +222,7 @@ FormInner.propTypes = {
 FormInner.defaultProps = {
 	clearOnSubmit: false,
 	filterBody: null,
+	filterBodyBeforeSerialize: null,
 	hideFlash: false,
 	preventEmptyRequest: false,
 	redirectOnSuccess: null,

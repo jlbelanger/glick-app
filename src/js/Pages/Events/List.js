@@ -11,7 +11,7 @@ export default function List() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('actions?include=action_type')
+			API.get('actions?include=action_type,option')
 				.then((response) => {
 					setRows(response);
 				})

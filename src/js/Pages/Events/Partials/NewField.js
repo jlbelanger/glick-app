@@ -23,49 +23,46 @@ export default function NewField({ actionType }) {
 		);
 	}
 
-	if (actionType.options) {
-		const submitId = `submit-${actionType.id}`;
-		const afterChange = (e) => {
-			// TODO: Ensure afterChange is called after the form state has been
-			// updated, then remove setTimeout here.
-			setTimeout(() => {
-				if (e.target.value === 'Stop') {
-					document.getElementById(`${submitId}-stop`).click();
-				} else {
-					document.getElementById(submitId).click();
-				}
-			}, 100);
-		};
+	const submitId = `submit-${actionType.id}`;
+	const afterChange = (e) => {
+		// TODO: Ensure afterChange is called after the form state has been
+		// updated, then remove setTimeout here.
+		setTimeout(() => {
+			if (e.target.value === 'Stop') {
+				document.getElementById(`${submitId}-stop`).click();
+			} else {
+				document.getElementById(submitId).click();
+			}
+		}, 100);
+	};
 
-		const options = actionType.options.split(', ');
-		if (actionType.in_progress) {
-			options.push('Stop');
+	const options = [...actionType.options];
+	const hasOptions = options.length > 0;
+	if (!hasOptions) {
+		if (actionType.is_continuous) {
+			if (actionType.in_progress) {
+				options.push('Stop');
+			} else {
+				options.push('Start');
+			}
+		} else {
+			options.push('Add');
 		}
-
-		return (
-			<>
-				<Field
-					afterChange={afterChange}
-					name="value"
-					options={options}
-					type="radio"
-				/>
-				<button id={submitId} style={{ display: 'none' }} type="submit" />
-			</>
-		);
-	}
-
-	let label = 'Add';
-	if (actionType.is_continuous) {
-		label = actionType.in_progress ? 'Stop' : 'Start';
+	} else if (actionType.in_progress) {
+		options.push('Stop');
 	}
 
 	return (
-		<div>
-			<button type="submit">
-				{label}
-			</button>
-		</div>
+		<>
+			<Field
+				afterChange={afterChange}
+				name={hasOptions ? 'option' : 'value'}
+				nameKey="label"
+				options={options}
+				type="radio"
+			/>
+			<button id={submitId} style={{ display: 'none' }} type="submit" />
+		</>
 	);
 }
 

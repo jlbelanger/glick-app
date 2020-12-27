@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Checkbox from './Input/Checkbox';
 import ConditionalWrapper from './ConditionalWrapper';
 import FormContext from './FormContext';
+import HasMany from './Input/HasMany';
 import Input from './Input';
 import Label from './Label';
 import Password from './Input/Password';
@@ -17,9 +18,12 @@ export default function Field({
 	inputMode,
 	label,
 	name,
+	nameKey,
 	note,
 	options,
 	pattern,
+	recordType,
+	removable,
 	required,
 	suffix,
 	type,
@@ -33,6 +37,8 @@ export default function Field({
 		Component = Radio;
 	} else if (type === 'checkbox') {
 		Component = Checkbox;
+	} else if (type === 'has-many') {
+		Component = HasMany;
 	}
 	const input = (
 		<Component
@@ -42,8 +48,11 @@ export default function Field({
 			id={id}
 			inputMode={inputMode}
 			name={name}
+			nameKey={nameKey}
 			options={options}
 			pattern={pattern}
+			recordType={recordType}
+			removable={removable}
 			required={required}
 			suffix={suffix}
 			type={type}
@@ -91,12 +100,15 @@ Field.propTypes = {
 	inputMode: PropTypes.string,
 	label: PropTypes.string,
 	name: PropTypes.string.isRequired,
+	nameKey: PropTypes.string,
 	note: PropTypes.string,
 	options: PropTypes.oneOfType([
 		PropTypes.array,
 		PropTypes.object,
 	]),
 	pattern: PropTypes.string,
+	recordType: PropTypes.string,
+	removable: PropTypes.func,
 	required: PropTypes.bool,
 	suffix: PropTypes.string,
 	type: PropTypes.string,
@@ -111,9 +123,12 @@ Field.defaultProps = {
 	id: null,
 	inputMode: '',
 	label: '',
+	nameKey: 'name',
 	note: '',
 	options: [],
 	pattern: '',
+	recordType: null,
+	removable: null,
 	required: false,
 	suffix: '',
 	type: 'text',

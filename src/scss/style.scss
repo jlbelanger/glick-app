@@ -37,3 +37,18 @@ p,
 .after-wrapper {
 	display: flex;
 }
+
+.has-many-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.has-many-list__item + .has-many-list__item {
+	margin-top: 8px;
+}
+
+.has-many-list__item {
+	display: flex;
+}

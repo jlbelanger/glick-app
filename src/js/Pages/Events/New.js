@@ -13,7 +13,7 @@ export default function New() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('action-types')
+			API.get('action-types?include=options')
 				.then((response) => {
 					setRows(response);
 				})
@@ -40,6 +40,25 @@ export default function New() {
 		);
 	}
 
+	const filterBodyBeforeSerialize = (body) => {
+		// Convert JSON options strings to objects.
+		if (body.option && body.option[0] === '{') {
+			body.option = JSON.parse(body.option);
+		}
+
+		// Remove default Add/Start/Stop values.
+		let actionType;
+		if (Object.prototype.hasOwnProperty.call(body, 'action_type')) {
+			actionType = rows.find((row) => row.id === body.action_type.id);
+		} else {
+			actionType = rows.find((row) => row.in_progress.id === body.id);
+		}
+		if (actionType && actionType.field_type === 'button' && actionType.options.length <= 0) {
+			delete body.value;
+		}
+
+		return body;
+	};
 	const filterBody = (body) => {
 		body.data.attributes.start_date = getCurrentDatetime();
 		return body;
@@ -53,17 +72,17 @@ export default function New() {
 		if (!action.action_type.is_continuous) {
 			return;
 		}
-		const newRows = [...rows];
-		newRows.forEach((actionType, i) => {
+		const newActionTypes = [...rows];
+		newActionTypes.forEach((actionType, i) => {
 			if (actionType.id === action.action_type.id) {
 				if (action.end_date) {
-					newRows[i].in_progress = null;
+					newActionTypes[i].in_progress = null;
 				} else {
-					newRows[i].in_progress = action;
+					newActionTypes[i].in_progress = action;
 				}
 			}
 		});
-		setRows(newRows);
+		setRows(newActionTypes);
 	};
 
 	const sortedRows = rows.sort((a, b) => {
@@ -95,10 +114,10 @@ export default function New() {
 					let className = 'list__item';
 					if (row.in_progress) {
 						className += ' list__item--active';
-						defaultRow.value = row.in_progress.value;
+						defaultRow.option = JSON.stringify(row.in_progress.option);
 					}
 
-					const hasStopOnly = row.in_progress && !row.options;
+					const hasStopOnly = row.in_progress && row.options.length <= 0;
 					return (
 						<li className={className} key={row.id}>
 							<Form
@@ -106,11 +125,12 @@ export default function New() {
 								clearOnSubmit={row.field_type === 'number' || !row.is_continuous}
 								defaultRow={defaultRow}
 								filterBody={hasStopOnly ? filterBodyStop : filterBody}
+								filterBodyBeforeSerialize={filterBodyBeforeSerialize}
 								method={hasStopOnly ? 'PUT' : 'POST'}
 								id={hasStopOnly ? row.in_progress.id.toString() : ''}
-								params="include=action_type"
+								params="include=action_type,option"
 								path="actions"
-								relationshipNames={['action_type']}
+								relationshipNames={['action_type', 'option']}
 								row={defaultRow}
 								successToastMessage={hasStopOnly ? 'Event stopped successfully.' : 'Event added successfully.'}
 								warnOnUnload={false}
@@ -118,7 +138,7 @@ export default function New() {
 								<NewLabel actionType={row} />
 								<NewField actionType={row} />
 							</Form>
-							{row.in_progress && row.options ? (
+							{row.in_progress && row.options.length > 0 ? (
 								<Form
 									afterSubmit={afterSubmit}
 									filterBody={filterBodyStop}

@@ -66,6 +66,15 @@ button,
 			text-shadow: 0 -1px 0 $darker-red;
 		}
 	}
+
+	&[disabled] {
+		@include gradient(#999, #666, #333);
+
+		border-color: #666;
+		color: $white;
+		pointer-events: none;
+		text-shadow: 0 1px 0 #000;
+	}
 }
 
 .active {

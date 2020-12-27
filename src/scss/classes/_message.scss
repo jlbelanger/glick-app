@@ -1,4 +1,6 @@
 .message {
+	margin-left: $list-padding-side;
+	margin-right: $list-padding-side;
 	padding: $list-padding-side;
 }
 
@@ -8,4 +10,5 @@
 
 .message--success {
 	background: $green;
+	color: $black;
 }

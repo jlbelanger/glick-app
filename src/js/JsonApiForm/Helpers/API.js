@@ -41,6 +41,21 @@ export default class API {
 							.then((json) => {
 								json.status = response.status;
 								throw json;
+							})
+							.catch((error) => {
+								if (error instanceof SyntaxError) {
+									throw { // eslint-disable-line no-throw-literal
+										errors: [
+											{
+												title: 'The server returned invalid JSON.',
+												status: '500',
+											},
+										],
+										status: 500,
+									};
+								} else {
+									throw error;
+								}
 							});
 					}
 					if (response.status === 204) {

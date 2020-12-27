@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 export default function Radio({
 	afterChange,
 	name,
+	nameKey,
 	options,
 	required,
 }) {
@@ -30,7 +31,12 @@ export default function Radio({
 	if (Array.isArray(normalizedOptions)) {
 		normalizedOptions = {};
 		options.forEach((option) => {
-			normalizedOptions[option] = option;
+			if (typeof option === 'string') {
+				normalizedOptions[option] = option;
+			} else {
+				const json = JSON.stringify({ id: option.id, type: option.type });
+				normalizedOptions[json] = option[nameKey];
+			}
 		});
 	}
 	const keys = Object.keys(normalizedOptions);
@@ -40,15 +46,18 @@ export default function Radio({
 		<ul className="radio">
 			{keys.map((value, i) => {
 				const checked = formState.row[name] === value;
-				let className = 'infix';
-				if (i === 0) {
-					className = 'prefix';
-				} else if (i === numKeys - 1) {
-					className = 'postfix';
+				let className = '';
+				if (numKeys > 1) {
+					className = 'infix';
+					if (i === 0) {
+						className = 'prefix';
+					} else if (i === numKeys - 1) {
+						className = 'postfix';
+					}
 				}
 				return (
 					<li className="radio__item" key={value}>
-						<label className={`radio__label button ${className}${checked ? ' active' : ''}`}>
+						<label className={`radio__label button ${className}${checked ? ' active' : ''}`.trim()}>
 							<input
 								className={`field__input radio__input ${className}`.trim()}
 								checked={checked}
@@ -70,6 +79,7 @@ export default function Radio({
 Radio.propTypes = {
 	afterChange: PropTypes.func,
 	name: PropTypes.string.isRequired,
+	nameKey: PropTypes.string.isRequired,
 	options: PropTypes.oneOfType([
 		PropTypes.array,
 		PropTypes.object,

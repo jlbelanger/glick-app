@@ -6,8 +6,8 @@ export default function Fields() {
 	const { formState } = useContext(FormContext);
 	const options = {};
 	if (formState.row.action_type.options) {
-		formState.row.action_type.options.split(', ').forEach((option) => {
-			options[option] = option;
+		formState.row.action_type.options.forEach((option) => {
+			options[option.label] = option.label;
 		});
 	}
 

@@ -4,6 +4,8 @@ import FormContext from '../../../JsonApiForm/FormContext';
 
 export default function Fields() {
 	const { formState } = useContext(FormContext);
+	const defaultMessage = `default: ${formState.row.is_continuous ? 'Start/Stop' : 'Add'}`;
+
 	return (
 		<>
 			<Field
@@ -34,7 +36,11 @@ export default function Fields() {
 					<Field
 						label="Options"
 						name="options"
-						note={`default: ${formState.row.is_continuous ? 'Start/Stop' : 'Add'}; separate multiple options by commas`}
+						nameKey="label"
+						note={formState.row.options && formState.row.options.length > 0 ? '' : defaultMessage}
+						recordType="options"
+						removable={(value) => (!value.has_events)}
+						type="has-many"
 					/>
 				</>
 			)}

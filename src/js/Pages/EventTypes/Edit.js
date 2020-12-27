@@ -14,7 +14,7 @@ export default function Edit() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (row === null) {
-			API.get(`action-types/${id}`)
+			API.get(`action-types/${id}?include=options`)
 				.then((response) => {
 					setRow(response);
 				})
@@ -44,6 +44,7 @@ export default function Edit() {
 				id={id}
 				method="PUT"
 				preventEmptyRequest
+				relationshipNames={['options']}
 				row={row}
 				successToastMessage="Event type saved successfully."
 			>
@@ -56,7 +57,7 @@ export default function Edit() {
 				id={id}
 				method="DELETE"
 				path="action-types"
-				redirectOnSuccess="/events-types"
+				redirectOnSuccess="/event-types"
 				successToastMessage="Event type deleted successfully."
 				warnOnUnload={false}
 			>
