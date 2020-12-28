@@ -3,3 +3,9 @@ ErrorDocument 403 /403.html
 ErrorDocument 404 /404.html
 
 Redirect 301 /favicon.ico /favicon.svg
+
+<IfModule mod_rewrite.c>
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^ /index.html [L]
+</IfModule>

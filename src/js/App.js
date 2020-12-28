@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
 import Auth from './Utilities/Auth';
+import Error404 from './Error404';
 import EventEdit from './Pages/Events/Edit';
 import EventList from './Pages/Events/List';
 import EventNew from './Pages/Events/New';
@@ -64,6 +65,7 @@ export default function App() {
 						<Route exact path="/profile">
 							{Auth.isLoggedIn() ? <Profile /> : <Redirect to="/" />}
 						</Route>
+						<Route component={Error404} />
 					</Switch>
 				</article>
 
