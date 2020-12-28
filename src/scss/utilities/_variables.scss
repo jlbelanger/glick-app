@@ -7,13 +7,6 @@ $lighter-green: #6fc;
 $lightest-green: #8fe;
 
 $darkest-purple: #101;
-$darker-purple: #202;
-$dark-purple: #303;
-$purple: #414;
-$light-purple: #525;
-$lighter-purple: #636;
-$lightest-purple: #747;
-
 $purple: #4b318c;
 $darker-purple: scale-color($purple, $lightness: -50%);
 $dark-purple: scale-color($purple, $lightness: -35%);

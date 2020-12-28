@@ -17,6 +17,7 @@
 @import 'components/table';
 @import 'classes/field';
 @import 'classes/form';
+@import 'classes/has-many';
 @import 'classes/list';
 @import 'classes/message';
 @import 'classes/postfix';
@@ -28,27 +29,4 @@
 p,
 .field {
 	margin: 28px 0 0;
-}
-
-.field--with-after {
-	flex-direction: column;
-}
-
-.after-wrapper {
-	display: flex;
-}
-
-.has-many-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-}
-
-.has-many-list__item + .has-many-list__item {
-	margin-top: 8px;
-}
-
-.has-many-list__item--new {
-	display: flex;
 }

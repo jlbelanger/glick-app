@@ -1,5 +1,5 @@
 import API from './JsonApiForm/Helpers/API';
-import Auth from './Auth/Auth';
+import Auth from './Utilities/Auth';
 import { ReactComponent as Logo } from '../svg/logo.svg';
 import { NavLink } from 'react-router-dom';
 import React from 'react';

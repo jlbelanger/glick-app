@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
-import { getDateFromDatetime } from '../../Datetime';
+import { getDateFromDatetime } from '../../Utilities/Datetime';
 import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
 import Row from './Partials/Row';

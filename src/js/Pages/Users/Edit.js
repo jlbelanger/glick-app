@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
-import Auth from '../../Auth/Auth';
+import Auth from '../../Utilities/Auth';
 import Error from '../../Error';
 import Field from '../../JsonApiForm/Field';
 import Flash from '../../JsonApiForm/Flash';

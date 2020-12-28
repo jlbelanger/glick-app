@@ -5,7 +5,7 @@ import {
 	Switch,
 } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
-import Auth from './Auth/Auth';
+import Auth from './Utilities/Auth';
 import EventEdit from './Pages/Events/Edit';
 import EventList from './Pages/Events/List';
 import EventNew from './Pages/Events/New';

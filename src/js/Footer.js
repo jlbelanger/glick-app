@@ -1,4 +1,4 @@
-import Auth from './Auth/Auth';
+import Auth from './Utilities/Auth';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
 

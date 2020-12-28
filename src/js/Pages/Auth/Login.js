@@ -1,4 +1,4 @@
-import Auth from '../../Auth/Auth';
+import Auth from '../../Utilities/Auth';
 import Field from '../../JsonApiForm/Field';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';

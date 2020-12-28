@@ -10,7 +10,6 @@ export default function Error({ status }) {
 	return (
 		<>
 			<MetaTitle title="Error" />
-
 			<p>{message}</p>
 		</>
 	);

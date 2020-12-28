@@ -1,6 +1,9 @@
 .DS_Store
 .env
+.env.production
 .eslintcache
+.gitcommit
 build
+build.zip
 node_modules
 TODO.md

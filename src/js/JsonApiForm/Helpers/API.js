@@ -1,4 +1,4 @@
-import Auth from '../../Auth/Auth';
+import Auth from '../../Utilities/Auth';
 import Jsona from 'jsona';
 import { trackPromise } from 'react-promise-tracker';
 

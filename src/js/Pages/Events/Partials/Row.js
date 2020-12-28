@@ -1,4 +1,4 @@
-import { formatDate, formatTime } from '../../../Datetime';
+import { formatDate, formatTime } from '../../../Utilities/Datetime';
 import { getEventLabel } from '../../../Utilities';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';

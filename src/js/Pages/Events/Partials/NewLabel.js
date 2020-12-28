@@ -1,4 +1,4 @@
-import { formatDatetime, formatTime, isToday } from '../../../Datetime';
+import { formatDatetime, formatTime, isToday } from '../../../Utilities/Datetime';
 import Label from '../../../JsonApiForm/Label';
 import PropTypes from 'prop-types';
 import React from 'react';
