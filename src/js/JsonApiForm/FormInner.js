@@ -92,7 +92,6 @@ export default function FormInner({
 			if (filterBody) {
 				body = filterBody(body);
 			}
-			body = JSON.stringify(body);
 		}
 
 		return body;
@@ -126,7 +125,7 @@ export default function FormInner({
 			flash: '',
 		});
 
-		API.request(method, url, body)
+		API.request(method, url, body === null ? null : JSON.stringify(body))
 			.then((response) => {
 				if (!response) {
 					return;
@@ -169,6 +168,12 @@ export default function FormInner({
 				response.errors.forEach((error) => {
 					if (Object.prototype.hasOwnProperty.call(error, 'source')) {
 						key = error.source.pointer.replace('/data/attributes/', '');
+						if (key.startsWith('/included/')) {
+							const i = key.replace(/^\/included\/(\d+)\/.+$/g, '$1');
+							const includedRecord = body.included[parseInt(i, 10)];
+							key = key.replace(/^\/included\/(\d+)\//g, `included.${includedRecord.type}.${includedRecord.id}.`);
+							key = key.replace(/\//g, '.');
+						}
 						if (!document.querySelector(`[name="${key}"]`)) {
 							key = '';
 						}

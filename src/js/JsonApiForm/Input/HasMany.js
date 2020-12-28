@@ -103,35 +103,40 @@ export default function HasMany({
 
 	return (
 		<ul className="has-many-list">
-			{values.map((value, i) => {
+			{values.map((value) => {
 				let isRemovable = value.id.startsWith('temp-');
 				if (!isRemovable && removable) {
 					isRemovable = removable(value);
 				}
+				const key = `included.${value.type}.${value.id}.attributes.${nameKey}`;
+				const hasError = Object.prototype.hasOwnProperty.call(formState.errors, key);
 				return (
 					<li className="has-many-list__item" key={value.id}>
-						<input
-							className="has-many-list__input prefix"
-							data-id={value.id}
-							name={`${name}[${i}][${nameKey}]`}
-							onChange={onChange}
-							required
-							type="text"
-							value={value[nameKey]}
-						/>
-						<button
-							className="postfix button--danger"
-							data-id={value.id}
-							disabled={!isRemovable}
-							onClick={onRemove}
-							type="button"
-						>
-							Remove
-						</button>
+						<div className={`${hasError ? 'field--has-error' : ''}`} style={{ display: 'flex' }}>
+							<input
+								className="field__input has-many-list__input prefix"
+								data-id={value.id}
+								name={key}
+								onChange={onChange}
+								required
+								type="text"
+								value={value[nameKey]}
+							/>
+							<button
+								className="postfix button--danger"
+								data-id={value.id}
+								disabled={!isRemovable}
+								onClick={onRemove}
+								type="button"
+							>
+								Remove
+							</button>
+						</div>
+						{hasError && <div className="field__error">{formState.errors[key].join((<br />))}</div>}
 					</li>
 				);
 			})}
-			<li className="has-many-list__item">
+			<li className="has-many-list__item has-many-list__item--new">
 				<input
 					className="has-many-list__input prefix"
 					id="new-value"
