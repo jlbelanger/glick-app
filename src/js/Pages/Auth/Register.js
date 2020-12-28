@@ -21,7 +21,7 @@ export default function Register() {
 				method="POST"
 			>
 				<Field
-					autocomplete="username"
+					autoComplete="username"
 					label="Username"
 					name="username"
 					required
@@ -29,7 +29,7 @@ export default function Register() {
 				/>
 
 				<Field
-					autocomplete="email"
+					autoComplete="email"
 					label="Email"
 					name="email"
 					required
@@ -37,7 +37,7 @@ export default function Register() {
 				/>
 
 				<Field
-					autocomplete="new-password"
+					autoComplete="new-password"
 					label="Password"
 					name="password"
 					required
@@ -45,7 +45,7 @@ export default function Register() {
 				/>
 
 				<Field
-					autocomplete="new-password"
+					autoComplete="new-password"
 					label="Confirm password"
 					name="password_confirmation"
 					required

@@ -52,7 +52,7 @@ export default function Edit() {
 				successToastMessage="Profile saved successfully."
 			>
 				<Field
-					autocomplete="username"
+					autoComplete="username"
 					label="Username"
 					name="username"
 					required
@@ -74,7 +74,7 @@ export default function Edit() {
 				<Flash />
 
 				<Field
-					autocomplete="email"
+					autoComplete="email"
 					label="Email"
 					name="email"
 					required
@@ -82,7 +82,7 @@ export default function Edit() {
 				/>
 
 				<Field
-					autocomplete="current-password"
+					autoComplete="current-password"
 					label="Current password"
 					name="password"
 					required
@@ -121,7 +121,7 @@ export default function Edit() {
 				/>
 
 				<Field
-					autocomplete="current-password"
+					autoComplete="current-password"
 					label="Current password"
 					name="password"
 					required

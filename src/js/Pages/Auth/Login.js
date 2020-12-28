@@ -23,7 +23,7 @@ export default function Login() {
 				warnOnUnload={false}
 			>
 				<Field
-					autocomplete="username"
+					autoComplete="username"
 					label="Username"
 					name="username"
 					required
@@ -31,7 +31,7 @@ export default function Login() {
 				/>
 
 				<Field
-					autocomplete="current-password"
+					autoComplete="current-password"
 					label="Password"
 					name="password"
 					required

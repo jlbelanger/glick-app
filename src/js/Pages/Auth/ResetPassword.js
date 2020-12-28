@@ -20,7 +20,7 @@ export default function ResetPassword() {
 				warnOnUnload={false}
 			>
 				<Field
-					autocomplete="email"
+					autoComplete="email"
 					label="Email"
 					name="email"
 					required
@@ -28,7 +28,7 @@ export default function ResetPassword() {
 				/>
 
 				<Field
-					autocomplete="new-password"
+					autoComplete="new-password"
 					label="New password"
 					name="new_password"
 					required
@@ -36,7 +36,7 @@ export default function ResetPassword() {
 				/>
 
 				<Field
-					autocomplete="new-password"
+					autoComplete="new-password"
 					label="Confirm new password"
 					name="new_password_confirmation"
 					required

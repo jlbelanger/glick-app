@@ -17,7 +17,7 @@ export default function ForgotPassword() {
 				warnOnUnload={false}
 			>
 				<Field
-					autocomplete="email"
+					autoComplete="email"
 					label="Email"
 					name="email"
 					required
