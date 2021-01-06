@@ -13,7 +13,7 @@ export default function New() {
 				path="action-types"
 				method="POST"
 				relationshipNames={['options']}
-				redirectOnSuccess={(response) => (`/event-types/${response.id}`)}
+				redirectOnSuccess="/"
 			>
 				<Fields />
 				<Submit />
