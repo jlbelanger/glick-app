@@ -3,10 +3,10 @@ import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
 import Form from '../../JsonApiForm/Form';
 import { getCurrentDatetime } from '../../Utilities/Datetime';
-import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
 import NewField from './Partials/NewField';
 import NewLabel from './Partials/NewLabel';
+import { Redirect } from 'react-router-dom';
 
 export default function New() {
 	const [rows, setRows] = useState(null);
@@ -36,7 +36,7 @@ export default function New() {
 
 	if (rows.length <= 0) {
 		return (
-			<Link className="list__link" to="/event-types/new">+ Add an event type to get started</Link>
+			<Redirect to="/event-types/new" />
 		);
 	}
 
