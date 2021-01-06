@@ -10,6 +10,7 @@ export default function Input({
 	name,
 	pattern,
 	required,
+	size,
 	suffix,
 	type,
 }) {
@@ -54,6 +55,9 @@ export default function Input({
 	if (required) {
 		props.required = required;
 	}
+	if (size) {
+		props.size = size;
+	}
 
 	return (
 		<>
@@ -79,6 +83,7 @@ Input.propTypes = {
 	name: PropTypes.string.isRequired,
 	pattern: PropTypes.string,
 	required: PropTypes.bool,
+	size: PropTypes.number,
 	suffix: PropTypes.string,
 	type: PropTypes.string,
 };
@@ -90,6 +95,7 @@ Input.defaultProps = {
 	inputMode: '',
 	pattern: '',
 	required: false,
+	size: null,
 	suffix: '',
 	type: 'text',
 };

@@ -25,6 +25,7 @@ export default function Field({
 	recordType,
 	removable,
 	required,
+	size,
 	suffix,
 	type,
 	wrapperClassName,
@@ -54,6 +55,7 @@ export default function Field({
 			recordType={recordType}
 			removable={removable}
 			required={required}
+			size={size}
 			suffix={suffix}
 			type={type}
 		/>
@@ -110,6 +112,7 @@ Field.propTypes = {
 	recordType: PropTypes.string,
 	removable: PropTypes.func,
 	required: PropTypes.bool,
+	size: PropTypes.number,
 	suffix: PropTypes.string,
 	type: PropTypes.string,
 	wrapperClassName: PropTypes.string,
@@ -130,6 +133,7 @@ Field.defaultProps = {
 	recordType: null,
 	removable: null,
 	required: false,
+	size: null,
 	suffix: '',
 	type: 'text',
 	wrapperClassName: '',

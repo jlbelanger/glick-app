@@ -12,11 +12,16 @@ textarea {
 	line-height: 1;
 	min-width: 0;
 	padding: $padding;
-	width: 100%;
 
 	&:invalid:not(:focus) {
 		box-shadow: none;
 	}
+}
+
+input:not([size]),
+select,
+textarea {
+	width: 100%;
 }
 
 select {

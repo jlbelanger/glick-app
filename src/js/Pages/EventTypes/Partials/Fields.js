@@ -50,6 +50,7 @@ export default function Fields() {
 					label="Suffix"
 					name="suffix"
 					note="optional, eg. lbs"
+					size="10"
 				/>
 			)}
 		</>
