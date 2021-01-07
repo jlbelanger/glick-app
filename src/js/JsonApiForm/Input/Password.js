@@ -29,7 +29,7 @@ export default function Password({
 				type={tempType}
 			/>
 			<button className="postfix button--secondary" onClick={togglePassword} type="button">
-				{tempType === 'password' ? 'Show password' : 'Hide password'}
+				{tempType === 'password' ? 'Show' : 'Hide'}
 			</button>
 		</>
 	);

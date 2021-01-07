@@ -8,7 +8,7 @@ export const getDateFromDatetime = (datetime) => (
 
 export const formatDate = (date) => (
 	new Date(`${date}T12:00:00Z`).toLocaleString('en-CA', {
-		weekday: 'long',
+		weekday: 'short',
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
