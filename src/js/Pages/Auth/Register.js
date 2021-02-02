@@ -7,7 +7,7 @@ import Submit from '../../JsonApiForm/Submit';
 
 export default function Register() {
 	const afterSubmit = (response) => {
-		Auth.login(response.id, response.token);
+		Auth.login(response.id, response.token, response.remember);
 		window.location.reload();
 	};
 

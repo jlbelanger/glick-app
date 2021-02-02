@@ -1,13 +1,20 @@
 import Cookies from 'js-cookie';
 
 export default class Auth {
-	static login(id, token) {
-		Cookies.set('id', id, Auth.attributes());
-		Cookies.set('token', token, Auth.attributes());
+	static login(id, token, remember) {
+		Cookies.set('id', id, Auth.attributes(remember));
+		Cookies.set('token', token, Auth.attributes(remember));
 	}
 
-	static attributes() {
-		return window.location.protocol === 'https:' ? { secure: true } : {};
+	static attributes(remember) {
+		const attributes = {};
+		if (remember) {
+			attributes.expires = 365;
+		}
+		if (window.location.protocol === 'https:') {
+			attributes.secure = true;
+		}
+		return attributes;
 	}
 
 	static logout() {
