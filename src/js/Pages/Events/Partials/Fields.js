@@ -35,7 +35,7 @@ export default function Fields() {
 			{formState.row.action_type.field_type === 'number' && (
 				<Field
 					label="Value"
-					inputMode="numeric"
+					inputMode="decimal"
 					name="value"
 					suffix={formState.row.action_type.suffix}
 					wrapperClassName="field--number"

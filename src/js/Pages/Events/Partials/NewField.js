@@ -13,7 +13,7 @@ export default function NewField({ actionType }) {
 					className="prefix"
 					id={actionType.slug}
 					name="value"
-					inputMode="numeric"
+					inputMode="decimal"
 					required
 					type="text"
 					suffix={actionType.suffix}
