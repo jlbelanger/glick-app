@@ -1,6 +1,5 @@
+import { Field, FormContext } from '@jlbelanger/formosa';
 import React, { useContext } from 'react';
-import Field from '../../../JsonApiForm/Field';
-import FormContext from '../../../JsonApiForm/FormContext';
 
 export default function Fields() {
 	const { formState } = useContext(FormContext);
@@ -52,7 +51,7 @@ export default function Fields() {
 					label="Units"
 					name="suffix"
 					note="optional, eg. lbs"
-					size="10"
+					size={10}
 				/>
 			)}
 		</>

@@ -1,8 +1,6 @@
-import Field from '../../JsonApiForm/Field';
-import Form from '../../JsonApiForm/Form';
+import { Field, Form, Submit } from '@jlbelanger/formosa';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';
-import Submit from '../../JsonApiForm/Submit';
 import { useParams } from 'react-router-dom';
 
 export default function ResetPassword() {

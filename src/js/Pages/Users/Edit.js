@@ -1,12 +1,14 @@
+import {
+	Api,
+	Field,
+	Flash,
+	Form,
+	Submit,
+} from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
-import API from '../../JsonApiForm/Helpers/API';
 import Auth from '../../Utilities/Auth';
 import Error from '../../Error';
-import Field from '../../JsonApiForm/Field';
-import Flash from '../../JsonApiForm/Flash';
-import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
-import Submit from '../../JsonApiForm/Submit';
 
 export default function Edit() {
 	const id = Auth.id();
@@ -14,7 +16,7 @@ export default function Edit() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (row === null) {
-			API.get(`users/${id}`)
+			Api.get(`users/${id}`)
 				.then((response) => {
 					setRow(response);
 				})

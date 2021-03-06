@@ -1,11 +1,13 @@
+import {
+	Api,
+	Flash,
+	Form,
+	Submit,
+} from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
-import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
 import Fields from './Partials/Fields';
-import Flash from '../../JsonApiForm/Flash';
-import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
-import Submit from '../../JsonApiForm/Submit';
 import { useParams } from 'react-router-dom';
 
 export default function Edit() {
@@ -14,7 +16,7 @@ export default function Edit() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (row === null) {
-			API.get(`action-types/${id}?include=options`)
+			Api.get(`action-types/${id}?include=options`)
 				.then((response) => {
 					setRow(response);
 				})

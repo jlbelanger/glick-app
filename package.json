@@ -22,13 +22,13 @@
 		"eject": "react-scripts eject"
 	},
 	"dependencies": {
+		"@jlbelanger/formosa": "link:../formosa",
 		"@svgr/webpack": "^5.5.0",
 		"@testing-library/jest-dom": "^5.11.6",
 		"@testing-library/react": "^11.2.2",
 		"@testing-library/user-event": "^12.6.0",
 		"dotenv": "^8.2.0",
 		"js-cookie": "^2.2.1",
-		"jsona": "^1.8.0",
 		"node-sass": "^4.14.1",
 		"normalize.css": "^8.0.1",
 		"prop-types": "^15.7.2",

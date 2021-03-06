@@ -1,4 +1,6 @@
 import { Slide, ToastContainer } from 'react-toastify';
+import { Api } from '@jlbelanger/formosa';
+import Auth from './Utilities/Auth';
 import { BrowserRouter } from 'react-router-dom';
 import Footer from './Footer';
 import Header from './Header';
@@ -7,6 +9,10 @@ import Routes from './Routes';
 import Spinner from './Spinner';
 
 export default function App() {
+	if (Auth.isLoggedIn() && !Api.getToken()) {
+		Api.setToken(Auth.token());
+	}
+
 	return (
 		<BrowserRouter>
 			<main id="main">

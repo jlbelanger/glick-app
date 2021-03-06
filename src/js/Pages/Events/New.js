@@ -1,7 +1,6 @@
+import { Api, Form } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
-import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
-import Form from '../../JsonApiForm/Form';
 import { getCurrentDatetime } from '../../Utilities/Datetime';
 import MetaTitle from '../../MetaTitle';
 import NewField from './Partials/NewField';
@@ -13,7 +12,7 @@ export default function New() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('action-types?include=options')
+			Api.get('action-types?include=options')
 				.then((response) => {
 					setRows(response);
 				})
@@ -40,24 +39,24 @@ export default function New() {
 		);
 	}
 
-	const filterBodyBeforeSerialize = (body) => {
+	const filterValuesBeforeSerialize = (values) => {
 		// Convert JSON options strings to objects.
-		if (body.option && body.option[0] === '{') {
-			body.option = JSON.parse(body.option);
+		if (values.option && values.option[0] === '{') {
+			values.option = JSON.parse(values.option);
 		}
 
 		// Remove default Add/Start/Stop values.
 		let actionType;
-		if (Object.prototype.hasOwnProperty.call(body, 'action_type')) {
-			actionType = rows.find((row) => row.id === body.action_type.id);
+		if (Object.prototype.hasOwnProperty.call(values, 'action_type')) {
+			actionType = rows.find((row) => row.id === values.action_type.id);
 		} else {
-			actionType = rows.find((row) => row.in_progress.id === body.id);
+			actionType = rows.find((row) => row.in_progress.id === values.id);
 		}
 		if (actionType && actionType.field_type === 'button' && actionType.options.length <= 0) {
-			delete body.value;
+			delete values.value;
 		}
 
-		return body;
+		return values;
 	};
 	const filterBody = (body) => {
 		body.data.attributes.start_date = getCurrentDatetime();
@@ -125,7 +124,7 @@ export default function New() {
 								clearOnSubmit={row.field_type === 'number' || !row.is_continuous}
 								defaultRow={defaultRow}
 								filterBody={hasStopOnly ? filterBodyStop : filterBody}
-								filterBodyBeforeSerialize={filterBodyBeforeSerialize}
+								filterValuesBeforeSerialize={filterValuesBeforeSerialize}
 								method={hasStopOnly ? 'PUT' : 'POST'}
 								id={hasStopOnly ? row.in_progress.id.toString() : ''}
 								params="include=action_type,option"

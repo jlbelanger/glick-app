@@ -1,9 +1,7 @@
+import { Field, Form, Submit } from '@jlbelanger/formosa';
 import Auth from '../../Utilities/Auth';
-import Field from '../../JsonApiForm/Field';
-import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';
-import Submit from '../../JsonApiForm/Submit';
 
 export default function Register() {
 	const afterSubmit = (response) => {
