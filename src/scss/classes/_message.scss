@@ -1,14 +1,14 @@
-.message {
+.formosa-message {
 	margin-left: $list-padding-side;
 	margin-right: $list-padding-side;
 	padding: $list-padding-side;
 }
 
-.message--error {
+.formosa-message--error {
 	background: $red;
 }
 
-.message--success {
+.formosa-message--success {
 	background: $green;
 	color: $black;
 }

@@ -13,20 +13,20 @@ export default function Fields() {
 	return (
 		<>
 			<Field
-				after={(<label>&nbsp;UTC</label>)}
 				label={formState.row.action_type.is_continuous ? 'Start date' : 'Date'}
 				name="start_date"
 				pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
+				postfix={(<label>&nbsp;UTC</label>)}
 				required
 				size={20}
 			/>
 
 			{!!formState.row.action_type.is_continuous && (
 				<Field
-					after={(<label>&nbsp;UTC</label>)}
 					label="End date"
 					name="end_date"
 					pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
+					postfix={(<label>&nbsp;UTC</label>)}
 					size={20}
 				/>
 			)}

@@ -1,7 +1,4 @@
 @import '../../node_modules/normalize.css/normalize';
-@import '../../node_modules/react-toastify/scss/variables';
-@import '../../node_modules/react-toastify/scss/progressBar'; // Required for autoClose to work.
-@import '../../node_modules/react-toastify/scss/animations/slide';
 @import 'utilities/variables';
 @import 'utilities/mixins';
 @import 'layout/layout';
@@ -27,6 +24,6 @@
 @import 'classes/toast';
 
 p,
-.field {
+.formosa-field {
 	margin: 24px 0 0;
 }

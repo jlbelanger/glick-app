@@ -1,40 +1,35 @@
-.Toastify {
+$slide-offset: 200% !default;
+
+.formosa-toast-container {
+	align-items: flex-end;
 	bottom: $nav-height;
+	display: flex;
+	flex-direction: column;
 	position: fixed;
 	right: 0;
 	z-index: 9998;
 }
 
-.Toastify__toast {
+.formosa-toast {
 	align-items: center;
+	animation-duration: 4s;
+	animation-fill-mode: forwards;
+	animation-name: slide-in-out;
 	background: $light-purple;
 	box-shadow: 0 0 10px $darker-purple;
 	display: flex;
 	margin: 8px;
+	width: max-content;
 }
 
-.Toastify__toast--error {
-	background: $red;
-}
-
-.Toastify__toast--success {
-	background: $green;
-	color: $black;
-
-	.Toastify__close-button {
-		path {
-			fill: $black;
-		}
-	}
-}
-
-.Toastify__toast-body {
+.formosa-toast__text {
 	padding: 16px;
 }
 
-.Toastify__close-button {
+.formosa-toast__close {
 	background: transparent;
 	border: 0;
+	font-size: 0;
 	height: 32px;
 	margin: 0 8px 0 0;
 	width: 32px;
@@ -47,5 +42,38 @@
 	&:active,
 	&:focus {
 		background: transparent;
+	}
+}
+
+.formosa-toast--error {
+	background: $red;
+}
+
+.formosa-toast--success {
+	background: $green;
+	color: $black;
+
+	.formosa-toast__close {
+		path {
+			fill: $black;
+		}
+	}
+}
+
+@keyframes slide-in-out {
+	0% {
+		transform: translateX($slide-offset) translateZ(0);
+	}
+
+	16% {
+		transform: translateX(0%) translateZ(0);
+	}
+
+	84% {
+		transform: translateX(0%) translateZ(0);
+	}
+
+	100% {
+		transform: translateX($slide-offset) translateZ(0);
 	}
 }

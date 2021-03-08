@@ -131,7 +131,7 @@ export default function New() {
 								path="actions"
 								relationshipNames={['action_type', 'option']}
 								row={defaultRow}
-								successToastMessage={hasStopOnly ? 'Event stopped successfully.' : 'Event added successfully.'}
+								successToastText={hasStopOnly ? 'Event stopped successfully.' : 'Event added successfully.'}
 								warnOnUnload={false}
 							>
 								<NewLabel actionType={row} />
@@ -145,7 +145,7 @@ export default function New() {
 									params="include=action_type"
 									path="actions"
 									id={row.in_progress.id.toString()}
-									successToastMessage="Event stopped successfully."
+									successToastText="Event stopped successfully."
 									style={{ display: 'none' }}
 									warnOnUnload={false}
 								>

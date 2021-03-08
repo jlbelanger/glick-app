@@ -1,41 +1,41 @@
-.field {
+.formosa-field {
 	padding: 0 $list-padding-side;
 }
 
-.field--new-event {
+.formosa-field--new-event {
 	display: flex;
 }
 
-.field--number {
-	.field__input-wrapper {
+.formosa-field--number {
+	.formosa-field__input-wrapper {
 		max-width: 100px;
 	}
 }
 
-.field--submit {
+.formosa-field--submit {
 	text-align: right;
 }
 
-.field__label {
+.formosa-label {
 	display: inline-block;
 	margin: 0 0 8px;
 }
 
-.field__label--checkbox {
+.formosa-label--checkbox {
 	margin-bottom: 0;
 	margin-left: 8px;
 }
 
-.field__input-wrapper {
+.formosa-field__input-wrapper {
 	display: flex;
 	position: relative;
 }
 
-.field__input-wrapper--checkbox {
+.formosa-field__input-wrapper--checkbox {
 	align-items: center;
 }
 
-.field__check {
+.formosa-field__check-icon {
 	bottom: 0;
 	height: $checkbox-size;
 	left: 0;
@@ -54,26 +54,26 @@
 	}
 }
 
-.field--has-error {
-	.field__label {
+.formosa-field--has-error {
+	.formosa-label {
 		color: $lighter-red;
 	}
 
-	.field__input {
+	.formosa-field__input {
 		border-color: $red;
 		box-shadow: 0 0 0 3px $lighter-red;
 	}
 }
 
-.field__error {
+.formosa-field__error {
 	color: $lighter-red;
 	margin-top: 8px;
 }
 
-.field--with-after {
+.formosa-field--has-postfix {
 	flex-direction: column;
 }
 
-.after-wrapper {
+.formosa-postfix-container {
 	display: flex;
 }

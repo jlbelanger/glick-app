@@ -1,7 +1,7 @@
 import {
 	Api,
-	Flash,
 	Form,
+	Message,
 	Submit,
 } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
@@ -48,24 +48,24 @@ export default function Edit() {
 				preventEmptyRequest
 				relationshipNames={['options']}
 				row={row}
-				successToastMessage="Event type saved successfully."
+				successToastText="Event type saved successfully."
 			>
 				<Fields />
 				<Submit />
 			</Form>
 
 			<Form
-				hideFlash
+				hideMessage
 				id={id}
 				method="DELETE"
 				path="action-types"
 				redirectOnSuccess="/event-types"
-				successToastMessage="Event type deleted successfully."
+				successToastText="Event type deleted successfully."
 				warnOnUnload={false}
 			>
 				<h3>{`Delete ${row.label}`}</h3>
 
-				<Flash />
+				<Message />
 
 				<Submit className="button--danger" label="Delete" />
 			</Form>

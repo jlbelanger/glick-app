@@ -1,12 +1,10 @@
-import { Slide, ToastContainer } from 'react-toastify';
-import { Api } from '@jlbelanger/formosa';
+import { Api, FormContainer } from '@jlbelanger/formosa';
 import Auth from './Utilities/Auth';
 import { BrowserRouter } from 'react-router-dom';
 import Footer from './Footer';
 import Header from './Header';
 import React from 'react';
 import Routes from './Routes';
-import Spinner from './Spinner';
 
 export default function App() {
 	if (Auth.isLoggedIn() && !Api.getToken()) {
@@ -22,17 +20,11 @@ export default function App() {
 				</h2>
 				<Footer />
 
-				<article className="contain" id="article">
-					<Routes />
-				</article>
-
-				<ToastContainer
-					autoClose={3000}
-					draggable={false}
-					hideProgressBar
-					transition={Slide}
-				/>
-				<Spinner />
+				<FormContainer>
+					<article className="contain" id="article">
+						<Routes />
+					</article>
+				</FormContainer>
 			</main>
 		</BrowserRouter>
 	);

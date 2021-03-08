@@ -14,7 +14,7 @@ export default function ResetPassword() {
 				path={`auth/reset-password/${token}`}
 				method="PUT"
 				redirectOnSuccess="/"
-				successToastMessage="Password reset successfully."
+				successToastText="Password reset successfully."
 				warnOnUnload={false}
 			>
 				<Field

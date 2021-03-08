@@ -11,7 +11,7 @@ export default function ForgotPassword() {
 				clearOnSubmit
 				path="auth/forgot-password"
 				method="POST"
-				successFlashMessage="If there is an account with this email address, you will receive a password reset email shortly."
+				successMessageText="If there is an account with this email address, you will receive a password reset email shortly."
 				warnOnUnload={false}
 			>
 				<Field

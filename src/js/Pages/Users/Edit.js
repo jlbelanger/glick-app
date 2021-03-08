@@ -1,8 +1,8 @@
 import {
 	Api,
 	Field,
-	Flash,
 	Form,
+	Message,
 	Submit,
 } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
@@ -51,7 +51,7 @@ export default function Edit() {
 				path="users"
 				preventEmptyRequest
 				row={row}
-				successToastMessage="Profile saved successfully."
+				successToastText="Profile saved successfully."
 			>
 				<Field
 					autoComplete="username"
@@ -64,16 +64,16 @@ export default function Edit() {
 			</Form>
 
 			<Form
-				hideFlash
+				hideMessage
 				method="PUT"
 				path={`users/${row.id}/change-email`}
 				preventEmptyRequest
 				row={row}
-				successToastMessage="Email changed successfully."
+				successToastText="Email changed successfully."
 			>
 				<h3>Change email</h3>
 
-				<Flash />
+				<Message />
 
 				<Field
 					autoComplete="email"
@@ -96,15 +96,15 @@ export default function Edit() {
 
 			<Form
 				clearOnSubmit
-				hideFlash
+				hideMessage
 				method="PUT"
 				path={`users/${row.id}/change-password`}
 				preventEmptyRequest
-				successToastMessage="Password changed successfully."
+				successToastText="Password changed successfully."
 			>
 				<h3>Change password</h3>
 
-				<Flash />
+				<Message />
 
 				<Field
 					autcomplete="new-password"
@@ -135,7 +135,7 @@ export default function Edit() {
 
 			<Form
 				afterSubmit={afterDelete}
-				hideFlash
+				hideMessage
 				id={row.id}
 				method="DELETE"
 				path="users"
@@ -143,7 +143,7 @@ export default function Edit() {
 			>
 				<h3>Delete account</h3>
 
-				<Flash />
+				<Message />
 
 				<Submit className="button--danger" label="Delete" />
 			</Form>

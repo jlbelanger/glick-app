@@ -7,13 +7,13 @@ export default function NewField({ actionType }) {
 		return (
 			<>
 				<Field
-					after={(
-						<button className="postfix" type="submit">Add</button>
-					)}
-					className="prefix"
+					className="formosa-prefix"
 					id={actionType.slug}
 					name="value"
 					inputMode="decimal"
+					postfix={(
+						<button className="formosa-postfix" type="submit">Add</button>
+					)}
 					required
 					type="text"
 					suffix={actionType.suffix}
