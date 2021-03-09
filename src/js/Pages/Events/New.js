@@ -39,7 +39,7 @@ export default function New() {
 		);
 	}
 
-	const filterValuesBeforeSerialize = (values) => {
+	const filterValues = (values) => {
 		// Convert JSON options strings to objects.
 		if (values.option && values.option[0] === '{') {
 			values.option = JSON.parse(values.option);
@@ -124,7 +124,7 @@ export default function New() {
 								clearOnSubmit={row.field_type === 'number' || !row.is_continuous}
 								defaultRow={defaultRow}
 								filterBody={hasStopOnly ? filterBodyStop : filterBody}
-								filterValuesBeforeSerialize={filterValuesBeforeSerialize}
+								filterValues={filterValues}
 								method={hasStopOnly ? 'PUT' : 'POST'}
 								id={hasStopOnly ? row.in_progress.id.toString() : ''}
 								params="include=action_type,option"
@@ -132,7 +132,6 @@ export default function New() {
 								relationshipNames={['action_type', 'option']}
 								row={defaultRow}
 								successToastText={hasStopOnly ? 'Event stopped successfully.' : 'Event added successfully.'}
-								warnOnUnload={false}
 							>
 								<NewLabel actionType={row} />
 								<NewField actionType={row} />
@@ -147,7 +146,6 @@ export default function New() {
 									id={row.in_progress.id.toString()}
 									successToastText="Event stopped successfully."
 									style={{ display: 'none' }}
-									warnOnUnload={false}
 								>
 									<button id={`submit-${row.id}-stop`} type="submit">Stop</button>
 								</Form>

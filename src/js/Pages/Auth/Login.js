@@ -18,7 +18,6 @@ export default function Login() {
 				afterSubmit={afterSubmit}
 				path="auth/login"
 				method="POST"
-				warnOnUnload={false}
 			>
 				<Field
 					autoComplete="username"

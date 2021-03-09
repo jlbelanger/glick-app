@@ -15,7 +15,6 @@ export default function ResetPassword() {
 				method="PUT"
 				redirectOnSuccess="/"
 				successToastText="Password reset successfully."
-				warnOnUnload={false}
 			>
 				<Field
 					autoComplete="email"

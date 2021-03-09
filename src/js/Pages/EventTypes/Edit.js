@@ -49,19 +49,19 @@ export default function Edit() {
 				relationshipNames={['options']}
 				row={row}
 				successToastText="Event type saved successfully."
+				warnOnUnload
 			>
 				<Fields />
 				<Submit />
 			</Form>
 
 			<Form
-				hideMessage
 				id={id}
 				method="DELETE"
 				path="action-types"
 				redirectOnSuccess="/event-types"
+				showMessage={false}
 				successToastText="Event type deleted successfully."
-				warnOnUnload={false}
 			>
 				<h3>{`Delete ${row.label}`}</h3>
 

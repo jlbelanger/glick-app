@@ -52,6 +52,7 @@ export default function Edit() {
 				preventEmptyRequest
 				row={row}
 				successToastText="Profile saved successfully."
+				warnOnUnload
 			>
 				<Field
 					autoComplete="username"
@@ -64,12 +65,13 @@ export default function Edit() {
 			</Form>
 
 			<Form
-				hideMessage
 				method="PUT"
 				path={`users/${row.id}/change-email`}
 				preventEmptyRequest
 				row={row}
+				showMessage={false}
 				successToastText="Email changed successfully."
+				warnOnUnload
 			>
 				<h3>Change email</h3>
 
@@ -96,11 +98,12 @@ export default function Edit() {
 
 			<Form
 				clearOnSubmit
-				hideMessage
 				method="PUT"
 				path={`users/${row.id}/change-password`}
 				preventEmptyRequest
+				showMessage={false}
 				successToastText="Password changed successfully."
+				warnOnUnload
 			>
 				<h3>Change password</h3>
 
@@ -135,11 +138,10 @@ export default function Edit() {
 
 			<Form
 				afterSubmit={afterDelete}
-				hideMessage
 				id={row.id}
 				method="DELETE"
 				path="users"
-				warnOnUnload={false}
+				showMessage={false}
 			>
 				<h3>Delete account</h3>
 

@@ -49,19 +49,19 @@ export default function Edit() {
 				preventEmptyRequest
 				row={row}
 				successToastText="Event saved successfully."
+				warnOnUnload
 			>
 				<Fields />
 				<Submit />
 			</Form>
 
 			<Form
-				hideMessage
 				id={id}
 				method="DELETE"
 				path="actions"
 				redirectOnSuccess="/events"
+				showMessage={false}
 				successToastText="Event deleted successfully."
-				warnOnUnload={false}
 			>
 				<h3>{`Delete ${row.action_type.label}`}</h3>
 

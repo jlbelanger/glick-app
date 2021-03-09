@@ -17,6 +17,7 @@ export default function Register() {
 				afterSubmit={afterSubmit}
 				path="auth/register"
 				method="POST"
+				warnOnUnload
 			>
 				<Field
 					autoComplete="username"

@@ -13,6 +13,7 @@ export default function New() {
 				method="POST"
 				relationshipNames={['options']}
 				redirectOnSuccess="/"
+				warnOnUnload
 			>
 				<Fields />
 				<Submit />

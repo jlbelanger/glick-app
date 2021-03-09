@@ -49,7 +49,7 @@ button,
 	}
 
 	&.button--danger,
-	&.formosa-button--remove {
+	&.formosa-button--danger {
 		@include gradient($lighter-red, $red, $dark-red);
 
 		border-color: $dark-red;
