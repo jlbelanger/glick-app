@@ -11,7 +11,7 @@ export default function Register() {
 
 	return (
 		<>
-			<MetaTitle title="Register" />
+			<MetaTitle title="Register" hideTitleText />
 
 			<Form
 				afterSubmit={afterSubmit}

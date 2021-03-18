@@ -4,11 +4,11 @@ import {
 	Message,
 	Submit,
 } from '@jlbelanger/formosa';
+import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Error from '../../Error';
 import Fields from './Partials/Fields';
 import MetaTitle from '../../MetaTitle';
-import { useParams } from 'react-router-dom';
 
 export default function Edit() {
 	const { id } = useParams();
@@ -40,6 +40,8 @@ export default function Edit() {
 	return (
 		<>
 			<MetaTitle title={`Edit ${row.label}`} />
+
+			<Link className="table__link" to={`/event-types/${row.id}`}>&laquo; Back to events</Link>
 
 			<Form
 				path="action-types"

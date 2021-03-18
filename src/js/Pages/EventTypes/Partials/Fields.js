@@ -22,6 +22,7 @@ export default function Fields() {
 					options={{
 						button: 'Buttons',
 						number: 'Number',
+						text: 'Text',
 					}}
 				/>
 			)}

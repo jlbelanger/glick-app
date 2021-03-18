@@ -13,6 +13,7 @@ import EventNew from './Pages/Events/New';
 import EventTypeEdit from './Pages/EventTypes/Edit';
 import EventTypeList from './Pages/EventTypes/List';
 import EventTypeNew from './Pages/EventTypes/New';
+import EventTypeView from './Pages/EventTypes/View';
 import ForgotPassword from './Pages/Auth/ForgotPassword';
 import Login from './Pages/Auth/Login';
 import Profile from './Pages/Users/Edit';
@@ -55,8 +56,12 @@ export default function App() {
 				{Auth.isLoggedIn() ? <EventTypeNew /> : <Redirect to="/" />}
 			</Route>
 
-			<Route path="/event-types/:id">
+			<Route path="/event-types/:id/edit">
 				{Auth.isLoggedIn() ? <EventTypeEdit /> : <Redirect to="/" />}
+			</Route>
+
+			<Route path="/event-types/:id">
+				{Auth.isLoggedIn() ? <EventTypeView /> : <Redirect to="/" />}
 			</Route>
 
 			<Route exact path="/events">

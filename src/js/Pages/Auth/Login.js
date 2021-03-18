@@ -12,7 +12,7 @@ export default function Login() {
 
 	return (
 		<>
-			<MetaTitle title="Login" />
+			<MetaTitle title="Login" hideTitleText />
 
 			<Form
 				afterSubmit={afterSubmit}
@@ -36,7 +36,7 @@ export default function Login() {
 				/>
 
 				<Field
-					label="Remember Me"
+					label="Remember me"
 					name="remember"
 					type="checkbox"
 				/>

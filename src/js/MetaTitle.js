@@ -3,10 +3,12 @@ import React from 'react';
 
 export default class MetaTitle extends React.Component {
 	static propTypes = {
+		hideTitleText: PropTypes.bool,
 		title: PropTypes.string,
 	}
 
 	static defaultProps = {
+		hideTitleText: false,
 		title: '',
 	}
 
@@ -30,7 +32,7 @@ export default class MetaTitle extends React.Component {
 		document.querySelector('title').innerText = title;
 
 		const elem = document.getElementById('title__text');
-		if (this.props.title) {
+		if (this.props.title && !this.props.hideTitleText) {
 			elem.innerText = this.props.title;
 			elem.style.display = '';
 		} else {
