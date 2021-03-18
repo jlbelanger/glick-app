@@ -122,7 +122,7 @@ export default function New() {
 						<li className={className} key={row.id}>
 							<Form
 								afterSubmit={afterSubmit}
-								clearOnSubmit={row.field_type === 'number' || !row.is_continuous}
+								clearOnSubmit={row.field_type !== 'button' || !row.is_continuous}
 								defaultRow={defaultRow}
 								filterBody={hasStopOnly ? filterBodyStop : filterBody}
 								filterBodyBeforeSerialize={filterBodyBeforeSerialize}

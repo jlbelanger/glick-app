@@ -14,7 +14,7 @@ export default function NewLabel({ actionType }) {
 	}
 	return (
 		<Label
-			htmlFor={actionType.field_type === 'number' ? actionType.slug : null}
+			htmlFor={actionType.field_type !== 'button' ? actionType.slug : null}
 			label={actionType.label}
 			note={startDate ? `since ${startDate}` : ''}
 		/>

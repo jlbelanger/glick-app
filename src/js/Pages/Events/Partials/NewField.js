@@ -23,6 +23,24 @@ export default function NewField({ actionType }) {
 		);
 	}
 
+	if (actionType.field_type === 'text') {
+		return (
+			<>
+				<Field
+					after={(
+						<button className="postfix" type="submit">Add</button>
+					)}
+					className="prefix"
+					id={actionType.slug}
+					name="value"
+					required
+					type="text"
+					wrapperClassName="field--new-event field--text"
+				/>
+			</>
+		);
+	}
+
 	const submitId = `submit-${actionType.id}`;
 	const afterChange = (e) => {
 		// TODO: Ensure afterChange is called after the form state has been
