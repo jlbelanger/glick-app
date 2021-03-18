@@ -34,3 +34,15 @@ export const formatTime = (datetime) => (
 export const isToday = (datetime) => (
 	getDateFromDatetime(datetime) === new Date().toISOString().substr(0, 10)
 );
+
+export const getRowsByDate = (rows) => {
+	const output = {};
+	rows.forEach((row) => {
+		const date = getDateFromDatetime(row.start_date);
+		if (!Object.prototype.hasOwnProperty.call(output, date)) {
+			output[date] = [];
+		}
+		output[date].push(row);
+	});
+	return output;
+};

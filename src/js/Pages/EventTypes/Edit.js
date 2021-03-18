@@ -1,3 +1,4 @@
+import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
@@ -6,7 +7,6 @@ import Flash from '../../JsonApiForm/Flash';
 import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import Submit from '../../JsonApiForm/Submit';
-import { useParams } from 'react-router-dom';
 
 export default function Edit() {
 	const { id } = useParams();
@@ -38,6 +38,8 @@ export default function Edit() {
 	return (
 		<>
 			<MetaTitle title={`Edit ${row.label}`} />
+
+			<Link className="table__link" to={`/event-types/${row.id}`}>&laquo; Back to events</Link>
 
 			<Form
 				path="action-types"

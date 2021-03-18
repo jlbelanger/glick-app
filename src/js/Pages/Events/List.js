@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../JsonApiForm/Helpers/API';
 import Error from '../../Error';
-import { getDateFromDatetime } from '../../Utilities/Datetime';
+import { getRowsByDate } from '../../Utilities/Datetime';
 import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
 import Row from './Partials/Row';
@@ -32,14 +32,7 @@ export default function List() {
 		return null;
 	}
 
-	const rowsByDate = {};
-	rows.forEach((row) => {
-		const date = getDateFromDatetime(row.start_date);
-		if (!Object.prototype.hasOwnProperty.call(rowsByDate, date)) {
-			rowsByDate[date] = [];
-		}
-		rowsByDate[date].push(row);
-	});
+	const rowsByDate = getRowsByDate(rows);
 
 	return (
 		<>
