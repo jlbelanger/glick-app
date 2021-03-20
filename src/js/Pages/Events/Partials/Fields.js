@@ -15,19 +15,15 @@ export default function Fields() {
 			<Field
 				label={formState.row.action_type.is_continuous ? 'Start date' : 'Date'}
 				name="start_date"
-				pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
-				postfix={(<label>&nbsp;UTC</label>)}
 				required
-				size={20}
+				type="datetime"
 			/>
 
 			{!!formState.row.action_type.is_continuous && (
 				<Field
 					label="End date"
 					name="end_date"
-					pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
-					postfix={(<label>&nbsp;UTC</label>)}
-					size={20}
+					type="datetime"
 				/>
 			)}
 
