@@ -20,6 +20,7 @@ export default function Login() {
 				method="POST"
 			>
 				<Field
+					autoCapitalize="none"
 					autoComplete="username"
 					label="Username"
 					name="username"
