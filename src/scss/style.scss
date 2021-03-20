@@ -27,6 +27,11 @@
 @import 'classes/toast';
 
 p,
+#chart,
 .formosa-field {
 	margin: 24px 0 0;
+}
+
+#chart-container {
+	height: 250px;
 }
