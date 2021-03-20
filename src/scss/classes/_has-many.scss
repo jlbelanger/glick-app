@@ -1,14 +1,18 @@
-.has-many-list {
+.formosa-has-many {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	width: 100%;
 }
 
-.has-many-list__item + .has-many-list__item {
+.formosa-has-many__item + .formosa-has-many__item {
 	margin-top: 8px;
 }
 
-.has-many-list__item--new {
+.formosa-has-many__item--new {
+	display: flex;
+}
+
+.formosa-has-many__wrapper {
 	display: flex;
 }

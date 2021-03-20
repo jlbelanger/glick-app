@@ -1,12 +1,14 @@
+import {
+	Api,
+	Field,
+	Form,
+	Message,
+	Submit,
+} from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
-import API from '../../JsonApiForm/Helpers/API';
 import Auth from '../../Utilities/Auth';
 import Error from '../../Error';
-import Field from '../../JsonApiForm/Field';
-import Flash from '../../JsonApiForm/Flash';
-import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
-import Submit from '../../JsonApiForm/Submit';
 
 export default function Edit() {
 	const id = Auth.id();
@@ -14,7 +16,7 @@ export default function Edit() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (row === null) {
-			API.get(`users/${id}`)
+			Api.get(`users/${id}`)
 				.then((response) => {
 					setRow(response);
 				})
@@ -49,7 +51,8 @@ export default function Edit() {
 				path="users"
 				preventEmptyRequest
 				row={row}
-				successToastMessage="Profile saved successfully."
+				successToastText="Profile saved successfully."
+				warnOnUnload
 			>
 				<Field
 					autoComplete="username"
@@ -62,16 +65,17 @@ export default function Edit() {
 			</Form>
 
 			<Form
-				hideFlash
 				method="PUT"
 				path={`users/${row.id}/change-email`}
 				preventEmptyRequest
 				row={row}
-				successToastMessage="Email changed successfully."
+				showMessage={false}
+				successToastText="Email changed successfully."
+				warnOnUnload
 			>
 				<h3>Change email</h3>
 
-				<Flash />
+				<Message />
 
 				<Field
 					autoComplete="email"
@@ -94,15 +98,16 @@ export default function Edit() {
 
 			<Form
 				clearOnSubmit
-				hideFlash
 				method="PUT"
 				path={`users/${row.id}/change-password`}
 				preventEmptyRequest
-				successToastMessage="Password changed successfully."
+				showMessage={false}
+				successToastText="Password changed successfully."
+				warnOnUnload
 			>
 				<h3>Change password</h3>
 
-				<Flash />
+				<Message />
 
 				<Field
 					autcomplete="new-password"
@@ -133,15 +138,14 @@ export default function Edit() {
 
 			<Form
 				afterSubmit={afterDelete}
-				hideFlash
 				id={row.id}
 				method="DELETE"
 				path="users"
-				warnOnUnload={false}
+				showMessage={false}
 			>
 				<h3>Delete account</h3>
 
-				<Flash />
+				<Message />
 
 				<Submit className="button--danger" label="Delete" />
 			</Form>

@@ -1,8 +1,6 @@
-import Field from '../../JsonApiForm/Field';
-import Form from '../../JsonApiForm/Form';
+import { Field, Form, Submit } from '@jlbelanger/formosa';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';
-import Submit from '../../JsonApiForm/Submit';
 
 export default function ForgotPassword() {
 	return (
@@ -13,8 +11,7 @@ export default function ForgotPassword() {
 				clearOnSubmit
 				path="auth/forgot-password"
 				method="POST"
-				successFlashMessage="If there is an account with this email address, you will receive a password reset email shortly."
-				warnOnUnload={false}
+				successMessageText="If there is an account with this email address, you will receive a password reset email shortly."
 			>
 				<Field
 					autoComplete="email"

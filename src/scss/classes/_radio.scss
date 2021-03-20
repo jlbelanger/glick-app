@@ -1,17 +1,17 @@
-.radio {
+.formosa-radio {
 	display: flex;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.radio__label {
+.formosa-radio__label {
 	color: $black;
 	display: inline-block;
 	position: relative;
 }
 
-.radio__input {
+.formosa-radio__input {
 	appearance: none;
 	background: transparent;
 	border-color: transparent;

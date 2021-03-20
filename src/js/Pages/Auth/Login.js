@@ -1,10 +1,8 @@
+import { Field, Form, Submit } from '@jlbelanger/formosa';
 import Auth from '../../Utilities/Auth';
-import Field from '../../JsonApiForm/Field';
-import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
-import Submit from '../../JsonApiForm/Submit';
 
 export default function Login() {
 	const afterSubmit = (response) => {
@@ -20,9 +18,9 @@ export default function Login() {
 				afterSubmit={afterSubmit}
 				path="auth/login"
 				method="POST"
-				warnOnUnload={false}
 			>
 				<Field
+					autoCapitalize="none"
 					autoComplete="username"
 					label="Username"
 					name="username"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../../JsonApiForm/Helpers/API';
+import { Api } from '@jlbelanger/formosa';
 import Error from '../../Error';
 import { getRowsByDate } from '../../Utilities/Datetime';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ export default function List() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (rows === null) {
-			API.get('actions?include=action_type,option')
+			Api.get('actions?include=action_type,option')
 				.then((response) => {
 					setRows(response);
 				})

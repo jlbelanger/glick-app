@@ -1,18 +1,17 @@
-import API from './JsonApiForm/Helpers/API';
+import { Api } from '@jlbelanger/formosa';
 import Auth from './Utilities/Auth';
 import { ReactComponent as Logo } from '../svg/logo.svg';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 export default function Header() {
 	const logout = () => {
-		API.delete('auth/logout')
+		Api.delete('auth/logout')
 			.then(() => {
 				Auth.logout();
 			})
 			.catch(() => {
-				toast.error('Error.');
+				// toast.error('Error.'); // TODO
 			});
 	};
 

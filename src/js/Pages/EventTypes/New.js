@@ -1,8 +1,7 @@
+import { Form, Submit } from '@jlbelanger/formosa';
 import Fields from './Partials/Fields';
-import Form from '../../JsonApiForm/Form';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';
-import Submit from '../../JsonApiForm/Submit';
 
 export default function New() {
 	return (
@@ -14,6 +13,7 @@ export default function New() {
 				method="POST"
 				relationshipNames={['options']}
 				redirectOnSuccess="/"
+				warnOnUnload
 			>
 				<Fields />
 				<Submit />

@@ -1,25 +1,25 @@
-.prefix {
+.formosa-prefix {
 	border-radius: $border-radius 0 0 $border-radius;
 	border-right-width: 0;
 	margin: 0;
 }
 
-.infix {
+.formosa-infix {
 	border-left-width: 1px;
 	border-radius: 0;
 	border-right-width: 0;
 	margin: 0;
 }
 
-.postfix {
+.formosa-postfix {
 	border-left-width: 1px;
 	border-radius: 0 $border-radius $border-radius 0;
 	margin: 0;
 }
 
-.prefix,
-.infix,
-.postfix {
+.formosa-prefix,
+.formosa-infix,
+.formosa-postfix {
 	&:focus {
 		position: relative;
 		z-index: 1;

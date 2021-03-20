@@ -1,6 +1,5 @@
+import { Field, FormContext } from '@jlbelanger/formosa';
 import React, { useContext } from 'react';
-import Field from '../../../JsonApiForm/Field';
-import FormContext from '../../../JsonApiForm/FormContext';
 
 export default function Fields() {
 	const { formState } = useContext(FormContext);
@@ -14,21 +13,17 @@ export default function Fields() {
 	return (
 		<>
 			<Field
-				after={(<label>&nbsp;UTC</label>)}
 				label={formState.row.action_type.is_continuous ? 'Start date' : 'Date'}
 				name="start_date"
-				pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
 				required
-				size="20"
+				type="datetime"
 			/>
 
 			{!!formState.row.action_type.is_continuous && (
 				<Field
-					after={(<label>&nbsp;UTC</label>)}
 					label="End date"
 					name="end_date"
-					pattern="\d{4}-\d\d-\d\d \d\d:\d\d:\d\d"
-					size="20"
+					type="datetime"
 				/>
 			)}
 

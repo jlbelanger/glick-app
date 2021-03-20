@@ -1,5 +1,6 @@
 button,
-.button {
+.button,
+.formosa-radio__label {
 	@include gradient($lighter-green, $green, $dark-green);
 
 	border-color: $dark-green;
@@ -27,7 +28,7 @@ button,
 		text-shadow: 0 -1px 0 $light-green;
 	}
 
-	&.button--secondary {
+	&.formosa-button--toggle-password {
 		@include gradient($lightest-purple, $light-purple, $dark-purple);
 
 		border-color: $purple;
@@ -47,7 +48,8 @@ button,
 		}
 	}
 
-	&.button--danger {
+	&.button--danger,
+	&.formosa-button--danger {
 		@include gradient($lighter-red, $red, $dark-red);
 
 		border-color: $dark-red;
@@ -77,13 +79,13 @@ button,
 	}
 }
 
-.active {
+.formosa-radio__label--checked {
 	@include gradient($darkest-green, $darker-green, $darker-green);
 
 	color: $white;
 	text-shadow: 0 -1px 0 $darkest-green;
 
-	&.radio__label {
+	&.formosa-radio__label {
 		color: $white;
 	}
 

@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import API from '../../JsonApiForm/Helpers/API';
+import { Api } from '@jlbelanger/formosa';
 import Error from '../../Error';
 import { getRowsByDate } from '../../Utilities/Datetime';
 import MetaTitle from '../../MetaTitle';
@@ -12,7 +12,7 @@ export default function Edit() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (row === null) {
-			API.get(`action-types/${id}?include=actions`)
+			Api.get(`action-types/${id}?include=actions`)
 				.then((response) => {
 					setRow(response);
 				})
