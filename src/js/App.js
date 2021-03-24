@@ -14,13 +14,13 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<main id="main">
-				<Header />
-				<h2 id="title">
-					<span className="contain" id="title__text" style={{ display: 'none' }} />
-				</h2>
-				<Footer />
-
 				<FormContainer>
+					<Header />
+					<h2 id="title">
+						<span className="contain" id="title__text" style={{ display: 'none' }} />
+					</h2>
+					<Footer />
+
 					<article className="contain" id="article">
 						<Routes />
 					</article>

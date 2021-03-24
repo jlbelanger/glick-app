@@ -1,17 +1,18 @@
-import { Api } from '@jlbelanger/formosa';
+import { Api, FormosaContext } from '@jlbelanger/formosa';
+import React, { useContext } from 'react';
 import Auth from './Utilities/Auth';
 import { ReactComponent as Logo } from '../svg/logo.svg';
 import { NavLink } from 'react-router-dom';
-import React from 'react';
 
 export default function Header() {
+	const { formosaState } = useContext(FormosaContext);
 	const logout = () => {
 		Api.delete('auth/logout')
 			.then(() => {
 				Auth.logout();
 			})
 			.catch(() => {
-				// toast.error('Error.'); // TODO
+				formosaState.addToast('Error.', 'error');
 			});
 	};
 
