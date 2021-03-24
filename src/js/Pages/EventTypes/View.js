@@ -1,11 +1,11 @@
 import 'chartjs-plugin-zoom';
+import { Bar, Line } from 'react-chartjs-2';
+import { barGraphData, lineGraphData } from '../../Utilities/Graph';
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
 import Error from '../../Error';
 import { getRowsByDate } from '../../Utilities/Datetime';
-import graphData from '../../Utilities/Graph';
-import { Line } from 'react-chartjs-2';
 import MetaTitle from '../../MetaTitle';
 import Row from '../Events/Partials/Row';
 
@@ -45,44 +45,62 @@ export default function Edit() {
 		})
 	);
 
-	const data = graphData(row);
+	const barData = barGraphData(row);
+	const lineData = lineGraphData(row);
+	const graphOptions = {
+		legend: {
+			display: false,
+		},
+		maintainAspectRatio: false,
+		scales: {
+			xAxes: [{
+				type: 'time',
+				time: {
+					unit: 'day',
+					tooltipFormat: 'MMM D, YYYY h:mm a',
+				},
+			}],
+			yAxes: [{
+				ticks: {
+					beginAtZero: !!barData,
+					precision: barData ? 0 : null,
+				},
+			}],
+		},
+		plugins: {
+			zoom: {
+				pan: {
+					enabled: true,
+					mode: 'x',
+				},
+				zoom: {
+					enabled: true,
+					mode: 'x',
+				},
+			},
+		},
+	};
 
 	return (
 		<>
 			<MetaTitle title={row.label} />
 
-			{data && (
+			{barData && (
+				<div id="chart-container">
+					<Bar
+						data={barData}
+						id="chart"
+						options={graphOptions}
+					/>
+				</div>
+			)}
+
+			{lineData && (
 				<div id="chart-container">
 					<Line
-						data={data}
+						data={lineData}
 						id="chart"
-						options={{
-							legend: {
-								display: false,
-							},
-							maintainAspectRatio: false,
-							scales: {
-								xAxes: [{
-									type: 'time',
-									time: {
-										unit: 'day',
-										tooltipFormat: 'MMM D, YYYY h:mm a',
-									},
-								}],
-							},
-							plugins: {
-								zoom: {
-									pan: {
-										enabled: true,
-										mode: 'x',
-									},
-									zoom: {
-										enabled: true,
-										mode: 'x',
-									},
-								},
-							},
-						}}
+						options={graphOptions}
 					/>
 				</div>
 			)}

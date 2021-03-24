@@ -1,4 +1,31 @@
-export default (actionType) => {
+export const barGraphData = (actionType) => {
+	if (actionType.field_type !== 'button' || actionType.is_continuous) {
+		return null;
+	}
+
+	const output = {};
+
+	actionType.actions.forEach((action) => {
+		const date = new Date(`${action.start_date.substring(0, 10)}T00:00:00.000Z`);
+		if (Object.prototype.hasOwnProperty.call(output, date)) {
+			output[date] += 1;
+		} else {
+			output[date] = 1;
+		}
+	});
+
+	return {
+		labels: Object.keys(output),
+		datasets: [
+			{
+				backgroundColor: '#3c9',
+				data: Object.values(output),
+			},
+		],
+	};
+};
+
+export const lineGraphData = (actionType) => {
 	if (actionType.field_type === 'button') {
 		return null;
 	}
