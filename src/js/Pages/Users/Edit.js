@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import Auth from '../../Utilities/Auth';
 import Error from '../../Error';
 import MetaTitle from '../../MetaTitle';
+import MyForm from '../../MyForm';
 
 export default function Edit() {
 	const id = Auth.id();
@@ -45,14 +46,13 @@ export default function Edit() {
 		<>
 			<MetaTitle title="Edit profile" />
 
-			<Form
+			<MyForm
 				id={row.id}
 				method="PUT"
 				path="users"
 				preventEmptyRequest
 				row={row}
 				successToastText="Profile saved successfully."
-				warnOnUnload
 			>
 				<Field
 					autoComplete="username"
@@ -62,16 +62,15 @@ export default function Edit() {
 				/>
 
 				<Submit />
-			</Form>
+			</MyForm>
 
-			<Form
+			<MyForm
 				method="PUT"
 				path={`users/${row.id}/change-email`}
 				preventEmptyRequest
 				row={row}
 				showMessage={false}
 				successToastText="Email changed successfully."
-				warnOnUnload
 			>
 				<h3>Change email</h3>
 
@@ -94,16 +93,15 @@ export default function Edit() {
 				/>
 
 				<Submit />
-			</Form>
+			</MyForm>
 
-			<Form
+			<MyForm
 				clearOnSubmit
 				method="PUT"
 				path={`users/${row.id}/change-password`}
 				preventEmptyRequest
 				showMessage={false}
 				successToastText="Password changed successfully."
-				warnOnUnload
 			>
 				<h3>Change password</h3>
 
@@ -134,7 +132,7 @@ export default function Edit() {
 				/>
 
 				<Submit />
-			</Form>
+			</MyForm>
 
 			<Form
 				afterSubmit={afterDelete}

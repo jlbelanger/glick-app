@@ -136,7 +136,7 @@ export default function New() {
 								<NewLabel actionType={row} />
 								<NewField actionType={row} />
 							</Form>
-							{row.in_progress && row.options.length > 0 ? (
+							{row.in_progress ? (
 								<Form
 									afterSubmit={afterSubmit}
 									filterBody={filterBodyStop}

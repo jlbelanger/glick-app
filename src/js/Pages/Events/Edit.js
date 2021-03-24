@@ -5,16 +5,18 @@ import {
 	Submit,
 } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import Error from '../../Error';
 import Fields from './Partials/Fields';
 import { getEventLabel } from '../../Utilities';
 import MetaTitle from '../../MetaTitle';
-import { useParams } from 'react-router-dom';
+import MyForm from '../../MyForm';
 
 export default function Edit() {
 	const { id } = useParams();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
+	const history = useHistory();
 	useEffect(() => {
 		if (row === null) {
 			Api.get(`actions/${id}?include=action_type,option`)
@@ -42,24 +44,25 @@ export default function Edit() {
 		<>
 			<MetaTitle title={`Edit ${getEventLabel(row)}`} />
 
-			<Form
+			<MyForm
 				path="actions"
 				id={id}
 				method="PUT"
 				preventEmptyRequest
 				row={row}
 				successToastText="Event saved successfully."
-				warnOnUnload
 			>
 				<Fields />
 				<Submit />
-			</Form>
+			</MyForm>
 
 			<Form
+				afterSubmit={() => {
+					history.push('/events');
+				}}
 				id={id}
 				method="DELETE"
 				path="actions"
-				redirectOnSuccess="/events"
 				showMessage={false}
 				successToastText="Event deleted successfully."
 			>

@@ -1,6 +1,7 @@
-import { Field, Form, Submit } from '@jlbelanger/formosa';
+import { Field, Submit } from '@jlbelanger/formosa';
 import Auth from '../../Utilities/Auth';
 import MetaTitle from '../../MetaTitle';
+import MyForm from '../../MyForm';
 import React from 'react';
 
 export default function Register() {
@@ -13,11 +14,10 @@ export default function Register() {
 		<>
 			<MetaTitle title="Register" hideTitleText />
 
-			<Form
+			<MyForm
 				afterSubmit={afterSubmit}
 				path="auth/register"
 				method="POST"
-				warnOnUnload
 			>
 				<Field
 					autoComplete="username"
@@ -52,7 +52,7 @@ export default function Register() {
 				/>
 
 				<Submit label="Register" />
-			</Form>
+			</MyForm>
 		</>
 	);
 }

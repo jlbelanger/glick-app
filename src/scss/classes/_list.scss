@@ -12,13 +12,33 @@
 		padding: 0;
 	}
 
-	.formosa-label {
+	.formosa-label-wrapper {
 		flex: 1 1 auto;
-		margin: 0;
 	}
 
 	.button {
 		margin: 0;
+	}
+
+	.formosa-prefix {
+		max-width: 120px;
+	}
+
+	.formosa-radio {
+		width: 100%;
+	}
+
+	.formosa-radio__item {
+		flex: 1 1 auto;
+	}
+
+	.formosa-radio__label {
+		text-align: center;
+		width: 100%;
+	}
+
+	.formosa-field--option {
+		flex: 1 1 auto;
 	}
 }
 

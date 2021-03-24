@@ -1,24 +1,31 @@
-.formosa-prefix {
-	border-radius: $border-radius 0 0 $border-radius;
-	border-right-width: 0;
-	margin: 0;
-}
-
-.formosa-infix {
+.formosa-radio__label {
 	border-left-width: 1px;
 	border-radius: 0;
 	border-right-width: 0;
 	margin: 0;
 }
 
-.formosa-postfix {
+.formosa-prefix,
+.formosa-radio__item:first-of-type .formosa-radio__label {
+	border-radius: $border-radius 0 0 $border-radius;
+	border-right-width: 0;
+	margin: 0;
+}
+
+.formosa-postfix,
+.formosa-radio__item:last-of-type .formosa-radio__label {
 	border-left-width: 1px;
 	border-radius: 0 $border-radius $border-radius 0;
 	margin: 0;
 }
 
+.formosa-radio__item:first-of-type:last-of-type .formosa-radio__label {
+	border-left-width: 1px;
+	border-radius: $border-radius;
+	border-right-width: 1px;
+}
+
 .formosa-prefix,
-.formosa-infix,
 .formosa-postfix {
 	&:focus {
 		position: relative;

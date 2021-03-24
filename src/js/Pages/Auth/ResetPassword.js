@@ -1,19 +1,22 @@
 import { Field, Form, Submit } from '@jlbelanger/formosa';
+import { useHistory, useParams } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
 export default function ResetPassword() {
 	const { token } = useParams();
+	const history = useHistory();
 
 	return (
 		<>
 			<MetaTitle title="Reset your password" />
 
 			<Form
+				afterSubmit={() => {
+					history.push('/');
+				}}
 				path={`auth/reset-password/${token}`}
 				method="PUT"
-				redirectOnSuccess="/"
 				successToastText="Password reset successfully."
 			>
 				<Field

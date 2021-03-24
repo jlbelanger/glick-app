@@ -38,6 +38,7 @@ export default function Login() {
 
 				<Field
 					label="Remember me"
+					labelPosition="after"
 					name="remember"
 					type="checkbox"
 				/>
