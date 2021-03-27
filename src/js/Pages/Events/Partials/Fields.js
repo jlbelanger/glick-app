@@ -9,10 +9,12 @@ export default function Fields() {
 			options[option.label] = option.label;
 		});
 	}
+	const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	return (
 		<>
 			<Field
+				convertToTimezone={timeZone}
 				label={formState.row.action_type.is_continuous ? 'Start date' : 'Date'}
 				name="start_date"
 				required
@@ -21,6 +23,7 @@ export default function Fields() {
 
 			{!!formState.row.action_type.is_continuous && (
 				<Field
+					convertToTimezone={timeZone}
 					label="End date"
 					name="end_date"
 					type="datetime"
