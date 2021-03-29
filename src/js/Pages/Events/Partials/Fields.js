@@ -46,6 +46,7 @@ export default function Fields() {
 					name="value"
 					options={options}
 					type="radio"
+					valueKey={(option) => (JSON.stringify({ id: option.id, type: option.type }))}
 				/>
 			)}
 		</>

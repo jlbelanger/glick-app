@@ -36,9 +36,31 @@ p,
 	display: none;
 }
 
+.formosa-input-wrapper--checkbox {
+	position: relative;
+}
+
 #chart-container {
 	height: 250px;
 	margin-left: 8px;
 	margin-right: 8px;
 	max-height: calc(100vh - #{($nav-height * 5)});
+}
+
+.formosa-label__note {
+	display: inline-block;
+	font-size: 80%;
+	opacity: .5;
+
+	&::before {
+		content: ' (';
+	}
+
+	&::after {
+		content: ')';
+	}
+}
+
+.formosa-suffix-container {
+	position: relative;
 }

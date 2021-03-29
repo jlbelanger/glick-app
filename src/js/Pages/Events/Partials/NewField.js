@@ -5,21 +5,19 @@ import React from 'react';
 export default function NewField({ actionType }) {
 	if (actionType.field_type === 'number') {
 		return (
-			<>
-				<Field
-					className="formosa-prefix"
-					id={actionType.slug}
-					name="value"
-					inputMode="decimal"
-					postfix={(
-						<button className="formosa-postfix" type="submit">Add</button>
-					)}
-					required
-					type="text"
-					suffix={actionType.suffix}
-					wrapperClassName="field--new-event field--number"
-				/>
-			</>
+			<Field
+				className="formosa-prefix"
+				id={actionType.slug}
+				name="value"
+				inputMode="decimal"
+				postfix={(
+					<button className="formosa-postfix" type="submit">Add</button>
+				)}
+				required
+				type="text"
+				suffix={actionType.suffix}
+				wrapperClassName="field--new-event field--number"
+			/>
 		);
 	}
 
@@ -75,9 +73,10 @@ export default function NewField({ actionType }) {
 			<Field
 				afterChange={afterChange}
 				name={hasOptions ? 'option' : 'value'}
-				nameKey="label"
+				labelKey="label"
 				options={options}
 				type="radio"
+				valueKey={(option) => (JSON.stringify({ id: option.id, type: option.type }))}
 			/>
 			<button id={submitId} style={{ display: 'none' }} type="submit" />
 		</>

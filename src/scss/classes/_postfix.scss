@@ -32,3 +32,14 @@
 		z-index: 1;
 	}
 }
+
+.formosa-field--has-error {
+	.formosa-prefix {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+button.formosa-postfix {
+	height: $formosa-input-height;
+}

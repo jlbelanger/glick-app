@@ -38,8 +38,8 @@ export default function Fields() {
 					<Field
 						label="Custom button labels"
 						name="options"
-						nameKey="label"
-						note={formState.row.options && formState.row.options.length > 0 ? '' : defaultMessage}
+						labelKey="label"
+						labelNote={formState.row.options && formState.row.options.length > 0 ? '' : defaultMessage}
 						recordType="options"
 						removable={(value) => (!value.has_events)}
 						type="has-many"
@@ -51,7 +51,7 @@ export default function Fields() {
 				<Field
 					label="Units"
 					name="suffix"
-					note="optional, eg. lbs"
+					labelNote="optional, eg. lbs"
 					size={10}
 				/>
 			)}
