@@ -3,45 +3,7 @@ select,
 textarea {
 	@include gradient(#fff, #fff, #ccc);
 
-	appearance: none;
-	border-color: #bbb;
-	border-radius: $border-radius;
-	border-style: solid;
-	border-width: $border-width;
-	color: $black;
-	line-height: 1;
-	min-width: 0;
-
 	&:invalid:not(:focus) {
 		box-shadow: none;
-	}
-}
-
-input:not([size]),
-select,
-textarea {
-	width: 100%;
-}
-
-input,
-textarea {
-	padding: $padding;
-}
-
-select {
-	height: 39px;
-	padding: $padding $formosa-select-padding-right $padding $padding;
-}
-
-input[type="checkbox"] {
-	cursor: pointer;
-	display: block;
-	height: $checkbox-size;
-	width: $checkbox-size;
-
-	&:checked {
-		@include gradient($light-green, $green, $dark-green);
-
-		border-color: $dark-green;
 	}
 }

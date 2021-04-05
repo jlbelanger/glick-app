@@ -1,8 +1,6 @@
 @import '../../node_modules/normalize.css/normalize';
 @import 'utilities/variables';
-@import '../../../formosa/src/scss/utilities/variables';
-@import '../../../formosa/src/scss/components/datetime';
-@import '../../../formosa/src/scss/components/select';
+@import '../../../formosa/src/style';
 @import 'utilities/mixins';
 @import 'layout/layout';
 @import 'layout/etc';
@@ -11,25 +9,29 @@
 @import 'components/button';
 @import 'components/heading';
 @import 'components/input';
-@import 'components/label';
 @import 'components/p';
 @import 'components/small';
 @import 'components/table';
-@import 'classes/field';
-@import 'classes/form';
-@import 'classes/has-many';
 @import 'classes/list';
-@import 'classes/message';
-@import 'classes/postfix';
 @import 'classes/radio';
-@import 'classes/spinner';
 @import 'classes/suffix';
-@import 'classes/toast';
 
 p,
 #chart,
 .formosa-field {
 	margin: 24px 0 0;
+}
+
+#chart-container {
+	height: 250px;
+	margin-left: 8px;
+	margin-right: 8px;
+	max-height: calc(100vh - #{($nav-height * 5)});
+}
+
+.formosa-field {
+	padding-left: $list-padding-side;
+	padding-right: $list-padding-side;
 }
 
 .formosa-label-wrapper:empty {
@@ -40,16 +42,10 @@ p,
 	position: relative;
 }
 
-#chart-container {
-	height: 250px;
-	margin-left: 8px;
-	margin-right: 8px;
-	max-height: calc(100vh - #{($nav-height * 5)});
-}
-
 .formosa-label__note {
 	display: inline-block;
 	font-size: 80%;
+	margin-left: 4px;
 	opacity: .5;
 
 	&::before {
@@ -61,6 +57,11 @@ p,
 	}
 }
 
-.formosa-suffix-container {
-	position: relative;
+.formosa-input-wrapper--submit {
+	text-align: right;
+}
+
+.formosa-button--submit {
+	max-width: 150px;
+	width: 100%;
 }

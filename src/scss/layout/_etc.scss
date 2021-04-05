@@ -1,13 +1,3 @@
-:focus {
-	box-shadow: 0 0 0 3px $bright-purple;
-	outline: none !important; // stylelint-disable-line declaration-no-important
-}
-
-input:focus {
-	border-color: $lighter-purple;
-	box-shadow: 0 0 0 3px $bright-purple;
-}
-
 a {
 	color: $green;
 

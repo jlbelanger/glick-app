@@ -3,15 +3,7 @@ button,
 .formosa-radio__label {
 	@include gradient($lighter-green, $green, $dark-green);
 
-	border-color: $dark-green;
-	border-radius: $border-radius;
-	border-style: solid;
-	border-width: $border-width;
-	cursor: pointer;
 	font-weight: bold;
-	line-height: 1;
-	margin: 4px;
-	padding: $padding;
 	text-shadow: 0 1px 0 $lighter-green;
 	text-transform: uppercase;
 	white-space: nowrap;
@@ -79,6 +71,15 @@ button,
 	}
 }
 
+.formosa-radio__label {
+	&:focus-within {
+		@include gradient($dark-green, scale-color($green, $lightness: -10%), $green);
+
+		border-color: $darker-green;
+		text-shadow: 0 -1px 0 $light-green;
+	}
+}
+
 .formosa-radio__label--checked {
 	@include gradient($darkest-green, $darker-green, $darker-green);
 
@@ -94,7 +95,8 @@ button,
 	}
 
 	&:active,
-	&:focus {
+	&:focus,
+	&:focus-within {
 		@include gradient($darkest-green, $darker-green, $darker-green);
 
 		border-color: $dark-green;

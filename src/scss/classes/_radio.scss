@@ -6,8 +6,14 @@
 }
 
 .formosa-radio__label {
-	color: $black;
+	border-color: $formosa-button-border-color;
+	border-radius: 0;
+	border-style: solid;
+	border-width: $formosa-input-border-width 0 $formosa-input-border-width 1px;
+	color: $formosa-button-color;
 	display: inline-block;
+	line-height: 1;
+	padding: $formosa-button-padding;
 	position: relative;
 }
 
@@ -25,5 +31,51 @@
 
 	&:focus {
 		position: absolute;
+	}
+}
+
+input[type="radio"] {
+	box-shadow: none;
+	height: #{$formosa-radio-size + ($formosa-input-border-width * 2)};
+	top: #{$formosa-input-border-width * -1};
+	width: auto;
+
+	&:checked {
+		background: transparent;
+	}
+
+	&:focus {
+		border-radius: 0;
+		z-index: 1;
+	}
+}
+
+.formosa-radio__item:first-of-type .formosa-radio__label {
+	border-radius: $formosa-input-border-radius 0 0 $formosa-input-border-radius;
+	border-right-width: 0;
+	margin: 0;
+
+	input:focus {
+		border-radius: $formosa-input-border-radius 0 0 $formosa-input-border-radius;
+	}
+}
+
+.formosa-radio__item:last-of-type .formosa-radio__label {
+	border-left-width: 1px;
+	border-radius: 0 $formosa-input-border-radius $formosa-input-border-radius 0;
+	margin: 0;
+
+	input:focus {
+		border-radius: 0 $formosa-input-border-radius $formosa-input-border-radius 0;
+	}
+}
+
+.formosa-radio__item:first-of-type:last-of-type .formosa-radio__label {
+	border-left-width: 1px;
+	border-radius: $formosa-input-border-radius;
+	border-right-width: 1px;
+
+	input:focus {
+		border-radius: $formosa-input-border-radius;
 	}
 }

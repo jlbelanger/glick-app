@@ -26,22 +26,45 @@ $bright-purple: #b656b6;
 $white: #fff;
 $black: #000;
 
-$border-radius: 10px;
-$border-width: 2px;
 $font-size: 16px;
 $max-width: 600px;
 $nav-height: 44px;
-$padding: 8px;
-
-$checkbox-size: 32px;
 
 $list-padding-top: 12px;
 $list-padding-side: 16px;
 
 // Formosa overrides
 
+$formosa-input-border-color: #bbb;
+$formosa-input-border-radius: 10px;
+$formosa-input-border-width: 2px;
 $formosa-input-font-size: $font-size;
-$formosa-input-padding: $padding;
-$formosa-input-border-width: $border-width;
 $formosa-input-line-height: 1.25;
-$formosa-password-button-width: 64px;
+$formosa-input-padding: 8px;
+$formosa-input-font-family: 'Trebuchet MS', sans-serif;
+
+$formosa-button-background-color: $lighter-green;
+$formosa-button-border-color: $dark-green;
+$formosa-button-padding-side: $formosa-input-padding;
+
+$formosa-checkbox-border-radius: $formosa-input-border-radius;
+
+$formosa-color-danger: $lighter-red;
+
+$formosa-focus-border-color: $lighter-purple;
+$formosa-focus-box-shadow-color: $bright-purple;
+
+$formosa-has-many-padding: 4px;
+$formosa-has-many-padding-side: 0;
+
+$formosa-label-font-weight: normal;
+
+$formosa-postfix-border-width: 1px;
+
+$formosa-radio-border-radius: $formosa-input-border-radius;
+$formosa-radio-border-width: 0;
+$formosa-radio-margin: 0;
+$formosa-radio-margin-side: 0;
+
+$formosa-spinner-color: $green;
+$formosa-spinner-color-alternate: $darker-purple;
