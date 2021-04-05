@@ -20,7 +20,7 @@ import Profile from './Pages/Users/Edit';
 import Register from './Pages/Auth/Register';
 import ResetPassword from './Pages/Auth/ResetPassword';
 
-export default function App() {
+export default function Routes() {
 	const location = useLocation();
 	useEffect(() => {
 		if (typeof window.ga === 'function') {

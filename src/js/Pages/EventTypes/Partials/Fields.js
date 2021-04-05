@@ -36,12 +36,18 @@ export default function Fields() {
 					/>
 
 					<Field
+						attributes={[
+							{
+								name: 'label',
+								className: 'formosa-prefix',
+							},
+						]}
+						buttonClassName="formosa-postfix"
 						label="Custom button labels"
 						name="options"
-						labelKey="label"
 						labelNote={formState.row.options && formState.row.options.length > 0 ? '' : defaultMessage}
 						recordType="options"
-						removable={(value) => (!value.has_events)}
+						removable={(value) => (!value.has_events || value.id.startsWith('temp-'))}
 						type="has-many"
 					/>
 				</>
