@@ -15,7 +15,7 @@ export default function Edit() {
 	const [error, setError] = useState(false);
 	useEffect(() => {
 		if (row === null) {
-			Api.get(`action-types/${id}?include=actions`)
+			Api.get(`action-types/${id}?include=actions,actions.option`)
 				.then((response) => {
 					setRow(response);
 				})
