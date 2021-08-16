@@ -45,11 +45,12 @@ export default function Edit() {
 			<MetaTitle title={`Edit ${getEventLabel(row)}`} />
 
 			<MyForm
-				path="actions"
 				id={id}
 				method="PUT"
+				path="actions"
 				preventEmptyRequest
 				row={row}
+				setRow={setRow}
 				successToastText="Event saved successfully."
 			>
 				<Fields />

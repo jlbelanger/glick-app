@@ -1,16 +1,20 @@
 import { Field, Form, Submit } from '@jlbelanger/formosa';
+import React, { useState } from 'react';
 import MetaTitle from '../../MetaTitle';
-import React from 'react';
 
 export default function ForgotPassword() {
+	const [row, setRow] = useState({});
+
 	return (
 		<>
 			<MetaTitle title="Forgot your password?" />
 
 			<Form
 				clearOnSubmit
-				path="auth/forgot-password"
 				method="POST"
+				path="auth/forgot-password"
+				row={row}
+				setRow={setRow}
 				successMessageText="If there is an account with this email address, you will receive a password reset email shortly."
 			>
 				<Field

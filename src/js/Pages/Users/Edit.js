@@ -52,7 +52,8 @@ export default function Edit() {
 				path="users"
 				preventEmptyRequest
 				row={row}
-				successToastText="Profile saved successfully."
+				setRow={setRow}
+				successToastText="Username changed successfully."
 			>
 				<Field
 					autoComplete="username"
@@ -61,7 +62,7 @@ export default function Edit() {
 					required
 				/>
 
-				<Submit />
+				<Submit label="Change username" />
 			</MyForm>
 
 			<MyForm
@@ -69,6 +70,7 @@ export default function Edit() {
 				path={`users/${row.id}/change-email`}
 				preventEmptyRequest
 				row={row}
+				setRow={setRow}
 				showMessage={false}
 				successToastText="Email changed successfully."
 			>
@@ -86,13 +88,14 @@ export default function Edit() {
 
 				<Field
 					autoComplete="current-password"
+					id="current-password-email"
 					label="Current password"
 					name="password"
 					required
 					type="password"
 				/>
 
-				<Submit />
+				<Submit label="Change email" />
 			</MyForm>
 
 			<MyForm
@@ -100,6 +103,8 @@ export default function Edit() {
 				method="PUT"
 				path={`users/${row.id}/change-password`}
 				preventEmptyRequest
+				row={row}
+				setRow={setRow}
 				showMessage={false}
 				successToastText="Password changed successfully."
 			>
@@ -125,13 +130,14 @@ export default function Edit() {
 
 				<Field
 					autoComplete="current-password"
+					id="current-password-password"
 					label="Current password"
 					name="password"
 					required
 					type="password"
 				/>
 
-				<Submit />
+				<Submit label="Change password" />
 			</MyForm>
 
 			<Form
