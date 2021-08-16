@@ -19,6 +19,7 @@
 		"lint:css": "node_modules/.bin/stylelint 'src/scss/**/*.scss'",
 		"lint:js": "node_modules/.bin/eslint . --ext .js --ext .jsx",
 		"test": "react-scripts test",
+		"test:cypress": "node_modules/.bin/cypress open",
 		"eject": "react-scripts eject"
 	},
 	"dependencies": {
@@ -43,6 +44,7 @@
 		"web-vitals": "^1.0.1"
 	},
 	"devDependencies": {
+		"cypress": "^8.2.0",
 		"eslint-config-airbnb": "^18.2.1",
 		"eslint-plugin-jsdoc": "^30.7.9",
 		"normalize.css": "^8.0.1",
