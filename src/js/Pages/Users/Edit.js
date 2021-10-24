@@ -1,10 +1,4 @@
-import {
-	Api,
-	Field,
-	Form,
-	Message,
-	Submit,
-} from '@jlbelanger/formosa';
+import { Api, Field, Form, Message, Submit } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
 import Auth from '../../Utilities/Auth';
 import Error from '../../Error';

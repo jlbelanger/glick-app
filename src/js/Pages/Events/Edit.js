@@ -1,9 +1,4 @@
-import {
-	Api,
-	Form,
-	Message,
-	Submit,
-} from '@jlbelanger/formosa';
+import { Api, Form, Message, Submit } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Error from '../../Error';
