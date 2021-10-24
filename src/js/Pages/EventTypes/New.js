@@ -17,6 +17,17 @@ export default function New() {
 				afterSubmit={() => {
 					history.push('/');
 				}}
+				filterBody={(body) => {
+					if (body.included) {
+						body.included = body.included.map((rel) => {
+							if (!rel.attributes.action_type_id) {
+								rel.attributes.action_type_id = 'temp-this-id';
+							}
+							return rel;
+						});
+					}
+					return body;
+				}}
 				method="POST"
 				path="action-types"
 				relationshipNames={['options']}

@@ -50,6 +50,7 @@ export default function NewField({ actionType }) {
 				document.getElementById(submitId).click();
 			}
 		}, 100);
+		return {};
 	};
 
 	const options = [...actionType.options];
