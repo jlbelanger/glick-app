@@ -27,6 +27,7 @@ All other commands should be run in the `glick-app` folder.
 
 ``` bash
 cp .env.example .env
+cp cypress.env.example.json cypress.env.json
 ```
 
 ### Install dependencies

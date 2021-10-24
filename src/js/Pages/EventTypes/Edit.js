@@ -1,9 +1,4 @@
-import {
-	Api,
-	Form,
-	Message,
-	Submit,
-} from '@jlbelanger/formosa';
+import { Api, Form, Message, Submit } from '@jlbelanger/formosa';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Error from '../../Error';
@@ -46,12 +41,13 @@ export default function Edit() {
 			<Link className="table__link" to={`/event-types/${row.id}`}>&laquo; Back to events</Link>
 
 			<MyForm
-				path="action-types"
 				id={id}
 				method="PUT"
+				path="action-types"
 				preventEmptyRequest
 				relationshipNames={['options']}
 				row={row}
+				setRow={setRow}
 				successToastText="Event type saved successfully."
 			>
 				<Fields />

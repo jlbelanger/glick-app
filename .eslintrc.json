@@ -4,6 +4,11 @@
 		"browser": true,
 		"jest": true
 	},
+	"globals": {
+		"before": "readonly",
+		"cy": "readonly",
+		"Cypress": "readonly"
+	},
 	"parser": "babel-eslint",
 	"rules": {
 		"class-methods-use-this": 0,
@@ -25,6 +30,7 @@
 		"no-alert": 0,
 		"no-param-reassign": 0,
 		"no-tabs": 0,
+		"object-curly-newline": ["error", { "multiline": true, "consistent": true }],
 		"prefer-destructuring": 0,
 		"react/destructuring-assignment": 0,
 		"react/forbid-prop-types": 0,

@@ -38,7 +38,7 @@ input[type="radio"] {
 	box-shadow: none;
 	height: #{$formosa-radio-size + ($formosa-input-border-width * 2)};
 	top: #{$formosa-input-border-width * -1};
-	width: auto;
+	width: 100%;
 
 	&:checked {
 		background: transparent;

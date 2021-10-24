@@ -125,8 +125,8 @@ export default function New() {
 								defaultRow={defaultRow}
 								filterBody={hasStopOnly ? filterBodyStop : filterBody}
 								filterValues={filterValues}
-								method={hasStopOnly ? 'PUT' : 'POST'}
 								id={hasStopOnly ? row.in_progress.id.toString() : ''}
+								method={hasStopOnly ? 'PUT' : 'POST'}
 								params="include=action_type,option"
 								path="actions"
 								relationshipNames={['action_type', 'option']}

@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-	Redirect,
-	Route,
-	Switch,
-	useLocation,
-} from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Auth from './Utilities/Auth';
 import Error404 from './Error404';
 import EventEdit from './Pages/Events/Edit';

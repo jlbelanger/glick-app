@@ -1,9 +1,10 @@
 import { Field, Form, Submit } from '@jlbelanger/formosa';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
-import React from 'react';
 
 export default function ResetPassword() {
+	const [row, setRow] = useState({});
 	const { token } = useParams();
 	const history = useHistory();
 
@@ -15,8 +16,10 @@ export default function ResetPassword() {
 				afterSubmit={() => {
 					history.push('/');
 				}}
-				path={`auth/reset-password/${token}`}
 				method="PUT"
+				path={`auth/reset-password/${token}`}
+				row={row}
+				setRow={setRow}
 				successToastText="Password reset successfully."
 			>
 				<Field

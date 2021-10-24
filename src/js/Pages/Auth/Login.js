@@ -1,10 +1,12 @@
 import { Field, Form, Submit } from '@jlbelanger/formosa';
+import React, { useState } from 'react';
 import Auth from '../../Utilities/Auth';
 import MetaTitle from '../../MetaTitle';
 import { NavLink } from 'react-router-dom';
-import React from 'react';
 
 export default function Login() {
+	const [row, setRow] = useState({});
+
 	const afterSubmit = (response) => {
 		Auth.login(response.id, response.token, response.remember);
 		window.location.reload();
@@ -16,8 +18,10 @@ export default function Login() {
 
 			<Form
 				afterSubmit={afterSubmit}
-				path="auth/login"
 				method="POST"
+				path="auth/login"
+				row={row}
+				setRow={setRow}
 			>
 				<Field
 					autoCapitalize="none"

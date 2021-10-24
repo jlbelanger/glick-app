@@ -1,10 +1,11 @@
 import { Field, Submit } from '@jlbelanger/formosa';
+import React, { useState } from 'react';
 import Auth from '../../Utilities/Auth';
 import MetaTitle from '../../MetaTitle';
 import MyForm from '../../MyForm';
-import React from 'react';
 
 export default function Register() {
+	const [row, setRow] = useState({});
 	const afterSubmit = (response) => {
 		Auth.login(response.id, response.token, response.remember);
 		window.location.reload();
@@ -16,8 +17,10 @@ export default function Register() {
 
 			<MyForm
 				afterSubmit={afterSubmit}
-				path="auth/register"
 				method="POST"
+				path="auth/register"
+				row={row}
+				setRow={setRow}
 			>
 				<Field
 					autoComplete="username"
