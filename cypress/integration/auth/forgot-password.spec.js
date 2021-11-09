@@ -1,9 +1,9 @@
 describe('forgot password', () => {
-	describe('with an valid email', () => {
+	describe('with an invalid email', () => {
 		it('works', () => {
 			cy.clearCookies();
 			cy.visit('/forgot-password');
-			cy.get('[name="email"]').type(Cypress.env('default_email'));
+			cy.get('[name="email"]').type('doesnotexist@example.com');
 			cy.intercept('POST', '**/api/auth/forgot-password').as('forgotPassword');
 			cy.get('[type="submit"]').click();
 			cy.wait('@forgotPassword').its('response.statusCode').should('equal', 204);
@@ -12,11 +12,11 @@ describe('forgot password', () => {
 		});
 	});
 
-	describe('with an invalid email', () => {
+	describe('with an valid email', () => {
 		it('works', () => {
 			cy.clearCookies();
 			cy.visit('/forgot-password');
-			cy.get('[name="email"]').type('doesnotexist@example.com');
+			cy.get('[name="email"]').type(Cypress.env('default_email'));
 			cy.intercept('POST', '**/api/auth/forgot-password').as('forgotPassword');
 			cy.get('[type="submit"]').click();
 			cy.wait('@forgotPassword').its('response.statusCode').should('equal', 204);
