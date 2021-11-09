@@ -106,9 +106,11 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Start event.
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Start').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('exist');
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
 				// Stop event.
@@ -125,9 +127,11 @@ describe('events', () => {
 
 				// Start event.
 				cy.visit('/');
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Start').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('exist');
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
 				// Reload page.
@@ -177,9 +181,13 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Start event.
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Foo').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('exist');
+				cy.contains(name).parents('form').contains('Foo').should('have.class', 'formosa-radio__label--checked');
+				cy.contains(name).parents('form').contains('Bar').should('have.not.class', 'formosa-radio__label--checked');
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
 				// Stop event.
@@ -187,6 +195,9 @@ describe('events', () => {
 				cy.contains(name).parents('form').contains('Stop').click();
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 				cy.contains('Event stopped successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
+				cy.contains(name).parents('form').contains('Foo').should('have.not.class', 'formosa-radio__label--checked');
+				cy.contains(name).parents('form').contains('Bar').should('have.not.class', 'formosa-radio__label--checked');
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.
@@ -197,9 +208,13 @@ describe('events', () => {
 
 				// Start event.
 				cy.visit('/');
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Bar').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('exist');
+				cy.contains(name).parents('form').contains('Foo').should('have.not.class', 'formosa-radio__label--checked');
+				cy.contains(name).parents('form').contains('Bar').should('have.class', 'formosa-radio__label--checked');
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
 				// Stop event.
@@ -207,6 +222,9 @@ describe('events', () => {
 				cy.contains(name).parents('form').contains('Stop').click();
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 				cy.contains('Event stopped successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
+				cy.contains(name).parents('form').contains('Foo').should('have.not.class', 'formosa-radio__label--checked');
+				cy.contains(name).parents('form').contains('Bar').should('have.not.class', 'formosa-radio__label--checked');
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.
@@ -217,9 +235,13 @@ describe('events', () => {
 
 				// Start event.
 				cy.visit('/');
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Foo').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('exist');
+				cy.contains(name).parents('form').contains('Foo').should('have.class', 'formosa-radio__label--checked');
+				cy.contains(name).parents('form').contains('Bar').should('have.not.class', 'formosa-radio__label--checked');
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
 				// Change event.
@@ -232,6 +254,9 @@ describe('events', () => {
 				cy.contains(name).parents('form').contains('Stop').click();
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 				cy.contains('Event stopped successfully.').should('exist');
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
+				cy.contains(name).parents('form').contains('Foo').should('have.not.class', 'formosa-radio__label--checked');
+				cy.contains(name).parents('form').contains('Bar').should('have.not.class', 'formosa-radio__label--checked');
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.

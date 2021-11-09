@@ -113,7 +113,9 @@ export default function New() {
 					let className = 'list__item';
 					if (row.in_progress) {
 						className += ' list__item--active';
-						defaultRow.option = JSON.stringify(row.in_progress.option);
+						if (row.in_progress.option) {
+							defaultRow.option = JSON.stringify({ id: row.in_progress.option.id, type: row.in_progress.option.type });
+						}
 					}
 
 					const hasStopOnly = row.in_progress && row.options.length <= 0;
