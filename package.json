@@ -2,7 +2,7 @@
 	"name": "@jlbelanger/glick-app",
 	"version": "1.0.0",
 	"description": "Track occurrences of time-based events.",
-	"license": "MIT",
+	"license": "GPL-3.0-only",
 	"author": {
 		"name": "Jenny Belanger",
 		"email": "mail@jennybelanger.com",
