@@ -9,7 +9,7 @@
 		"cy": "readonly",
 		"Cypress": "readonly"
 	},
-	"parser": "babel-eslint",
+	"parser": "@babel/eslint-parser",
 	"rules": {
 		"class-methods-use-this": 0,
 		"comma-dangle": ["error", {
