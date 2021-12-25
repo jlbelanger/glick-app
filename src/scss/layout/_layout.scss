@@ -31,7 +31,7 @@ body {
 	margin: 0 auto $nav-height;
 	padding-bottom: 20px;
 
-	&> form:first-child > :first-child {
+	& > form:first-child > :first-child {
 		margin-top: 16px;
 	}
 }

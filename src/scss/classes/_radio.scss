@@ -34,7 +34,7 @@
 	}
 }
 
-input[type="radio"] {
+input[type='radio'] {
 	box-shadow: none;
 	height: #{$formosa-radio-size + ($formosa-input-border-width * 2)};
 	top: #{$formosa-input-border-width * -1};

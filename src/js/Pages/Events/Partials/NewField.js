@@ -23,19 +23,17 @@ export default function NewField({ actionType }) {
 
 	if (actionType.field_type === 'text') {
 		return (
-			<>
-				<Field
-					className="formosa-prefix"
-					id={actionType.slug}
-					name="value"
-					postfix={(
-						<button className="formosa-postfix" type="submit">Add</button>
-					)}
-					required
-					type="text"
-					wrapperClassName="field--new-event field--text"
-				/>
-			</>
+			<Field
+				className="formosa-prefix"
+				id={actionType.slug}
+				name="value"
+				postfix={(
+					<button className="formosa-postfix" type="submit">Add</button>
+				)}
+				required
+				type="text"
+				wrapperClassName="field--new-event field--text"
+			/>
 		);
 	}
 

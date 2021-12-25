@@ -5,12 +5,12 @@ export default class MetaTitle extends React.Component {
 	static propTypes = {
 		hideTitleText: PropTypes.bool,
 		title: PropTypes.string,
-	}
+	};
 
 	static defaultProps = {
 		hideTitleText: false,
 		title: '',
-	}
+	};
 
 	componentDidMount() {
 		this.setTitle();
