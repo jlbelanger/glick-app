@@ -3,23 +3,27 @@ export const barGraphData = (actionType) => {
 		return null;
 	}
 
-	const output = {};
-
+	const data = {};
 	actionType.actions.forEach((action) => {
 		const date = new Date(`${action.start_date.substring(0, 10)}T00:00:00.000Z`);
-		if (Object.prototype.hasOwnProperty.call(output, date)) {
-			output[date] += 1;
+		if (Object.prototype.hasOwnProperty.call(data, date)) {
+			data[date] += 1;
 		} else {
-			output[date] = 1;
+			data[date] = 1;
 		}
 	});
 
+	const labels = [];
+	Object.keys(data).forEach((date) => {
+		labels.push(new Date(date));
+	});
+
 	return {
-		labels: Object.keys(output),
+		labels,
 		datasets: [
 			{
 				backgroundColor: '#3c9',
-				data: Object.values(output),
+				data: Object.values(data),
 			},
 		],
 	};

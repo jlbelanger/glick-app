@@ -1,13 +1,24 @@
-import 'chartjs-plugin-zoom';
-import { Bar, Line } from 'react-chartjs-2';
+import 'luxon';
+import 'chartjs-adapter-luxon';
+import {
+	BarElement,
+	Chart as ChartJS,
+	LinearScale,
+	LineElement,
+	PointElement,
+	TimeScale,
+	Tooltip,
+} from 'chart.js';
 import { barGraphData, lineGraphData } from '../../Utilities/Graph';
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
+import { Chart } from 'react-chartjs-2';
 import Error from '../../Error';
 import { getRowsByDate } from '../../Utilities/Datetime';
 import MetaTitle from '../../MetaTitle';
 import Row from '../Events/Partials/Row';
+import zoomPlugin from 'chartjs-plugin-zoom';
 
 export default function Edit() {
 	const { id } = useParams();
@@ -45,37 +56,51 @@ export default function Edit() {
 		})
 	);
 
+	ChartJS.register(BarElement, LineElement, LinearScale, PointElement, TimeScale, Tooltip, zoomPlugin);
+
 	const barData = barGraphData(row);
 	const lineData = lineGraphData(row);
 	const graphOptions = {
-		legend: {
-			display: false,
-		},
 		maintainAspectRatio: false,
 		scales: {
-			xAxes: [{
+			x: {
 				type: 'time',
 				time: {
 					unit: 'day',
-					tooltipFormat: 'MMM D, YYYY h:mm a',
+					tooltipFormat: 'MMM d, yyyy h:mm a',
 				},
-			}],
-			yAxes: [{
+			},
+			y: {
+				beginAtZero: !!barData,
 				ticks: {
-					beginAtZero: !!barData,
 					precision: barData ? 0 : null,
 				},
-			}],
+				type: 'linear',
+			},
 		},
 		plugins: {
+			legend: {
+				display: false,
+			},
 			zoom: {
+				limits: {
+					x: {
+						min: 'original',
+						max: 'original',
+					},
+				},
 				pan: {
 					enabled: true,
 					mode: 'x',
 				},
 				zoom: {
-					enabled: true,
 					mode: 'x',
+					pinch: {
+						enabled: true,
+					},
+					wheel: {
+						enabled: true,
+					},
 				},
 			},
 		},
@@ -87,20 +112,22 @@ export default function Edit() {
 
 			{barData && (
 				<div id="chart-container">
-					<Bar
+					<Chart
 						data={barData}
 						id="chart"
 						options={graphOptions}
+						type="bar"
 					/>
 				</div>
 			)}
 
 			{lineData && (
 				<div id="chart-container">
-					<Line
+					<Chart
 						data={lineData}
 						id="chart"
 						options={graphOptions}
+						type="line"
 					/>
 				</div>
 			)}
