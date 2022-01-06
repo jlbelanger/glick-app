@@ -1,9 +1,11 @@
 import 'luxon';
 import 'chartjs-adapter-luxon';
 import {
+	BarController,
 	BarElement,
 	Chart as ChartJS,
 	LinearScale,
+	LineController,
 	LineElement,
 	PointElement,
 	TimeScale,
@@ -56,7 +58,7 @@ export default function Edit() {
 		})
 	);
 
-	ChartJS.register(BarElement, LineElement, LinearScale, PointElement, TimeScale, Tooltip, zoomPlugin);
+	ChartJS.register(BarController, BarElement, LineController, LineElement, LinearScale, PointElement, TimeScale, Tooltip, zoomPlugin);
 
 	const barData = barGraphData(row);
 	const lineData = lineGraphData(row);
