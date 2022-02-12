@@ -1,4 +1,3 @@
-import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Auth from './Utilities/Auth';
 import Error404 from './Error404';
@@ -12,6 +11,7 @@ import EventTypeView from './Pages/EventTypes/View';
 import ForgotPassword from './Pages/Auth/ForgotPassword';
 import Login from './Pages/Auth/Login';
 import Profile from './Pages/Users/Edit';
+import React from 'react';
 import Register from './Pages/Auth/Register';
 import ResetPassword from './Pages/Auth/ResetPassword';
 
