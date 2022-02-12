@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Auth from './Utilities/Auth';
 import Error404 from './Error404';
 import EventEdit from './Pages/Events/Edit';
@@ -16,15 +16,6 @@ import Register from './Pages/Auth/Register';
 import ResetPassword from './Pages/Auth/ResetPassword';
 
 export default function Routes() {
-	const location = useLocation();
-	useEffect(() => {
-		if (typeof window.ga === 'function') {
-			// TODO: I'm not actually seeing these pageviews in GA.
-			window.ga('set', 'page', location.pathname);
-			window.ga('send', 'pageview');
-		}
-	}, [location]);
-
 	return (
 		<Switch>
 			<Route exact path="/">
