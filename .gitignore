@@ -3,7 +3,8 @@
 .env.production
 .eslintcache
 .gitcommit
-build
+*.log
+/build
 build.zip
 cypress.env.json
 node_modules
