@@ -62,7 +62,9 @@ export default function Routes() {
 				{Auth.isLoggedIn() ? <Profile /> : <Redirect to="/" />}
 			</Route>
 
-			<Route component={Error404} />
+			<Route>
+				<Error404 />
+			</Route>
 		</Switch>
 	);
 }
