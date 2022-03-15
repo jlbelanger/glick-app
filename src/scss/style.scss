@@ -12,6 +12,7 @@
 @import 'components/p';
 @import 'components/small';
 @import 'components/table';
+@import 'components/toast';
 @import 'classes/list';
 @import 'classes/radio';
 @import 'classes/suffix';
@@ -62,8 +63,4 @@ p,
 .formosa-button--submit {
 	max-width: 180px;
 	width: 100%;
-}
-
-.formosa-toast-container {
-	bottom: $nav-height;
 }

@@ -32,10 +32,6 @@ export default function Edit() {
 		return null;
 	}
 
-	const afterDelete = () => {
-		Auth.logout();
-	};
-
 	return (
 		<>
 			<MetaTitle title="Edit profile" />
@@ -135,7 +131,12 @@ export default function Edit() {
 			</MyForm>
 
 			<Form
-				afterSubmit={afterDelete}
+				afterSubmit={() => {
+					Auth.logout();
+				}}
+				beforeSubmit={() => (
+					confirm('Are you sure you want to delete your account?') // eslint-disable-line no-restricted-globals
+				)}
 				id={row.id}
 				method="DELETE"
 				path="users"

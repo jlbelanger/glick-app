@@ -11,7 +11,7 @@ export default function NewField({ actionType }) {
 				name="value"
 				inputMode="decimal"
 				postfix={(
-					<button className="formosa-postfix" type="submit">Add</button>
+					<button className="formosa-button formosa-postfix" type="submit">Add</button>
 				)}
 				required
 				type="text"
@@ -28,7 +28,7 @@ export default function NewField({ actionType }) {
 				id={actionType.slug}
 				name="value"
 				postfix={(
-					<button className="formosa-postfix" type="submit">Add</button>
+					<button className="formosa-button formosa-postfix" type="submit">Add</button>
 				)}
 				required
 				type="text"

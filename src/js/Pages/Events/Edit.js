@@ -56,6 +56,9 @@ export default function Edit() {
 				afterSubmit={() => {
 					history.push('/events');
 				}}
+				beforeSubmit={() => (
+					confirm('Are you sure you want to delete this event?') // eslint-disable-line no-restricted-globals
+				)}
 				id={id}
 				method="DELETE"
 				path="actions"

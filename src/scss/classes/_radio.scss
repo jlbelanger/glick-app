@@ -34,11 +34,14 @@
 	}
 }
 
-input[type='radio'] {
+input.formosa-radio__input {
 	box-shadow: none;
 	height: #{$formosa-radio-size + ($formosa-input-border-width * 2)};
 	top: #{$formosa-input-border-width * -1};
-	width: 100%;
+
+	&.formosa-field__input {
+		width: 100%;
+	}
 
 	&:checked {
 		background: transparent;
