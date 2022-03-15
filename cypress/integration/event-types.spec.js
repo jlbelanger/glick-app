@@ -36,10 +36,10 @@ describe('event types', () => {
 				cy.get('[name="label"]').type(name);
 				cy.get('[name="field_type"][value="button"]').check();
 				cy.get('[name="_new.options.label"').type('Foo');
-				cy.get('.formosa-button--add').click();
+				cy.get('.formosa-button--add-has-many').click();
 				cy.get('[id="options.0.label"]').should('exist');
 				cy.get('[name="_new.options.label"').type('Bar');
-				cy.get('.formosa-button--add').click();
+				cy.get('.formosa-button--add-has-many').click();
 				cy.get('[type="submit"]').click();
 				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
 				cy.location('pathname').should('eq', '/');
@@ -87,10 +87,10 @@ describe('event types', () => {
 				cy.get('[name="field_type"][value="button"]').check();
 				cy.get('[name="is_continuous"]').check();
 				cy.get('[name="_new.options.label"').type('Foo');
-				cy.get('.formosa-button--add').click();
+				cy.get('.formosa-button--add-has-many').click();
 				cy.get('[id="options.0.label"]').should('exist');
 				cy.get('[name="_new.options.label"').type('Bar');
-				cy.get('.formosa-button--add').click();
+				cy.get('.formosa-button--add-has-many').click();
 				cy.get('[type="submit"]').click();
 				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
 				cy.location('pathname').should('eq', '/');
