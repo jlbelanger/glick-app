@@ -1,6 +1,6 @@
-@import '../../node_modules/normalize.css/normalize';
+@import './node_modules/normalize.css/normalize';
 @import 'utilities/variables';
-@import '../../../formosa/src/style';
+@import './node_modules/@jlbelanger/formosa/src/style';
 @import 'utilities/mixins';
 @import 'layout/layout';
 @import 'layout/etc';
