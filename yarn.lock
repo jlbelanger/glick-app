@@ -2139,9 +2139,9 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@jlbelanger/formosa@jlbelanger/formosa#f49a499112bd7f9189a6013d0fe9b586d01ffd8b":
-  version "1.0.0"
-  resolved "https://codeload.github.com/jlbelanger/formosa/tar.gz/f49a499112bd7f9189a6013d0fe9b586d01ffd8b"
+"@jlbelanger/formosa@jlbelanger/formosa#8ef7edf067640120f23672ed17a67c76a75b026d":
+  version "1.0.1"
+  resolved "https://codeload.github.com/jlbelanger/formosa/tar.gz/8ef7edf067640120f23672ed17a67c76a75b026d"
   dependencies:
     get-value "^3.0.1"
     prop-types "^15.8.0"
