@@ -2,8 +2,8 @@ import Cookies from 'js-cookie';
 
 export default class Auth {
 	static login(id, token, remember) {
-		Cookies.set('glick_id', id, Auth.attributes(remember));
-		Cookies.set('glick_token', token, Auth.attributes(remember));
+		Cookies.set(`${process.env.REACT_APP_COOKIE_PREFIX}_id`, id, Auth.attributes(remember));
+		Cookies.set(`${process.env.REACT_APP_COOKIE_PREFIX}_token`, token, Auth.attributes(remember));
 	}
 
 	static attributes(remember) {
@@ -18,17 +18,17 @@ export default class Auth {
 	}
 
 	static logout() {
-		Cookies.remove('glick_id');
-		Cookies.remove('glick_token');
-		window.location.href = window.location.href.replace(window.location.hash, '');
+		Cookies.remove(`${process.env.REACT_APP_COOKIE_PREFIX}_id`);
+		Cookies.remove(`${process.env.REACT_APP_COOKIE_PREFIX}_token`);
+		window.location.href = window.location.origin + process.env.PUBLIC_URL;
 	}
 
 	static id() {
-		return Cookies.get('glick_id');
+		return Cookies.get(`${process.env.REACT_APP_COOKIE_PREFIX}_id`);
 	}
 
 	static token() {
-		return Cookies.get('glick_token');
+		return Cookies.get(`${process.env.REACT_APP_COOKIE_PREFIX}_token`);
 	}
 
 	static isLoggedIn() {

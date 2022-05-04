@@ -23,7 +23,7 @@ export default class MetaTitle extends React.Component {
 	}
 
 	setTitle() {
-		const defaultTitle = 'Glick';
+		const defaultTitle = process.env.REACT_APP_TITLE;
 		let title = this.props.title;
 		if (title) {
 			title += ' | ';

@@ -23,6 +23,9 @@ export default function Login() {
 				row={row}
 				setRow={setRow}
 			>
+				{/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+				<p>For a demo, use the username <b>demo</b> and the password <b>demo</b>.</p>
+
 				<Field
 					autoCapitalize="none"
 					autoComplete="username"
@@ -47,11 +50,12 @@ export default function Login() {
 					type="checkbox"
 				/>
 
-				<Submit label="Log in" />
-
-				<p style={{ textAlign: 'right' }}>
-					<NavLink to="/forgot-password">Forgot your password?</NavLink>
-				</p>
+				<Submit
+					label="Log in"
+					postfix={(
+						<NavLink className="formosa-button button--link" to="/forgot-password">Forgot your password?</NavLink>
+					)}
+				/>
 			</Form>
 		</>
 	);

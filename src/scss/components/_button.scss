@@ -103,3 +103,15 @@ button,
 		text-shadow: 0 -1px 0 $dark-green;
 	}
 }
+
+.button--link {
+	background-color: transparent;
+	border-color: transparent;
+	color: $green;
+
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: transparent;
+	}
+}
