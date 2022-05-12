@@ -27,17 +27,15 @@ export default function Edit() {
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
 	useEffect(() => {
-		if (row === null) {
-			Api.get(`action-types/${id}?include=actions,actions.option`)
-				.then((response) => {
-					setRow(response);
-				})
-				.catch((response) => {
-					setError(response.status);
-				});
-		}
+		Api.get(`action-types/${id}?include=actions,actions.option`)
+			.then((response) => {
+				setRow(response);
+			})
+			.catch((response) => {
+				setError(response.status);
+			});
 		return () => {};
-	});
+	}, [id]);
 
 	if (error) {
 		return (

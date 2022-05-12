@@ -10,17 +10,15 @@ export default function List() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 	useEffect(() => {
-		if (rows === null) {
-			Api.get('actions?include=action_type,option')
-				.then((response) => {
-					setRows(response);
-				})
-				.catch((response) => {
-					setError(response.status);
-				});
-		}
+		Api.get('actions?include=action_type,option')
+			.then((response) => {
+				setRows(response);
+			})
+			.catch((response) => {
+				setError(response.status);
+			});
 		return () => {};
-	});
+	}, []);
 
 	if (error) {
 		return (

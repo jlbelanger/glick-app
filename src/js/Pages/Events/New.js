@@ -11,17 +11,15 @@ export default function New() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 	useEffect(() => {
-		if (rows === null) {
-			Api.get('action-types?include=options')
-				.then((response) => {
-					setRows(response);
-				})
-				.catch((response) => {
-					setError(response.status);
-				});
-		}
+		Api.get('action-types?include=options')
+			.then((response) => {
+				setRows(response);
+			})
+			.catch((response) => {
+				setError(response.status);
+			});
 		return () => {};
-	});
+	}, []);
 
 	if (error) {
 		return (
