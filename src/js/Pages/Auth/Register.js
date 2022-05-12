@@ -8,7 +8,7 @@ export default function Register() {
 	const [row, setRow] = useState({});
 	const afterSubmit = (response) => {
 		Auth.login(response.id, response.token, response.remember);
-		window.location.reload();
+		window.location.href = '/';
 	};
 
 	return (
