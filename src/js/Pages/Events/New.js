@@ -112,7 +112,7 @@ export default function New() {
 					if (row.in_progress) {
 						className += ' list__item--active';
 						if (row.in_progress.option) {
-							defaultRow.option = JSON.stringify({ id: row.in_progress.option.id, type: row.in_progress.option.type });
+							defaultRow.option = { id: row.in_progress.option.id, type: row.in_progress.option.type };
 						}
 					}
 

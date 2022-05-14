@@ -75,7 +75,7 @@ export default function NewField({ actionType }) {
 				labelKey="label"
 				options={options}
 				type="radio"
-				valueKey={(option) => (JSON.stringify({ id: option.id, type: option.type }))}
+				valueKey={(option) => ({ id: option.id, type: option.type })}
 			/>
 			<button id={submitId} style={{ display: 'none' }} type="submit" />
 		</>
