@@ -18,7 +18,7 @@ export default function Fields() {
 				label={formState.row.action_type.is_continuous ? 'Start date' : 'Date'}
 				name="start_date"
 				required
-				type="datetime"
+				type="text"
 			/>
 
 			{!!formState.row.action_type.is_continuous && (
@@ -26,7 +26,7 @@ export default function Fields() {
 					convertToTimezone={timeZone}
 					label="End date"
 					name="end_date"
-					type="datetime"
+					type="text"
 				/>
 			)}
 
