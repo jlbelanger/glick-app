@@ -7,7 +7,7 @@ import MyForm from '../../MyForm';
 export default function Register() {
 	const [row, setRow] = useState({});
 	const afterSubmit = (response) => {
-		Auth.login(response.id, response.token, response.remember);
+		Auth.login(response.user, response.token, response.remember);
 		window.location.href = '/';
 	};
 

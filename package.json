@@ -22,7 +22,7 @@
 		"eject": "react-scripts eject"
 	},
 	"dependencies": {
-		"@jlbelanger/formosa": "jlbelanger/formosa#b0e8b1b94172800c53d163fd349ee799d788c824",
+		"@jlbelanger/formosa": "jlbelanger/formosa#061c94ac1fa3fcd072001dfddbe2f134f588a2ce",
 		"@svgr/webpack": "^6.1.2",
 		"chart.js": "^3.7.0",
 		"chartjs-adapter-luxon": "^1.1.0",

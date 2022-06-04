@@ -1,7 +1,7 @@
 import './commands';
 
 beforeEach(() => {
-	Cypress.Cookies.preserveOnce('glick_id', 'glick_token');
+	Cypress.Cookies.preserveOnce('glick_user', 'glick_token');
 });
 
 Cypress.Commands.add('login', () => {
