@@ -11,7 +11,7 @@ export default function New() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 	useEffect(() => {
-		Api.get('action-types?include=options')
+		Api.get('action-types?filter[is_archived][eq]=0&include=options')
 			.then((response) => {
 				setRows(response);
 			})

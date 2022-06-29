@@ -61,6 +61,13 @@ export default function Fields() {
 					size={10}
 				/>
 			)}
+
+			<Field
+				label="Archive?"
+				name="is_archived"
+				labelNote="archived event types do not appear on the New Event page"
+				type="checkbox"
+			/>
 		</>
 	);
 }
