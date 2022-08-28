@@ -8,7 +8,7 @@ export default function Row({ date, rows }) {
 	return (
 		<>
 			<tr>
-				<th>{`${formatDate(date)} (${rows.length})`}</th>
+				<th scope="col">{`${formatDate(date)} (${rows.length})`}</th>
 			</tr>
 			{rows.map((row) => (
 				<tr className="table__row" key={row.id}>
