@@ -17,7 +17,6 @@ export default function Edit() {
 			.catch((response) => {
 				setError(response.status);
 			});
-		return () => {};
 	}, [id]);
 
 	if (error) {

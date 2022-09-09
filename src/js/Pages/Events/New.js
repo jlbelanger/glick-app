@@ -18,7 +18,6 @@ export default function New() {
 			.catch((response) => {
 				setError(response.status);
 			});
-		return () => {};
 	}, []);
 
 	if (error) {

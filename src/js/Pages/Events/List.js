@@ -17,7 +17,6 @@ export default function List() {
 			.catch((response) => {
 				setError(response.status);
 			});
-		return () => {};
 	}, []);
 
 	if (error) {
