@@ -1,5 +1,6 @@
 import { Field, FormContext } from '@jlbelanger/formosa';
 import React, { useContext } from 'react';
+import HasMany from './HasMany';
 
 export default function Fields() {
 	const { formState } = useContext(FormContext);
@@ -36,19 +37,10 @@ export default function Fields() {
 					/>
 
 					<Field
-						attributes={[
-							{
-								name: 'label',
-								className: 'formosa-prefix',
-							},
-						]}
-						buttonClassName="formosa-postfix"
+						component={HasMany}
 						label="Custom button labels"
 						name="options"
 						labelNote={formState.row.options && formState.row.options.length > 0 ? '' : defaultMessage}
-						recordType="options"
-						removable={(value) => (!value.has_events || value.id.startsWith('temp-'))}
-						type="has-many"
 					/>
 				</>
 			)}

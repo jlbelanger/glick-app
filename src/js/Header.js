@@ -5,7 +5,7 @@ import { ReactComponent as Logo } from '../svg/logo.svg';
 import { NavLink } from 'react-router-dom';
 
 export default function Header() {
-	const { formosaState } = useContext(FormosaContext);
+	const { addToast } = useContext(FormosaContext);
 	const logout = () => {
 		Api.delete('auth/logout')
 			.then(() => {
@@ -16,7 +16,7 @@ export default function Header() {
 					Auth.logout();
 					return;
 				}
-				formosaState.addToast('Error.', 'error');
+				addToast('Error.', 'error');
 			});
 	};
 
