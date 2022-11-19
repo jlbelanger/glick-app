@@ -20,9 +20,9 @@ export default function App() {
 			<main id="main">
 				<FormContainer>
 					<Header />
-					<h2 id="title">
+					<h1 id="title">
 						<span className="contain" id="title__text" style={{ display: 'none' }} />
-					</h2>
+					</h1>
 					<Footer />
 
 					<article className="contain" id="article">

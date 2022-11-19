@@ -96,7 +96,7 @@ export default function New() {
 
 	return (
 		<>
-			<MetaTitle />
+			<MetaTitle title="Add event" hideTitleText />
 
 			<ul className="list" id="list">
 				{sortedRows.map((row) => {

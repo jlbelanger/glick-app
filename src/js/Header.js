@@ -24,7 +24,7 @@ export default function Header() {
 		<header id="header">
 			<div className="contain" id="header__contain">
 				{Auth.isLoggedIn() && <NavLink activeClassName="nav__link--active" className="nav__link" to="/profile">Profile</NavLink>}
-				<h1><Logo height="28" fill="#fff" title={process.env.REACT_APP_TITLE} /></h1>
+				<div id="logo"><Logo height="28" fill="#fff" title={process.env.REACT_APP_TITLE} /></div>
 				{Auth.isLoggedIn() && <button className="nav__button" onClick={logout} type="button">Logout</button>}
 			</div>
 		</header>

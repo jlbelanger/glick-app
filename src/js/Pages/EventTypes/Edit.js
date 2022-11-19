@@ -64,7 +64,7 @@ export default function Edit() {
 				showMessage={false}
 				successToastText="Event type deleted successfully."
 			>
-				<h3>{`Delete ${row.label}`}</h3>
+				<h2>{`Delete ${row.label}`}</h2>
 
 				<Message />
 

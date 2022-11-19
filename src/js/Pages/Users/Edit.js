@@ -64,7 +64,7 @@ export default function Edit() {
 				showMessage={false}
 				successToastText="Email changed successfully."
 			>
-				<h3>Change email</h3>
+				<h2>Change email</h2>
 
 				<Message />
 
@@ -98,7 +98,7 @@ export default function Edit() {
 				showMessage={false}
 				successToastText="Password changed successfully."
 			>
-				<h3>Change password</h3>
+				<h2>Change password</h2>
 
 				<Message />
 
@@ -142,7 +142,7 @@ export default function Edit() {
 				path="users"
 				showMessage={false}
 			>
-				<h3>Delete account</h3>
+				<h2>Delete account</h2>
 
 				<Message />
 
