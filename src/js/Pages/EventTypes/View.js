@@ -1,5 +1,5 @@
 import 'luxon';
-import 'chartjs-adapter-luxon';
+import 'chartjs-adapter-luxon'; // eslint-disable-line import/no-unresolved
 import {
 	BarController,
 	BarElement,
@@ -15,7 +15,7 @@ import { barGraphData, lineGraphData } from '../../Utilities/Graph';
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
-import { Chart } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2'; // eslint-disable-line import/no-unresolved
 import Error from '../../Error';
 import { getRowsByDate } from '../../Utilities/Datetime';
 import MetaTitle from '../../MetaTitle';
