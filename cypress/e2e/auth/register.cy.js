@@ -31,10 +31,11 @@ describe('register', () => {
 
 	describe('with mismatched passwords', () => {
 		it('shows an error', () => {
+			const username = `foo+${Date.now()}`;
 			cy.clearCookies();
 			cy.visit('/register');
-			cy.get('[name="username"]').type(`foo+${Date.now()}`);
-			cy.get('[name="email"]').type(`foo+${Date.now()}@example.com`);
+			cy.get('[name="username"]').type(username);
+			cy.get('[name="email"]').type(`${username}@example.com`);
 			cy.get('[name="password"]').type('foo1');
 			cy.get('[name="password_confirmation"]').type('foo2');
 			cy.intercept('POST', '**/api/auth/register').as('register');
@@ -47,10 +48,11 @@ describe('register', () => {
 	describe('with valid input', () => {
 		it('works', () => {
 			// Register.
+			const username = `foo+${Date.now()}`;
 			cy.clearCookies();
 			cy.visit('/register');
-			cy.get('[name="username"]').type(`foo+${Date.now()}`);
-			cy.get('[name="email"]').type(`foo+${Date.now()}@example.com`);
+			cy.get('[name="username"]').type(username);
+			cy.get('[name="email"]').type(`${username}@example.com`);
 			cy.get('[name="password"]').type(Cypress.env('default_password'));
 			cy.get('[name="password_confirmation"]').type(Cypress.env('default_password'));
 			cy.intercept('POST', '**/api/auth/register').as('register');

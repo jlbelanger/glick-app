@@ -1,5 +1,5 @@
 describe('profile', () => {
-	before(() => {
+	beforeEach(() => {
 		cy.login();
 	});
 

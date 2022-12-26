@@ -1,5 +1,5 @@
 describe('events', () => {
-	before(() => {
+	beforeEach(() => {
 		cy.login();
 	});
 
