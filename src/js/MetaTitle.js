@@ -1,46 +1,35 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { useEffect } from 'react';
 
-export default class MetaTitle extends React.Component {
-	static propTypes = {
-		hideTitleText: PropTypes.bool,
-		title: PropTypes.string,
-	};
-
-	static defaultProps = {
-		hideTitleText: false,
-		title: '',
-	};
-
-	componentDidMount() {
-		this.setTitle();
-	}
-
-	componentDidUpdate(prevProps) {
-		if (this.props.title !== prevProps.title) {
-			this.setTitle();
+export default function MetaTitle({ hideTitleText, title }) {
+	useEffect(() => {
+		let metaTitle = title;
+		if (process.env.REACT_APP_TITLE) {
+			if (metaTitle) {
+				metaTitle += ' | ';
+			}
+			metaTitle += process.env.REACT_APP_TITLE;
 		}
-	}
-
-	setTitle() {
-		const defaultTitle = process.env.REACT_APP_TITLE;
-		let title = this.props.title;
-		if (title) {
-			title += ' | ';
-		}
-		title += defaultTitle;
-		document.querySelector('title').innerText = title;
+		document.querySelector('title').innerText = metaTitle;
 
 		const elem = document.getElementById('title__text');
-		elem.innerText = this.props.title;
-		if (this.props.title && !this.props.hideTitleText) {
+		elem.innerText = title;
+		if (metaTitle && !hideTitleText) {
 			elem.style.display = '';
 		} else {
 			elem.style.display = 'none';
 		}
-	}
+	}, [title]);
 
-	render() {
-		return null;
-	}
+	return null;
 }
+
+MetaTitle.propTypes = {
+	hideTitleText: PropTypes.bool,
+	title: PropTypes.string,
+};
+
+MetaTitle.defaultProps = {
+	hideTitleText: false,
+	title: '',
+};

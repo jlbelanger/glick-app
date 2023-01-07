@@ -26,7 +26,9 @@ export default function List() {
 	}
 
 	if (rows === null) {
-		return null;
+		return (
+			<MetaTitle title="Past events" />
+		);
 	}
 
 	const rowsByDate = getRowsByDate(rows);

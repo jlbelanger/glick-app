@@ -29,7 +29,9 @@ export default function Edit() {
 	}
 
 	if (row === null) {
-		return null;
+		return (
+			<MetaTitle title="Edit" />
+		);
 	}
 
 	return (

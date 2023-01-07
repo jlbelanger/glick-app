@@ -43,7 +43,9 @@ export default function Edit() {
 	}
 
 	if (row === null) {
-		return null;
+		return (
+			<MetaTitle title="Loading..." />
+		);
 	}
 
 	const rowsByDate = getRowsByDate(row.actions);
