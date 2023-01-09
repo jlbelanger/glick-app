@@ -71,6 +71,10 @@ button,
 	}
 }
 
+.formosa-button {
+	font-weight: bold;
+}
+
 .formosa-radio__label {
 	&:focus-within {
 		@include gradient($dark-green, scale-color($green, $lightness: -10%), $green);
@@ -108,6 +112,7 @@ button,
 	background-color: transparent;
 	border-color: transparent;
 	color: $green;
+	font-weight: normal;
 
 	&:hover,
 	&:active,
