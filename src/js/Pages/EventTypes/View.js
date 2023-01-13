@@ -109,7 +109,9 @@ export default function Edit() {
 
 	return (
 		<>
-			<MetaTitle title={row.label} />
+			<MetaTitle title={row.label}>
+				<Link to={`/event-types/${row.id}/edit`}>Edit</Link>
+			</MetaTitle>
 
 			{barData && (
 				<div id="chart-container">
@@ -135,11 +137,6 @@ export default function Edit() {
 
 			<table>
 				<tbody>
-					<tr>
-						<td>
-							<Link className="table__link" to={`/event-types/${row.id}/edit`}>Edit</Link>
-						</td>
-					</tr>
 					{Object.keys(rowsByDate).map((date) => (
 						<Row key={date} date={date} rows={addActionTypeToActions(rowsByDate[date])} />
 					))}

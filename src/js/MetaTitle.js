@@ -1,7 +1,7 @@
+import { React, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
 
-export default function MetaTitle({ hideTitleText, title }) {
+export default function MetaTitle({ children, hideTitleText, title }) {
 	useEffect(() => {
 		let metaTitle = title;
 		if (process.env.REACT_APP_TITLE) {
@@ -11,25 +11,35 @@ export default function MetaTitle({ hideTitleText, title }) {
 			metaTitle += process.env.REACT_APP_TITLE;
 		}
 		document.querySelector('title').innerText = metaTitle;
-
-		const elem = document.getElementById('title__text');
-		elem.innerText = title;
-		if (metaTitle && !hideTitleText) {
-			elem.style.display = '';
-		} else {
-			elem.style.display = 'none';
-		}
 	}, [title]);
 
-	return null;
+	if (hideTitleText) {
+		return (
+			<div id="heading-spacer" />
+		);
+	}
+
+	return (
+		<>
+			<div id="heading">
+				<div id="heading-inner">
+					<h1 id="heading-title">{title}</h1>
+					{children}
+				</div>
+			</div>
+			<div id="heading-spacer" />
+		</>
+	);
 }
 
 MetaTitle.propTypes = {
+	children: PropTypes.node,
 	hideTitleText: PropTypes.bool,
 	title: PropTypes.string,
 };
 
 MetaTitle.defaultProps = {
+	children: null,
 	hideTitleText: false,
 	title: '',
 };

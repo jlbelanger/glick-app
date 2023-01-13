@@ -31,12 +31,11 @@ export default function List() {
 
 	return (
 		<>
-			<MetaTitle title="Event types" />
+			<MetaTitle title="Event types">
+				<Link to="/event-types/new">+ Add New</Link>
+			</MetaTitle>
 
 			<ul className="list">
-				<li className="list__item">
-					<Link className="list__link" to="/event-types/new">+ Add New</Link>
-				</li>
 				{rows.map((row) => (
 					<li className="list__item" key={row.id}>
 						<Link className="list__link" to={`/event-types/${row.id}`}>{row.label}</Link>

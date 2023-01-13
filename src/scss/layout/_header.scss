@@ -52,19 +52,47 @@
 	text-shadow: 0 2px 0 $black;
 }
 
-#title {
+#heading {
 	background: $dark-purple;
-	display: block;
+	color: $white;
+	height: $nav-height;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: $nav-height;
+	z-index: 2;
+
+	a {
+		color: $white;
+		display: block;
+		margin-left: auto;
+		padding: $list-padding-side;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+}
+
+#heading-inner {
+	align-items: center;
+	display: flex;
+	height: $nav-height;
+	margin: 0 auto;
+	max-width: $max-width;
+	padding-left: $list-padding-side;
+	width: 100%;
+}
+
+#heading-title {
 	font-size: $font-size;
 	letter-spacing: 2px;
-	margin: $nav-height 0 0;
 	text-shadow: 0 2px 0 $black;
 	text-transform: uppercase;
 }
 
-#title__text {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	padding: $list-padding-top $list-padding-side;
+#heading-spacer {
+	height: $nav-height;
+}
+
+#heading + #heading-spacer {
+	height: #{$nav-height * 2};
 }

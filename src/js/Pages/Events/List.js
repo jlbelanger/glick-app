@@ -35,15 +35,12 @@ export default function List() {
 
 	return (
 		<>
-			<MetaTitle title="Past events" />
+			<MetaTitle title="Past events">
+				<Link to="/">+ Add New</Link>
+			</MetaTitle>
 
 			<table>
 				<tbody>
-					<tr>
-						<td>
-							<Link className="table__link" to="/">+ Add New</Link>
-						</td>
-					</tr>
 					{Object.keys(rowsByDate).map((date) => (
 						<Row key={date} date={date} rows={rowsByDate[date]} />
 					))}

@@ -35,9 +35,9 @@ export default function Edit() {
 
 	return (
 		<>
-			<MetaTitle title={`Edit ${row.label}`} />
-
-			<Link className="table__link" to={`/event-types/${row.id}`}>&laquo; Back to events</Link>
+			<MetaTitle title={`Edit ${row.label}`}>
+				<Link to={`/event-types/${row.id}`}>&laquo; Back to events</Link>
+			</MetaTitle>
 
 			<MyForm
 				id={id}
