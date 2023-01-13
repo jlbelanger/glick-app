@@ -50,12 +50,10 @@ export default function Login() {
 					type="checkbox"
 				/>
 
-				<Submit
-					label="Log in"
-					postfix={(
-						<Link className="formosa-button button--link" to="/forgot-password">Forgot password?</Link>
-					)}
-				/>
+				<div className="formosa-field formosa-field--submit submit-with-postfix">
+					<button className="formosa-button formosa-button--submit" type="submit">Log in</button>
+					<Link className="formosa-button button--link" to="/forgot-password">Forgot password?</Link>
+				</div>
 			</Form>
 		</>
 	);

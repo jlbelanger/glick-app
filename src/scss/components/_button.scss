@@ -112,7 +112,9 @@ button,
 	background-color: transparent;
 	border-color: transparent;
 	color: $green;
+	display: inline-block;
 	font-weight: normal;
+	white-space: nowrap;
 
 	&:hover,
 	&:active,

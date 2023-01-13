@@ -26,12 +26,10 @@ export default function ForgotPassword() {
 					type="email"
 				/>
 
-				<Submit
-					label="Send link"
-					postfix={(
-						<Link className="formosa-button button--link" to="/">Back to login</Link>
-					)}
-				/>
+				<div className="formosa-field formosa-field--submit submit-with-postfix">
+					<button className="formosa-button formosa-button--submit" type="submit">Send link</button>
+					<Link className="formosa-button button--link" to="/">Back to login</Link>
+				</div>
 			</Form>
 		</>
 	);
