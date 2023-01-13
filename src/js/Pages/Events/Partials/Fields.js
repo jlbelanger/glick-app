@@ -33,9 +33,9 @@ export default function Fields() {
 			{formState.row.action_type.field_type !== 'button' && (
 				<Field
 					label="Value"
-					inputMode="decimal"
 					name="value"
 					suffix={formState.row.action_type.suffix}
+					type="text"
 					wrapperClassName={`field--${formState.row.action_type.field_type}`}
 				/>
 			)}
