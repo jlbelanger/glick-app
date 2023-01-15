@@ -1,8 +1,23 @@
-export const barGraphData = (actionType) => {
-	if (actionType.field_type !== 'button' || actionType.is_continuous) {
-		return null;
+export const getGraphType = (actionType) => {
+	if (actionType.field_type === 'button' && !actionType.is_continuous) {
+		return 'bar';
 	}
+	if (actionType.field_type === 'number') {
+		return 'line';
+	}
+	if (actionType.field_type === 'text') {
+		let output = 'line';
+		actionType.actions.forEach((action) => {
+			if (!/^[0-9./]+$/.test(action.value)) {
+				output = 'bar';
+			}
+		});
+		return output;
+	}
+	return null;
+};
 
+export const barGraphData = (actionType) => {
 	const data = {};
 	actionType.actions.forEach((action) => {
 		const date = new Date(`${action.start_date.substring(0, 10)}T00:00:00.000Z`);
@@ -30,10 +45,6 @@ export const barGraphData = (actionType) => {
 };
 
 export const lineGraphData = (actionType) => {
-	if (actionType.field_type === 'button') {
-		return null;
-	}
-
 	const output = {
 		labels: [],
 		datasets: [],
@@ -59,7 +70,7 @@ export const lineGraphData = (actionType) => {
 
 	actionType.actions.forEach((action) => {
 		output.labels.push(new Date(`${action.start_date.replace(' ', 'T')}.000Z`));
-		if (action.value.includes('/')) {
+		if (/^[0-9./]+$/.test(action.value)) {
 			action.value.split('/').forEach((value, i) => {
 				if (points.length < (i + 1)) {
 					points.push([]);

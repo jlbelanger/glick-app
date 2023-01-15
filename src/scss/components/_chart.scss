@@ -1,0 +1,17 @@
+#chart-container {
+	height: 250px;
+	margin: 24px 8px 0;
+	max-height: calc(100vh - #{($nav-height * 5)});
+}
+
+.formosa-field.scale {
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
+	margin: 0;
+	padding: $list-padding-top $list-padding-side;
+
+	.formosa-label-wrapper {
+		margin: 0 8px 0 0;
+	}
+}

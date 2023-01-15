@@ -7,6 +7,7 @@
 @import 'layout/header';
 @import 'layout/footer';
 @import 'components/button';
+@import 'components/chart';
 @import 'components/has-many';
 @import 'components/heading';
 @import 'components/input';
@@ -21,12 +22,6 @@
 p,
 .formosa-field {
 	margin: 24px 0 0;
-}
-
-#chart-container {
-	height: 250px;
-	margin: 24px 8px 0;
-	max-height: calc(100vh - #{($nav-height * 5)});
 }
 
 .formosa-field {
