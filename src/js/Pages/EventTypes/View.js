@@ -11,26 +11,63 @@ import {
 	TimeScale,
 	Tooltip,
 } from 'chart.js';
-import { barGraphData, getGraphType, lineGraphData } from '../../Utilities/Graph';
+import { barGraphData, getChartUnit, getGraphType, lineGraphData } from '../../Utilities/Graph';
+import { formatDatetimeISO, getDatetimeInUserTimezone, getRowsByDate } from '../../Utilities/Datetime';
 import { Link, useParams } from 'react-router-dom';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
 import { Chart } from 'react-chartjs-2'; // eslint-disable-line import/no-unresolved
-import ChartScale from './Partials/ChartScale';
 import Error from '../../Error';
-import { getRowsByDate } from '../../Utilities/Datetime';
+import Filters from './Partials/Filters';
 import MetaTitle from '../../MetaTitle';
 import Row from '../Events/Partials/Row';
+import Stats from './Partials/Stats';
 import zoomPlugin from 'chartjs-plugin-zoom';
+
+const convertToCurrentTimezone = (rows) => {
+	const output = [];
+
+	rows.forEach((row) => {
+		const datetime = getDatetimeInUserTimezone(row.start_date);
+		output.push({
+			...row,
+			date: datetime,
+		});
+	});
+
+	return output;
+};
+
+const toDateString = (date) => (
+	formatDatetimeISO(date).substring(0, 10)
+);
+
+const filterByDates = (rows, fromDate, toDate) => {
+	const output = [];
+
+	rows.forEach((row) => {
+		const date = toDateString(row.date);
+		if (date >= fromDate && date <= toDate) {
+			output.push(row);
+		}
+	});
+
+	return output;
+};
 
 export default function Edit() {
 	const { id } = useParams();
 	const chartRef = useRef(null);
 	const [row, setRow] = useState(null);
+	const [actions, setActions] = useState([]);
 	const [error, setError] = useState(false);
 	const [graphData, setGraphData] = useState(null);
 	const [graphOptions, setGraphOptions] = useState(null);
-	const [graphType, setGraphType] = useState(null);
+	const [graphType, setGraphType] = useState('');
+	const [minDate, setMinDate] = useState(null);
+	const defaultDate = useMemo(() => (new Date()));
+	const [fromDate, setFromDate] = useState(toDateString(defaultDate));
+	const [toDate, setToDate] = useState(toDateString(defaultDate));
 
 	useEffect(() => {
 		let ignore = false;
@@ -44,31 +81,36 @@ export default function Edit() {
 
 					setRow(response);
 
+					const newActions = convertToCurrentTimezone(response.actions);
+					newActions.forEach((action) => {
+						action.action_type = response;
+					});
+					setActions(newActions);
+
 					let data = null;
 					const newGraphType = getGraphType(response);
 					if (newGraphType === 'bar') {
-						data = barGraphData(response);
+						data = barGraphData(newActions);
 					} else if (newGraphType === 'line') {
-						data = lineGraphData(response);
+						data = lineGraphData(response, newActions);
 					}
 
+					let minDatetime = null;
 					let minX = null;
 					let maxX = null;
-					data.labels.forEach((date) => {
-						const time = date.getTime();
+					newActions.forEach((action) => {
+						const time = action.date.getTime();
 						if (!minX || time < minX) {
 							minX = time;
 						}
 						if (!maxX || time > maxX) {
 							maxX = time;
 						}
+						if (!minDate || time < minDatetime) {
+							minDatetime = time;
+						}
 					});
-					const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
-					const oneYearInMilliseconds = oneDayInMilliseconds * 365;
-					let limitX = minX;
-					if ((maxX - minX) < oneYearInMilliseconds) {
-						limitX = maxX - oneYearInMilliseconds;
-					}
+					minDatetime = new Date(minDatetime);
 
 					const newGraphOptions = {
 						maintainAspectRatio: false,
@@ -76,8 +118,8 @@ export default function Edit() {
 							x: {
 								bounds: 'data',
 								time: {
-									tooltipFormat: 'MMM d, yyyy h:mm a',
-									unit: 'day',
+									tooltipFormat: newGraphType === 'bar' ? 'MMM d, yyyy' : 'MMM d, yyyy h:mm a',
+									unit: getChartUnit(minDatetime, defaultDate),
 								},
 								type: 'time',
 							},
@@ -97,7 +139,7 @@ export default function Edit() {
 							zoom: {
 								limits: {
 									x: {
-										min: limitX,
+										min: minX,
 										max: maxX,
 									},
 									y: {
@@ -121,19 +163,6 @@ export default function Edit() {
 						},
 					};
 
-					window.HAS_ZOOMED = false;
-
-					const defaultZoomPlugin = {
-						id: 'defaultzoom',
-						beforeBuildTicks: (chart) => {
-							if (!window.HAS_ZOOMED) {
-								const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
-								window.HAS_ZOOMED = true;
-								chart.zoomScale('x', { min: maxX - oneMonthInMilliseconds, max: maxX });
-							}
-						},
-					};
-
 					ChartJS.register(
 						BarController,
 						BarElement,
@@ -143,10 +172,11 @@ export default function Edit() {
 						PointElement,
 						TimeScale,
 						Tooltip,
-						zoomPlugin,
-						defaultZoomPlugin
+						zoomPlugin
 					);
 
+					setMinDate(minDatetime);
+					setFromDate(toDateString(minDatetime));
 					setGraphData(data);
 					setGraphOptions(newGraphOptions);
 					setGraphType(newGraphType);
@@ -173,20 +203,26 @@ export default function Edit() {
 		);
 	}
 
-	const rowsByDate = getRowsByDate(row.actions);
-
-	const addActionTypeToActions = (actions) => (
-		actions.map((action) => {
-			action.action_type = row;
-			return action;
-		})
-	);
+	let rows = actions;
+	if ((minDate && toDateString(minDate) !== fromDate) || toDateString(defaultDate) !== toDate) {
+		rows = filterByDates(rows, fromDate, toDate);
+	}
+	const rowsByDate = getRowsByDate(rows);
 
 	return (
 		<>
 			<MetaTitle title={row.label}>
 				<Link to={`/event-types/${row.id}/edit`}>Edit</Link>
 			</MetaTitle>
+
+			<Filters
+				chartRef={chartRef}
+				fromDate={fromDate}
+				setFromDate={setFromDate}
+				setToDate={setToDate}
+				toDate={toDate}
+				total={rows.length}
+			/>
 
 			{graphData && graphOptions && graphType && (
 				<>
@@ -200,14 +236,14 @@ export default function Edit() {
 						/>
 					</div>
 
-					<ChartScale chartRef={chartRef} />
+					<Stats actions={rows} graphType={graphType} />
 				</>
 			)}
 
 			<table>
 				<tbody>
 					{Object.keys(rowsByDate).map((date) => (
-						<Row key={date} date={date} rows={addActionTypeToActions(rowsByDate[date])} />
+						<Row key={date} date={date} rows={rowsByDate[date]} />
 					))}
 				</tbody>
 			</table>

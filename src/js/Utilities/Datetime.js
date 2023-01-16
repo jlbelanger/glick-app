@@ -1,10 +1,31 @@
 export const getCurrentDatetime = () => (
-	new Date().toISOString().substr(0, 19).replace('T', ' ')
+	new Date().toISOString().substring(0, 19).replace('T', ' ')
 );
 
 export const getDateFromDatetime = (datetime) => (
 	new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleString('en-CA').substring(0, 10)
 );
+
+export const pad = (n, width = 2, z = '0') => {
+	z = z || '0';
+	n = n.toString();
+	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
+
+export const getDatetimeInUserTimezone = (datetime) => (
+	new Date(`${datetime.replace(' ', 'T')}.000Z`)
+);
+
+export const formatDatetimeISO = (date) => {
+	const year = date.getFullYear();
+	const month = pad(date.getMonth() + 1);
+	const day = pad(date.getDate());
+	const hours = pad(date.getHours());
+	const minutes = pad(date.getMinutes());
+	const seconds = pad(date.getSeconds());
+	const output = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	return output;
+};
 
 export const formatDate = (date) => (
 	new Date(`${date}T12:00:00Z`).toLocaleString('en-CA', {
@@ -32,7 +53,7 @@ export const formatTime = (datetime) => (
 );
 
 export const isToday = (datetime) => (
-	getDateFromDatetime(datetime) === new Date().toISOString().substr(0, 10)
+	getDateFromDatetime(datetime) === new Date().toISOString().substring(0, 10)
 );
 
 export const getRowsByDate = (rows) => {

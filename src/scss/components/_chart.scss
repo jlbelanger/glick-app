@@ -4,12 +4,11 @@
 	max-height: calc(100vh - #{($nav-height * 5)});
 }
 
-.formosa-field.scale {
+.formosa-field.chart-field {
 	align-items: center;
 	display: flex;
-	justify-content: flex-end;
 	margin: 0;
-	padding: $list-padding-top $list-padding-side;
+	padding-left: 0;
 
 	.formosa-label-wrapper {
 		margin: 0 8px 0 0;
