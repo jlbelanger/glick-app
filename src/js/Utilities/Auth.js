@@ -30,7 +30,7 @@ export default class Auth {
 	static logout() {
 		Cookies.remove(`${process.env.REACT_APP_COOKIE_PREFIX}_user`);
 		Cookies.remove(`${process.env.REACT_APP_COOKIE_PREFIX}_token`);
-		window.location.href = window.location.origin + process.env.PUBLIC_URL;
+		window.location.href = process.env.PUBLIC_URL;
 	}
 
 	static id() {
