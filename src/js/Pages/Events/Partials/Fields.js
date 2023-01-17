@@ -50,6 +50,12 @@ export default function Fields() {
 					valueKey={(option) => ({ id: option.id, type: option.type })}
 				/>
 			)}
+
+			<Field
+				label="Notes"
+				name="notes"
+				type="textarea"
+			/>
 		</>
 	);
 }
