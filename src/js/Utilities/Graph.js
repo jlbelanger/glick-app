@@ -3,13 +3,51 @@ export const getChartUnit = (fromDate, toDate) => {
 	const max = toDate.getTime();
 	const diff = max - min;
 	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
-	let unit = 'month';
+	let unit = 'year';
 	if (diff <= oneDayInMilliseconds) {
 		unit = 'hour';
-	} else if (diff <= (oneDayInMilliseconds * 31 * 5)) {
+	} else if (diff <= (oneDayInMilliseconds * 7)) {
 		unit = 'day';
+	} else if (diff <= (oneDayInMilliseconds * 31)) {
+		unit = 'week';
+	} else if (diff <= (oneDayInMilliseconds * 365)) {
+		unit = 'month';
 	}
 	return unit;
+};
+
+export const getDefaultChartUnit = (fromDate, toDate) => {
+	const min = fromDate.getTime();
+	const max = toDate.getTime();
+	const diff = max - min;
+	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+	let unit = 'year';
+	if (diff <= oneDayInMilliseconds) {
+		unit = 'hour';
+	} else if (diff <= (oneDayInMilliseconds * 7)) {
+		unit = 'day';
+	} else if (diff <= (oneDayInMilliseconds * 31)) {
+		unit = 'week';
+	} else if (diff <= (oneDayInMilliseconds * 365 * 5)) {
+		unit = 'month';
+	}
+	return unit;
+};
+
+export const getChartTooltipFormat = (unit) => {
+	if (unit === 'year') {
+		return 'yyyy';
+	}
+	if (unit === 'month') {
+		return 'MMM yyyy';
+	}
+	if (unit === 'week') {
+		return 'yyyy \'W\'W';
+	}
+	if (unit === 'day') {
+		return 'MMM d, yyyy';
+	}
+	return 'MMM d, yyyy h:mm a';
 };
 
 export const getGraphType = (actionType) => {
@@ -31,13 +69,36 @@ export const getGraphType = (actionType) => {
 	return '';
 };
 
-export const barGraphData = (actions) => {
+export const barGraphData = (actions, unit) => {
 	const data = {};
 	actions.forEach((action) => {
-		const date = new Date(action.date);
-		date.setHours(0);
-		date.setMinutes(0);
-		date.setSeconds(0);
+		const date = new Date(action.date.getTime());
+		if (unit === 'year') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+			date.setDate(1);
+			date.setMonth(0);
+		} else if (unit === 'month') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+			date.setDate(1);
+		} else if (unit === 'week') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+			const weekday = date.getDay();
+			if (weekday === 0) {
+				date.setDate(date.getDate() - 6);
+			} else if (weekday !== 1) {
+				date.setDate(date.getDate() - (weekday - 1));
+			}
+		} else if (unit === 'day') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+		}
 		if (Object.prototype.hasOwnProperty.call(data, date)) {
 			data[date] += 1;
 		} else {

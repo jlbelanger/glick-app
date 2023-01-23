@@ -11,7 +11,7 @@ import {
 	TimeScale,
 	Tooltip,
 } from 'chart.js';
-import { barGraphData, getChartUnit, getGraphType, lineGraphData } from '../../Utilities/Graph';
+import { barGraphData, getChartTooltipFormat, getDefaultChartUnit, getGraphType, lineGraphData } from '../../Utilities/Graph';
 import { formatDatetimeISO, getDatetimeInUserTimezone, getRowsByDate } from '../../Utilities/Datetime';
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -44,10 +44,14 @@ const toDateString = (date) => (
 
 const filterByDates = (rows, fromDate, toDate) => {
 	const output = [];
+	const toDateObj = new Date(`${toDate} 00:00:00`);
+	toDateObj.setDate(toDateObj.getDate() - 1);
+	const fromDatetime = `${fromDate} 00:00:00`;
+	const toDatetime = `${toDateString(toDateObj)} 23:59:59`;
 
 	rows.forEach((row) => {
-		const date = toDateString(row.date);
-		if (date >= fromDate && date <= toDate) {
+		const date = formatDatetimeISO(row.date);
+		if (date >= fromDatetime && date <= toDatetime) {
 			output.push(row);
 		}
 	});
@@ -55,7 +59,7 @@ const filterByDates = (rows, fromDate, toDate) => {
 	return output;
 };
 
-export default function Edit() {
+export default function View() {
 	const { id } = useParams();
 	const chartRef = useRef(null);
 	const [row, setRow] = useState(null);
@@ -68,6 +72,8 @@ export default function Edit() {
 	const defaultDate = useMemo(() => (new Date()));
 	const [fromDate, setFromDate] = useState(toDateString(defaultDate));
 	const [toDate, setToDate] = useState(toDateString(defaultDate));
+	const [range, setRange] = useState('all');
+	const [unit, setUnit] = useState('day');
 
 	useEffect(() => {
 		let ignore = false;
@@ -87,14 +93,6 @@ export default function Edit() {
 					});
 					setActions(newActions);
 
-					let data = null;
-					const newGraphType = getGraphType(response);
-					if (newGraphType === 'bar') {
-						data = barGraphData(newActions);
-					} else if (newGraphType === 'line') {
-						data = lineGraphData(response, newActions);
-					}
-
 					let minDatetime = null;
 					let minX = null;
 					let maxX = null;
@@ -106,11 +104,21 @@ export default function Edit() {
 						if (!maxX || time > maxX) {
 							maxX = time;
 						}
-						if (!minDate || time < minDatetime) {
+						if (!minDatetime || time < minDatetime) {
 							minDatetime = time;
 						}
 					});
 					minDatetime = new Date(minDatetime);
+
+					const newUnit = getDefaultChartUnit(minDatetime, defaultDate);
+
+					let data = null;
+					const newGraphType = getGraphType(response);
+					if (newGraphType === 'bar') {
+						data = barGraphData(newActions, newUnit);
+					} else if (newGraphType === 'line') {
+						data = lineGraphData(response, newActions);
+					}
 
 					const newGraphOptions = {
 						maintainAspectRatio: false,
@@ -118,8 +126,11 @@ export default function Edit() {
 							x: {
 								bounds: 'data',
 								time: {
-									tooltipFormat: newGraphType === 'bar' ? 'MMM d, yyyy' : 'MMM d, yyyy h:mm a',
-									unit: getChartUnit(minDatetime, defaultDate),
+									displayFormats: {
+										week: getChartTooltipFormat('week'),
+									},
+									tooltipFormat: newGraphType === 'bar' ? getChartTooltipFormat(newUnit) : getChartTooltipFormat('second'),
+									unit: newUnit,
 								},
 								type: 'time',
 							},
@@ -147,8 +158,7 @@ export default function Edit() {
 									},
 								},
 								pan: {
-									enabled: true,
-									mode: 'x',
+									enabled: false,
 								},
 								zoom: {
 									mode: 'x',
@@ -177,6 +187,7 @@ export default function Edit() {
 
 					setMinDate(minDatetime);
 					setFromDate(toDateString(minDatetime));
+					setUnit(newUnit);
 					setGraphData(data);
 					setGraphOptions(newGraphOptions);
 					setGraphType(newGraphType);
@@ -208,6 +219,7 @@ export default function Edit() {
 		rows = filterByDates(rows, fromDate, toDate);
 	}
 	const rowsByDate = getRowsByDate(rows);
+	const total = rows.length;
 
 	return (
 		<>
@@ -218,10 +230,12 @@ export default function Edit() {
 			<Filters
 				chartRef={chartRef}
 				fromDate={fromDate}
+				minDate={minDate}
+				range={range}
 				setFromDate={setFromDate}
+				setRange={setRange}
 				setToDate={setToDate}
 				toDate={toDate}
-				total={rows.length}
 			/>
 
 			{graphData && graphOptions && graphType && (
@@ -236,17 +250,36 @@ export default function Edit() {
 						/>
 					</div>
 
-					<Stats actions={rows} graphType={graphType} />
+					<Stats
+						actions={rows}
+						chartRef={chartRef}
+						fromDate={fromDate}
+						graphType={graphType}
+						setUnit={(v) => {
+							if (graphType === 'bar') {
+								setGraphData(barGraphData(actions, v));
+							}
+							setUnit(v);
+						}}
+						suffix={row.suffix}
+						toDate={toDate}
+						total={total}
+						unit={unit}
+					/>
 				</>
 			)}
 
-			<table>
-				<tbody>
-					{Object.keys(rowsByDate).map((date) => (
-						<Row key={date} date={date} rows={rowsByDate[date]} />
-					))}
-				</tbody>
-			</table>
+			{total > 0 ? (
+				<table>
+					<tbody>
+						{Object.keys(rowsByDate).map((date) => (
+							<Row key={date} date={date} rows={rowsByDate[date]} />
+						))}
+					</tbody>
+				</table>
+			) : (
+				<p>No events found.</p>
+			)}
 		</>
 	);
 }

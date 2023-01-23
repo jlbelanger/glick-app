@@ -27,6 +27,10 @@ export const formatDatetimeISO = (date) => {
 	return output;
 };
 
+export const formatDateISO = (date) => (
+	formatDatetimeISO(date).substring(0, 10)
+);
+
 export const formatDate = (date) => (
 	new Date(`${date}T12:00:00Z`).toLocaleString('en-CA', {
 		weekday: 'short',
@@ -45,12 +49,13 @@ export const formatDatetime = (datetime) => (
 	})
 );
 
-export const formatTime = (datetime) => (
-	new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleTimeString('en-CA', {
+export const formatTime = (datetime) => {
+	const output = new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleTimeString('en-CA', {
 		hour: 'numeric',
 		minute: 'numeric',
-	})
-);
+	});
+	return output.replace('a.m.', 'AM').replace('p.m.', 'PM');
+};
 
 export const isToday = (datetime) => (
 	getDateFromDatetime(datetime) === new Date().toISOString().substring(0, 10)
