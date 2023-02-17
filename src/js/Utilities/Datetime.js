@@ -2,14 +2,22 @@ export const getCurrentDatetime = () => (
 	new Date().toISOString().substring(0, 19).replace('T', ' ')
 );
 
-export const getDateFromDatetime = (datetime) => (
-	new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleString('en-CA').substring(0, 10)
-);
-
 export const pad = (n, width = 2, z = '0') => {
 	z = z || '0';
 	n = n.toString();
 	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
+
+export const getYmdFromDateObject = (date) => {
+	const year = date.getFullYear();
+	const month = pad(date.getMonth() + 1);
+	const day = pad(date.getDate());
+	return `${year}-${month}-${day}`;
+};
+
+export const getYmdFromDatetimeString = (datetime) => {
+	const date = new Date(`${datetime.replace(' ', 'T')}.000Z`);
+	return getYmdFromDateObject(date);
 };
 
 export const getDatetimeInUserTimezone = (datetime) => (
@@ -58,13 +66,13 @@ export const formatTime = (datetime) => {
 };
 
 export const isToday = (datetime) => (
-	getDateFromDatetime(datetime) === new Date().toISOString().substring(0, 10)
+	getYmdFromDatetimeString(datetime) === getYmdFromDateObject(new Date())
 );
 
 export const getRowsByDate = (rows) => {
 	const output = {};
 	rows.forEach((row) => {
-		const date = getDateFromDatetime(row.start_date);
+		const date = getYmdFromDatetimeString(row.start_date);
 		if (!Object.prototype.hasOwnProperty.call(output, date)) {
 			output[date] = [];
 		}
