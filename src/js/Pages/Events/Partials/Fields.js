@@ -33,6 +33,7 @@ export default function Fields() {
 			{formState.row.action_type.field_type !== 'button' && (
 				<Field
 					label="Value"
+					maxLength={255}
 					name="value"
 					suffix={formState.row.action_type.suffix}
 					type="text"
@@ -49,6 +50,12 @@ export default function Fields() {
 					valueKey={(option) => ({ id: option.id, type: option.type })}
 				/>
 			)}
+
+			<Field
+				label="Notes"
+				name="notes"
+				type="textarea"
+			/>
 		</>
 	);
 }

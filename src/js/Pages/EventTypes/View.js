@@ -11,26 +11,69 @@ import {
 	TimeScale,
 	Tooltip,
 } from 'chart.js';
-import { barGraphData, getGraphType, lineGraphData } from '../../Utilities/Graph';
+import { barGraphData, getChartTooltipFormat, getDefaultChartUnit, getGraphType, lineGraphData } from '../../Utilities/Graph';
+import { formatDatetimeISO, getDatetimeInUserTimezone, getRowsByDate } from '../../Utilities/Datetime';
 import { Link, useParams } from 'react-router-dom';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
 import { Chart } from 'react-chartjs-2'; // eslint-disable-line import/no-unresolved
-import ChartScale from './Partials/ChartScale';
 import Error from '../../Error';
-import { getRowsByDate } from '../../Utilities/Datetime';
+import Filters from './Partials/Filters';
 import MetaTitle from '../../MetaTitle';
 import Row from '../Events/Partials/Row';
+import Stats from './Partials/Stats';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
-export default function Edit() {
+const convertToCurrentTimezone = (rows) => {
+	const output = [];
+
+	rows.forEach((row) => {
+		const datetime = getDatetimeInUserTimezone(row.start_date);
+		output.push({
+			...row,
+			date: datetime,
+		});
+	});
+
+	return output;
+};
+
+const toDateString = (date) => (
+	formatDatetimeISO(date).substring(0, 10)
+);
+
+const filterByDates = (rows, fromDate, toDate) => {
+	const output = [];
+	const toDateObj = new Date(`${toDate} 00:00:00`);
+	toDateObj.setDate(toDateObj.getDate() - 1);
+	const fromDatetime = `${fromDate} 00:00:00`;
+	const toDatetime = `${toDateString(toDateObj)} 23:59:59`;
+
+	rows.forEach((row) => {
+		const date = formatDatetimeISO(row.date);
+		if (date >= fromDatetime && date <= toDatetime) {
+			output.push(row);
+		}
+	});
+
+	return output;
+};
+
+export default function View() {
 	const { id } = useParams();
 	const chartRef = useRef(null);
 	const [row, setRow] = useState(null);
+	const [actions, setActions] = useState([]);
 	const [error, setError] = useState(false);
 	const [graphData, setGraphData] = useState(null);
 	const [graphOptions, setGraphOptions] = useState(null);
-	const [graphType, setGraphType] = useState(null);
+	const [graphType, setGraphType] = useState('');
+	const [minDate, setMinDate] = useState(null);
+	const defaultDate = useMemo(() => (new Date()));
+	const [fromDate, setFromDate] = useState(toDateString(defaultDate));
+	const [toDate, setToDate] = useState(toDateString(defaultDate));
+	const [range, setRange] = useState('all');
+	const [unit, setUnit] = useState('day');
 
 	useEffect(() => {
 		let ignore = false;
@@ -44,30 +87,37 @@ export default function Edit() {
 
 					setRow(response);
 
-					let data = null;
-					const newGraphType = getGraphType(response);
-					if (newGraphType === 'bar') {
-						data = barGraphData(response);
-					} else if (newGraphType === 'line') {
-						data = lineGraphData(response);
-					}
+					const newActions = convertToCurrentTimezone(response.actions);
+					newActions.forEach((action) => {
+						action.action_type = response;
+					});
+					setActions(newActions);
 
+					let minDatetime = null;
 					let minX = null;
 					let maxX = null;
-					data.labels.forEach((date) => {
-						const time = date.getTime();
+					newActions.forEach((action) => {
+						const time = action.date.getTime();
 						if (!minX || time < minX) {
 							minX = time;
 						}
 						if (!maxX || time > maxX) {
 							maxX = time;
 						}
+						if (!minDatetime || time < minDatetime) {
+							minDatetime = time;
+						}
 					});
-					const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
-					const oneYearInMilliseconds = oneDayInMilliseconds * 365;
-					let limitX = minX;
-					if ((maxX - minX) < oneYearInMilliseconds) {
-						limitX = maxX - oneYearInMilliseconds;
+					minDatetime = new Date(minDatetime);
+
+					const newUnit = getDefaultChartUnit(minDatetime, defaultDate);
+
+					let data = null;
+					const newGraphType = getGraphType(response);
+					if (newGraphType === 'bar') {
+						data = barGraphData(newActions, newUnit);
+					} else if (newGraphType === 'line') {
+						data = lineGraphData(response, newActions);
 					}
 
 					const newGraphOptions = {
@@ -76,8 +126,11 @@ export default function Edit() {
 							x: {
 								bounds: 'data',
 								time: {
-									tooltipFormat: 'MMM d, yyyy h:mm a',
-									unit: 'day',
+									displayFormats: {
+										week: getChartTooltipFormat('week'),
+									},
+									tooltipFormat: newGraphType === 'bar' ? getChartTooltipFormat(newUnit) : getChartTooltipFormat('second'),
+									unit: newUnit,
 								},
 								type: 'time',
 							},
@@ -97,7 +150,7 @@ export default function Edit() {
 							zoom: {
 								limits: {
 									x: {
-										min: limitX,
+										min: minX,
 										max: maxX,
 									},
 									y: {
@@ -105,8 +158,7 @@ export default function Edit() {
 									},
 								},
 								pan: {
-									enabled: true,
-									mode: 'x',
+									enabled: false,
 								},
 								zoom: {
 									mode: 'x',
@@ -121,19 +173,6 @@ export default function Edit() {
 						},
 					};
 
-					window.HAS_ZOOMED = false;
-
-					const defaultZoomPlugin = {
-						id: 'defaultzoom',
-						beforeBuildTicks: (chart) => {
-							if (!window.HAS_ZOOMED) {
-								const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
-								window.HAS_ZOOMED = true;
-								chart.zoomScale('x', { min: maxX - oneMonthInMilliseconds, max: maxX });
-							}
-						},
-					};
-
 					ChartJS.register(
 						BarController,
 						BarElement,
@@ -143,10 +182,12 @@ export default function Edit() {
 						PointElement,
 						TimeScale,
 						Tooltip,
-						zoomPlugin,
-						defaultZoomPlugin
+						zoomPlugin
 					);
 
+					setMinDate(minDatetime);
+					setFromDate(toDateString(minDatetime));
+					setUnit(newUnit);
 					setGraphData(data);
 					setGraphOptions(newGraphOptions);
 					setGraphType(newGraphType);
@@ -173,20 +214,29 @@ export default function Edit() {
 		);
 	}
 
-	const rowsByDate = getRowsByDate(row.actions);
-
-	const addActionTypeToActions = (actions) => (
-		actions.map((action) => {
-			action.action_type = row;
-			return action;
-		})
-	);
+	let rows = actions;
+	if ((minDate && toDateString(minDate) !== fromDate) || toDateString(defaultDate) !== toDate) {
+		rows = filterByDates(rows, fromDate, toDate);
+	}
+	const rowsByDate = getRowsByDate(rows);
+	const total = rows.length;
 
 	return (
 		<>
 			<MetaTitle title={row.label}>
 				<Link to={`/event-types/${row.id}/edit`}>Edit</Link>
 			</MetaTitle>
+
+			<Filters
+				chartRef={chartRef}
+				fromDate={fromDate}
+				minDate={minDate}
+				range={range}
+				setFromDate={setFromDate}
+				setRange={setRange}
+				setToDate={setToDate}
+				toDate={toDate}
+			/>
 
 			{graphData && graphOptions && graphType && (
 				<>
@@ -200,17 +250,36 @@ export default function Edit() {
 						/>
 					</div>
 
-					<ChartScale chartRef={chartRef} />
+					<Stats
+						actions={rows}
+						chartRef={chartRef}
+						fromDate={fromDate}
+						graphType={graphType}
+						setUnit={(v) => {
+							if (graphType === 'bar') {
+								setGraphData(barGraphData(actions, v));
+							}
+							setUnit(v);
+						}}
+						suffix={row.suffix}
+						toDate={toDate}
+						total={total}
+						unit={unit}
+					/>
 				</>
 			)}
 
-			<table>
-				<tbody>
-					{Object.keys(rowsByDate).map((date) => (
-						<Row key={date} date={date} rows={addActionTypeToActions(rowsByDate[date])} />
-					))}
-				</tbody>
-			</table>
+			{total > 0 ? (
+				<table>
+					<tbody>
+						{Object.keys(rowsByDate).map((date) => (
+							<Row key={date} date={date} rows={rowsByDate[date]} />
+						))}
+					</tbody>
+				</table>
+			) : (
+				<p>No events found.</p>
+			)}
 		</>
 	);
 }

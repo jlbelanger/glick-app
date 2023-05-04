@@ -1,9 +1,42 @@
 export const getCurrentDatetime = () => (
-	new Date().toISOString().substr(0, 19).replace('T', ' ')
+	new Date().toISOString().substring(0, 19).replace('T', ' ')
 );
 
-export const getDateFromDatetime = (datetime) => (
-	new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleString('en-CA').substring(0, 10)
+export const pad = (n, width = 2, z = '0') => {
+	z = z || '0';
+	n = n.toString();
+	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
+
+export const getYmdFromDateObject = (date) => {
+	const year = date.getFullYear();
+	const month = pad(date.getMonth() + 1);
+	const day = pad(date.getDate());
+	return `${year}-${month}-${day}`;
+};
+
+export const getYmdFromDatetimeString = (datetime) => {
+	const date = new Date(`${datetime.replace(' ', 'T')}.000Z`);
+	return getYmdFromDateObject(date);
+};
+
+export const getDatetimeInUserTimezone = (datetime) => (
+	new Date(`${datetime.replace(' ', 'T')}.000Z`)
+);
+
+export const formatDatetimeISO = (date) => {
+	const year = date.getFullYear();
+	const month = pad(date.getMonth() + 1);
+	const day = pad(date.getDate());
+	const hours = pad(date.getHours());
+	const minutes = pad(date.getMinutes());
+	const seconds = pad(date.getSeconds());
+	const output = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	return output;
+};
+
+export const formatDateISO = (date) => (
+	formatDatetimeISO(date).substring(0, 10)
 );
 
 export const formatDate = (date) => (
@@ -24,21 +57,22 @@ export const formatDatetime = (datetime) => (
 	})
 );
 
-export const formatTime = (datetime) => (
-	new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleTimeString('en-CA', {
+export const formatTime = (datetime) => {
+	const output = new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleTimeString('en-CA', {
 		hour: 'numeric',
 		minute: 'numeric',
-	})
-);
+	});
+	return output.replace('a.m.', 'AM').replace('p.m.', 'PM');
+};
 
 export const isToday = (datetime) => (
-	getDateFromDatetime(datetime) === new Date().toISOString().substr(0, 10)
+	getYmdFromDatetimeString(datetime) === getYmdFromDateObject(new Date())
 );
 
 export const getRowsByDate = (rows) => {
 	const output = {};
 	rows.forEach((row) => {
-		const date = getDateFromDatetime(row.start_date);
+		const date = getYmdFromDatetimeString(row.start_date);
 		if (!Object.prototype.hasOwnProperty.call(output, date)) {
 			output[date] = [];
 		}

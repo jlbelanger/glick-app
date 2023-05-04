@@ -26,6 +26,7 @@ export default function NewField({ actionType }) {
 			<Field
 				className="formosa-prefix"
 				id={actionType.slug}
+				maxLength={255}
 				name="value"
 				postfix={(
 					<button className="formosa-button formosa-postfix" type="submit">Add</button>

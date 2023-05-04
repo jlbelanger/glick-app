@@ -85,8 +85,11 @@
 #heading-title {
 	font-size: $font-size;
 	letter-spacing: 2px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	text-shadow: 0 2px 0 $black;
 	text-transform: uppercase;
+	white-space: nowrap;
 }
 
 #heading-spacer {

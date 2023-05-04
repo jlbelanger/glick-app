@@ -37,4 +37,11 @@ td {
 
 .table__label {
 	flex: 1 1 auto;
+	line-height: 1.2;
+	word-break: break-word;
+}
+
+.table__time {
+	margin-left: 8px;
+	white-space: nowrap;
 }

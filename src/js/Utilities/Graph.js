@@ -1,3 +1,55 @@
+export const getChartUnit = (fromDate, toDate) => {
+	const min = fromDate.getTime();
+	const max = toDate.getTime();
+	const diff = max - min;
+	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+	let unit = 'year';
+	if (diff <= oneDayInMilliseconds) {
+		unit = 'hour';
+	} else if (diff <= (oneDayInMilliseconds * 7)) {
+		unit = 'day';
+	} else if (diff <= (oneDayInMilliseconds * 31)) {
+		unit = 'week';
+	} else if (diff <= (oneDayInMilliseconds * 365)) {
+		unit = 'month';
+	}
+	return unit;
+};
+
+export const getDefaultChartUnit = (fromDate, toDate) => {
+	const min = fromDate.getTime();
+	const max = toDate.getTime();
+	const diff = max - min;
+	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+	let unit = 'year';
+	if (diff <= oneDayInMilliseconds) {
+		unit = 'hour';
+	} else if (diff <= (oneDayInMilliseconds * 7)) {
+		unit = 'day';
+	} else if (diff <= (oneDayInMilliseconds * 31)) {
+		unit = 'week';
+	} else if (diff <= (oneDayInMilliseconds * 365 * 5)) {
+		unit = 'month';
+	}
+	return unit;
+};
+
+export const getChartTooltipFormat = (unit) => {
+	if (unit === 'year') {
+		return 'yyyy';
+	}
+	if (unit === 'month') {
+		return 'MMM yyyy';
+	}
+	if (unit === 'week') {
+		return 'yyyy \'W\'W';
+	}
+	if (unit === 'day') {
+		return 'MMM d, yyyy';
+	}
+	return 'MMM d, yyyy h:mm a';
+};
+
 export const getGraphType = (actionType) => {
 	if (actionType.field_type === 'button' && !actionType.is_continuous) {
 		return 'bar';
@@ -14,13 +66,39 @@ export const getGraphType = (actionType) => {
 		});
 		return output;
 	}
-	return null;
+	return '';
 };
 
-export const barGraphData = (actionType) => {
+export const barGraphData = (actions, unit) => {
 	const data = {};
-	actionType.actions.forEach((action) => {
-		const date = new Date(`${action.start_date.substring(0, 10)}T00:00:00.000Z`);
+	actions.forEach((action) => {
+		const date = new Date(action.date.getTime());
+		if (unit === 'year') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+			date.setDate(1);
+			date.setMonth(0);
+		} else if (unit === 'month') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+			date.setDate(1);
+		} else if (unit === 'week') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+			const weekday = date.getDay();
+			if (weekday === 0) {
+				date.setDate(date.getDate() - 6);
+			} else if (weekday !== 1) {
+				date.setDate(date.getDate() - (weekday - 1));
+			}
+		} else if (unit === 'day') {
+			date.setSeconds(0);
+			date.setMinutes(0);
+			date.setHours(0);
+		}
 		if (Object.prototype.hasOwnProperty.call(data, date)) {
 			data[date] += 1;
 		} else {
@@ -44,7 +122,7 @@ export const barGraphData = (actionType) => {
 	};
 };
 
-export const lineGraphData = (actionType) => {
+export const lineGraphData = (actionType, actions) => {
 	const output = {
 		labels: [],
 		datasets: [],
@@ -68,8 +146,8 @@ export const lineGraphData = (actionType) => {
 		points.push([]);
 	}
 
-	actionType.actions.forEach((action) => {
-		output.labels.push(new Date(`${action.start_date.replace(' ', 'T')}.000Z`));
+	actions.forEach((action) => {
+		output.labels.push(action.date);
 		if (/^[0-9./]+$/.test(action.value)) {
 			action.value.split('/').forEach((value, i) => {
 				if (points.length < (i + 1)) {
