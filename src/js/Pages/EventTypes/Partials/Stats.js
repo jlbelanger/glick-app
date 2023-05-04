@@ -127,7 +127,7 @@ export default function Stats({ actions, chartRef, fromDate, graphType, setUnit,
 	let results = {};
 
 	if (graphType === 'bar') {
-		let groupedRows = createPeriodGroups(new Date(`${fromDate} 00:00:00`), new Date(`${toDate} 23:59:59`), unit);
+		let groupedRows = createPeriodGroups(new Date(`${fromDate}T00:00:00`), new Date(`${toDate}T23:59:59`), unit);
 		groupedRows = groupByPeriod(groupedRows, rows, unit);
 
 		const numPerPeriod = {};

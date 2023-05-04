@@ -10,8 +10,8 @@ export default function Filters({ chartRef, fromDate, minDate, range, setFromDat
 			return;
 		}
 
-		const newMinDate = new Date(`${newFromDate} 00:00:00`);
-		const newMaxDate = new Date(`${newToDate} 23:59:59`);
+		const newMinDate = new Date(`${newFromDate}T00:00:00`);
+		const newMaxDate = new Date(`${newToDate}T23:59:59`);
 		newMaxDate.setDate(newMaxDate.getDate() - 1);
 
 		chart.zoomScale('x', { min: newMinDate.getTime(), max: newMaxDate.getTime() });
