@@ -1,4 +1,4 @@
-export const getCurrentDatetime = () => (
+export const getCurrentYmdhmsz = () => (
 	new Date().toISOString().substring(0, 19).replace('T', ' ')
 );
 
@@ -8,39 +8,35 @@ export const pad = (n, width = 2, z = '0') => {
 	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 };
 
-export const getYmdFromDateObject = (date) => {
-	const year = date.getFullYear();
-	const month = pad(date.getMonth() + 1);
-	const day = pad(date.getDate());
+export const getYmdFromDateObject = (dateObject) => {
+	const year = dateObject.getFullYear();
+	const month = pad(dateObject.getMonth() + 1);
+	const day = pad(dateObject.getDate());
 	return `${year}-${month}-${day}`;
 };
 
-export const getYmdFromDatetimeString = (datetime) => {
-	const date = new Date(`${datetime.replace(' ', 'T')}.000Z`);
-	return getYmdFromDateObject(date);
-};
-
-export const getDatetimeInUserTimezone = (datetime) => (
-	new Date(`${datetime.replace(' ', 'T')}.000Z`)
-);
-
-export const formatDatetimeISO = (date) => {
-	const year = date.getFullYear();
-	const month = pad(date.getMonth() + 1);
-	const day = pad(date.getDate());
-	const hours = pad(date.getHours());
-	const minutes = pad(date.getMinutes());
-	const seconds = pad(date.getSeconds());
+export const getYmdhmsFromDateObject = (dateObject) => {
+	const year = dateObject.getFullYear();
+	const month = pad(dateObject.getMonth() + 1);
+	const day = pad(dateObject.getDate());
+	const hours = pad(dateObject.getHours());
+	const minutes = pad(dateObject.getMinutes());
+	const seconds = pad(dateObject.getSeconds());
 	const output = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 	return output;
 };
 
-export const formatDateISO = (date) => (
-	formatDatetimeISO(date).substring(0, 10)
+export const getLocalYmdFromYmdhmsz = (ymdhmsz) => {
+	const dateObject = new Date(`${ymdhmsz.replace(' ', 'T')}.000Z`);
+	return getYmdFromDateObject(dateObject);
+};
+
+export const getLocalDateObject = (ymdhmsz) => (
+	new Date(`${ymdhmsz.replace(' ', 'T')}.000Z`)
 );
 
-export const formatDate = (date) => (
-	new Date(`${date}T12:00:00Z`).toLocaleString('en-CA', {
+export const prettyDate = (ymd) => (
+	new Date(`${ymd}T12:00:00.000Z`).toLocaleString('en-CA', {
 		weekday: 'short',
 		year: 'numeric',
 		month: 'long',
@@ -48,8 +44,8 @@ export const formatDate = (date) => (
 	})
 );
 
-export const formatDatetime = (datetime) => (
-	new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleString('en-CA', {
+export const prettyDatetime = (ymdhmsz) => (
+	new Date(`${ymdhmsz.replace(' ', 'T')}.000Z`).toLocaleString('en-CA', {
 		month: 'short',
 		day: 'numeric',
 		hour: 'numeric',
@@ -57,26 +53,28 @@ export const formatDatetime = (datetime) => (
 	})
 );
 
-export const formatTime = (datetime) => {
-	const output = new Date(`${datetime.replace(' ', 'T')}.000Z`).toLocaleTimeString('en-CA', {
-		hour: 'numeric',
-		minute: 'numeric',
-	});
-	return output.replace('a.m.', 'AM').replace('p.m.', 'PM');
-};
-
-export const isToday = (datetime) => (
-	getYmdFromDatetimeString(datetime) === getYmdFromDateObject(new Date())
+export const prettyTime = (ymdhmsz) => (
+	new Date(`${ymdhmsz.replace(' ', 'T')}.000Z`)
+		.toLocaleTimeString('en-CA', {
+			hour: 'numeric',
+			minute: 'numeric',
+		})
+		.replace('a.m.', 'AM')
+		.replace('p.m.', 'PM')
 );
 
-export const getRowsByDate = (rows) => {
+export const isToday = (ymdhmsz) => (
+	getLocalYmdFromYmdhmsz(ymdhmsz) === getYmdFromDateObject(new Date())
+);
+
+export const getRowsByYmd = (rows) => {
 	const output = {};
 	rows.forEach((row) => {
-		const date = getYmdFromDatetimeString(row.start_date);
-		if (!Object.prototype.hasOwnProperty.call(output, date)) {
-			output[date] = [];
+		const ymd = getLocalYmdFromYmdhmsz(row.start_date);
+		if (!Object.prototype.hasOwnProperty.call(output, ymd)) {
+			output[ymd] = [];
 		}
-		output[date].push(row);
+		output[ymd].push(row);
 	});
 	return output;
 };

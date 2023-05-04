@@ -1,7 +1,7 @@
 import { Api, Form } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
 import Error from '../../Error';
-import { getCurrentDatetime } from '../../Utilities/Datetime';
+import { getCurrentYmdhmsz } from '../../Utilities/Datetime';
 import MetaTitle from '../../MetaTitle';
 import NewField from './Partials/NewField';
 import NewLabel from './Partials/NewLabel';
@@ -56,11 +56,11 @@ export default function New() {
 		return values;
 	};
 	const filterBody = (body) => {
-		body.data.attributes.start_date = getCurrentDatetime();
+		body.data.attributes.start_date = getCurrentYmdhmsz();
 		return body;
 	};
 	const filterBodyStop = (body) => {
-		body.data.attributes.end_date = getCurrentDatetime();
+		body.data.attributes.end_date = getCurrentYmdhmsz();
 		return body;
 	};
 

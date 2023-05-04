@@ -12,7 +12,7 @@ import {
 	Tooltip,
 } from 'chart.js';
 import { barGraphData, getChartTooltipFormat, getDefaultChartUnit, getGraphType, lineGraphData } from '../../Utilities/Graph';
-import { formatDatetimeISO, getDatetimeInUserTimezone, getRowsByDate } from '../../Utilities/Datetime';
+import { getLocalDateObject, getRowsByYmd, getYmdFromDateObject, getYmdhmsFromDateObject } from '../../Utilities/Datetime';
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
@@ -28,30 +28,25 @@ const convertToCurrentTimezone = (rows) => {
 	const output = [];
 
 	rows.forEach((row) => {
-		const datetime = getDatetimeInUserTimezone(row.start_date);
 		output.push({
 			...row,
-			date: datetime,
+			dateObject: getLocalDateObject(row.start_date),
 		});
 	});
 
 	return output;
 };
 
-const toDateString = (date) => (
-	formatDatetimeISO(date).substring(0, 10)
-);
-
-const filterByDates = (rows, fromDate, toDate) => {
+const filterByDates = (rows, fromYmd, toYmd) => {
 	const output = [];
-	const toDateObj = new Date(`${toDate} 00:00:00`);
-	toDateObj.setDate(toDateObj.getDate() - 1);
-	const fromDatetime = `${fromDate} 00:00:00`;
-	const toDatetime = `${toDateString(toDateObj)} 23:59:59`;
+	const toDateObject = new Date(`${toYmd}T00:00:00`);
+	toDateObject.setDate(toDateObject.getDate() - 1);
+	const fromYmdhms = `${fromYmd} 00:00:00`;
+	const toYmdhms = `${getYmdFromDateObject(toDateObject)} 23:59:59`;
 
 	rows.forEach((row) => {
-		const date = formatDatetimeISO(row.date);
-		if (date >= fromDatetime && date <= toDatetime) {
+		const ymdhms = getYmdhmsFromDateObject(row.dateObject);
+		if (ymdhms >= fromYmdhms && ymdhms <= toYmdhms) {
 			output.push(row);
 		}
 	});
@@ -68,10 +63,10 @@ export default function View() {
 	const [graphData, setGraphData] = useState(null);
 	const [graphOptions, setGraphOptions] = useState(null);
 	const [graphType, setGraphType] = useState('');
-	const [minDate, setMinDate] = useState(null);
-	const defaultDate = useMemo(() => (new Date()));
-	const [fromDate, setFromDate] = useState(toDateString(defaultDate));
-	const [toDate, setToDate] = useState(toDateString(defaultDate));
+	const [minDateObject, setMinDateObject] = useState(null);
+	const defaultDateObject = useMemo(() => (new Date()));
+	const [fromYmd, setFromYmd] = useState(getYmdFromDateObject(defaultDateObject));
+	const [toYmd, setToYmd] = useState(getYmdFromDateObject(defaultDateObject));
 	const [range, setRange] = useState('all');
 	const [unit, setUnit] = useState('day');
 
@@ -93,24 +88,24 @@ export default function View() {
 					});
 					setActions(newActions);
 
-					let minDatetime = null;
+					let minTimestamp = null;
 					let minX = null;
 					let maxX = null;
 					newActions.forEach((action) => {
-						const time = action.date.getTime();
-						if (!minX || time < minX) {
-							minX = time;
+						const timestamp = action.dateObject.getTime();
+						if (!minX || timestamp < minX) {
+							minX = timestamp;
 						}
-						if (!maxX || time > maxX) {
-							maxX = time;
+						if (!maxX || timestamp > maxX) {
+							maxX = timestamp;
 						}
-						if (!minDatetime || time < minDatetime) {
-							minDatetime = time;
+						if (!minTimestamp || timestamp < minTimestamp) {
+							minTimestamp = timestamp;
 						}
 					});
-					minDatetime = new Date(minDatetime);
+					const newMinDateObject = new Date(minTimestamp);
 
-					const newUnit = getDefaultChartUnit(minDatetime, defaultDate);
+					const newUnit = getDefaultChartUnit(newMinDateObject, defaultDateObject);
 
 					let data = null;
 					const newGraphType = getGraphType(response);
@@ -185,8 +180,8 @@ export default function View() {
 						zoomPlugin
 					);
 
-					setMinDate(minDatetime);
-					setFromDate(toDateString(minDatetime));
+					setMinDateObject(newMinDateObject);
+					setFromYmd(getYmdFromDateObject(newMinDateObject));
 					setUnit(newUnit);
 					setGraphData(data);
 					setGraphOptions(newGraphOptions);
@@ -215,10 +210,10 @@ export default function View() {
 	}
 
 	let rows = actions;
-	if ((minDate && toDateString(minDate) !== fromDate) || toDateString(defaultDate) !== toDate) {
-		rows = filterByDates(rows, fromDate, toDate);
+	if ((minDateObject && getYmdFromDateObject(minDateObject) !== fromYmd) || getYmdFromDateObject(defaultDateObject) !== toYmd) {
+		rows = filterByDates(rows, fromYmd, toYmd);
 	}
-	const rowsByDate = getRowsByDate(rows);
+	const rowsByYmd = getRowsByYmd(rows);
 	const total = rows.length;
 
 	return (
@@ -229,13 +224,13 @@ export default function View() {
 
 			<Filters
 				chartRef={chartRef}
-				fromDate={fromDate}
-				minDate={minDate}
+				fromYmd={fromYmd}
+				minDateObject={minDateObject}
 				range={range}
-				setFromDate={setFromDate}
+				setFromYmd={setFromYmd}
 				setRange={setRange}
-				setToDate={setToDate}
-				toDate={toDate}
+				setToYmd={setToYmd}
+				toYmd={toYmd}
 			/>
 
 			{graphData && graphOptions && graphType && (
@@ -253,7 +248,7 @@ export default function View() {
 					<Stats
 						actions={rows}
 						chartRef={chartRef}
-						fromDate={fromDate}
+						fromYmd={fromYmd}
 						graphType={graphType}
 						setUnit={(v) => {
 							if (graphType === 'bar') {
@@ -262,7 +257,7 @@ export default function View() {
 							setUnit(v);
 						}}
 						suffix={row.suffix}
-						toDate={toDate}
+						toYmd={toYmd}
 						total={total}
 						unit={unit}
 					/>
@@ -272,8 +267,8 @@ export default function View() {
 			{total > 0 ? (
 				<table>
 					<tbody>
-						{Object.keys(rowsByDate).map((date) => (
-							<Row key={date} date={date} rows={rowsByDate[date]} />
+						{Object.keys(rowsByYmd).map((ymd) => (
+							<Row key={ymd} rows={rowsByYmd[ymd]} ymd={ymd} />
 						))}
 					</tbody>
 				</table>

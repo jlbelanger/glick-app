@@ -1,20 +1,20 @@
 import { Field } from '@jlbelanger/formosa';
-import { formatDateISO } from '../../../Utilities/Datetime';
+import { getYmdFromDateObject } from '../../../Utilities/Datetime';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function Filters({ chartRef, fromDate, minDate, range, setFromDate, setRange, setToDate, toDate }) {
+export default function Filters({ chartRef, fromYmd, minDateObject, range, setFromYmd, setRange, setToYmd, toYmd }) {
 	const zoomChart = (newFromDate, newToDate) => {
 		const chart = chartRef.current;
 		if (!chart || newFromDate.length < 10 || newToDate.length < 10) {
 			return;
 		}
 
-		const newMinDate = new Date(`${newFromDate}T00:00:00`);
-		const newMaxDate = new Date(`${newToDate}T23:59:59`);
-		newMaxDate.setDate(newMaxDate.getDate() - 1);
+		const newMinDateObject = new Date(`${newFromDate}T00:00:00`);
+		const newMaxDateObject = new Date(`${newToDate}T23:59:59`);
+		newMaxDateObject.setDate(newMaxDateObject.getDate() - 1);
 
-		chart.zoomScale('x', { min: newMinDate.getTime(), max: newMaxDate.getTime() });
+		chart.zoomScale('x', { min: newMinDateObject.getTime(), max: newMaxDateObject.getTime() });
 	};
 
 	return (
@@ -31,28 +31,28 @@ export default function Filters({ chartRef, fromDate, minDate, range, setFromDat
 					today.setMinutes(0);
 					today.setSeconds(0);
 
-					let newFromDate = new Date(today.getTime());
+					let newFromDateObject = new Date(today.getTime());
 
 					if (newRange === 'all' || newRange === 'custom') {
-						newFromDate = minDate;
+						newFromDateObject = minDateObject;
 					} else if (newRange === 'week') {
-						newFromDate.setDate(today.getDate() - 6);
+						newFromDateObject.setDate(today.getDate() - 6);
 					} else if (newRange === 'month') {
-						newFromDate.setMonth(today.getMonth() - 1);
+						newFromDateObject.setMonth(today.getMonth() - 1);
 					} else if (newRange === 'year') {
-						newFromDate.setFullYear(today.getFullYear() - 1);
+						newFromDateObject.setFullYear(today.getFullYear() - 1);
 					}
 
-					let newToDate = new Date(today.getTime());
-					newToDate.setDate(today.getDate() + 1);
+					const newToDateObject = new Date(today.getTime());
+					newToDateObject.setDate(today.getDate() + 1);
 
-					newFromDate = formatDateISO(newFromDate);
-					newToDate = formatDateISO(newToDate);
+					const newFromDateYmd = getYmdFromDateObject(newFromDateObject);
+					const newToDateYmd = getYmdFromDateObject(newToDateObject);
 
 					setRange(newRange);
-					setFromDate(newFromDate);
-					setToDate(newToDate);
-					zoomChart(newFromDate, newToDate);
+					setFromYmd(newFromDateYmd);
+					setToYmd(newToDateYmd);
+					zoomChart(newFromDateYmd, newToDateYmd);
 				}}
 				wrapperClassName="range"
 			/>
@@ -62,60 +62,60 @@ export default function Filters({ chartRef, fromDate, minDate, range, setFromDat
 						aria-label="Filter by start date"
 						label="From:"
 						setValue={(v) => {
-							setFromDate(v);
+							setFromYmd(v);
 
 							if (v.length < 10 || range === 'custom') {
-								zoomChart(v, toDate);
+								zoomChart(v, toYmd);
 								return;
 							}
 
-							let newToDate = new Date(`${v} 00:00:00`);
+							const newToDateObject = new Date(`${v}T00:00:00`);
 							if (range === 'day') {
-								newToDate.setDate(newToDate.getDate() + 1);
+								newToDateObject.setDate(newToDateObject.getDate() + 1);
 							} else if (range === 'week') {
-								newToDate.setDate(newToDate.getDate() + 7);
+								newToDateObject.setDate(newToDateObject.getDate() + 7);
 							} else if (range === 'month') {
-								newToDate.setMonth(newToDate.getMonth() + 1);
+								newToDateObject.setMonth(newToDateObject.getMonth() + 1);
 							} else if (range === 'year') {
-								newToDate.setFullYear(newToDate.getFullYear() + 1);
+								newToDateObject.setFullYear(newToDateObject.getFullYear() + 1);
 							}
-							newToDate = formatDateISO(newToDate);
-							setToDate(newToDate);
-							zoomChart(v, newToDate);
+							const newToDateYmd = getYmdFromDateObject(newToDateObject);
+							setToYmd(newToDateYmd);
+							zoomChart(v, newToDateYmd);
 						}}
 						size={10}
 						type="text"
-						value={fromDate}
+						value={fromYmd}
 						wrapperClassName="chart-field"
 					/>
 					<Field
 						aria-label="Filter by end date"
 						label="To:"
 						setValue={(v) => {
-							setToDate(v);
+							setToYmd(v);
 
 							if (v.length < 10 || range === 'custom') {
-								zoomChart(fromDate, v);
+								zoomChart(fromYmd, v);
 								return;
 							}
 
-							let newFromDate = new Date(`${v} 00:00:00`);
+							const newFromDateObject = new Date(`${v}T00:00:00`);
 							if (range === 'day') {
-								newFromDate.setDate(newFromDate.getDate() - 1);
+								newFromDateObject.setDate(newFromDateObject.getDate() - 1);
 							} else if (range === 'week') {
-								newFromDate.setDate(newFromDate.getDate() - 7);
+								newFromDateObject.setDate(newFromDateObject.getDate() - 7);
 							} else if (range === 'month') {
-								newFromDate.setMonth(newFromDate.getMonth() - 1);
+								newFromDateObject.setMonth(newFromDateObject.getMonth() - 1);
 							} else if (range === 'year') {
-								newFromDate.setFullYear(newFromDate.getFullYear() - 1);
+								newFromDateObject.setFullYear(newFromDateObject.getFullYear() - 1);
 							}
-							newFromDate = formatDateISO(newFromDate);
-							setFromDate(newFromDate);
-							zoomChart(newFromDate, v);
+							const newFromDateYmd = getYmdFromDateObject(newFromDateObject);
+							setFromYmd(newFromDateYmd);
+							zoomChart(newFromDateYmd, v);
 						}}
 						size={10}
 						type="text"
-						value={toDate}
+						value={toYmd}
 						wrapperClassName="chart-field"
 						wrapperAttributes={{
 							style: {
@@ -131,11 +131,11 @@ export default function Filters({ chartRef, fromDate, minDate, range, setFromDat
 
 Filters.propTypes = {
 	chartRef: PropTypes.object.isRequired,
-	fromDate: PropTypes.string.isRequired,
-	minDate: PropTypes.object.isRequired,
+	fromYmd: PropTypes.string.isRequired,
+	minDateObject: PropTypes.object.isRequired,
 	range: PropTypes.string.isRequired,
-	setFromDate: PropTypes.func.isRequired,
+	setFromYmd: PropTypes.func.isRequired,
 	setRange: PropTypes.func.isRequired,
-	setToDate: PropTypes.func.isRequired,
-	toDate: PropTypes.string.isRequired,
+	setToYmd: PropTypes.func.isRequired,
+	toYmd: PropTypes.string.isRequired,
 };

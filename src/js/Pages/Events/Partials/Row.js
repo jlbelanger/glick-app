@@ -1,14 +1,14 @@
-import { formatDate, formatTime } from '../../../Utilities/Datetime';
+import { prettyDate, prettyTime } from '../../../Utilities/Datetime';
 import { getEventLabel } from '../../../Utilities';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function Row({ date, rows }) {
+export default function Row({ rows, ymd }) {
 	return (
 		<>
 			<tr>
-				<th scope="col">{`${formatDate(date)} (${rows.length})`}</th>
+				<th scope="col">{`${prettyDate(ymd)} (${rows.length})`}</th>
 			</tr>
 			{rows.map((row) => (
 				<tr className="table__row" key={row.id}>
@@ -18,7 +18,7 @@ export default function Row({ date, rows }) {
 								{getEventLabel(row)}
 							</span>
 							<span className="table__time">
-								{formatTime(row.start_date)}
+								{prettyTime(row.start_date)}
 							</span>
 						</Link>
 					</td>
@@ -29,6 +29,6 @@ export default function Row({ date, rows }) {
 }
 
 Row.propTypes = {
-	date: PropTypes.string.isRequired,
 	rows: PropTypes.array.isRequired,
+	ymd: PropTypes.string.isRequired,
 };

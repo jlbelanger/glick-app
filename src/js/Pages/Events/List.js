@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
 import Error from '../../Error';
-import { getRowsByDate } from '../../Utilities/Datetime';
+import { getRowsByYmd } from '../../Utilities/Datetime';
 import { Link } from 'react-router-dom';
 import MetaTitle from '../../MetaTitle';
 import Row from './Partials/Row';
@@ -31,7 +31,7 @@ export default function List() {
 		);
 	}
 
-	const rowsByDate = getRowsByDate(rows);
+	const rowsByYmd = getRowsByYmd(rows);
 
 	return (
 		<>
@@ -41,8 +41,8 @@ export default function List() {
 
 			<table>
 				<tbody>
-					{Object.keys(rowsByDate).map((date) => (
-						<Row key={date} date={date} rows={rowsByDate[date]} />
+					{Object.keys(rowsByYmd).map((ymd) => (
+						<Row key={ymd} rows={rowsByYmd[ymd]} ymd={ymd} />
 					))}
 				</tbody>
 			</table>

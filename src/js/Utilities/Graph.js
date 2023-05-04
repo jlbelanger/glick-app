@@ -1,6 +1,6 @@
-export const getChartUnit = (fromDate, toDate) => {
-	const min = fromDate.getTime();
-	const max = toDate.getTime();
+export const getChartUnit = (fromDateObject, toDateObject) => {
+	const min = fromDateObject.getTime();
+	const max = toDateObject.getTime();
 	const diff = max - min;
 	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 	let unit = 'year';
@@ -16,9 +16,9 @@ export const getChartUnit = (fromDate, toDate) => {
 	return unit;
 };
 
-export const getDefaultChartUnit = (fromDate, toDate) => {
-	const min = fromDate.getTime();
-	const max = toDate.getTime();
+export const getDefaultChartUnit = (fromDateObject, toDateObject) => {
+	const min = fromDateObject.getTime();
+	const max = toDateObject.getTime();
 	const diff = max - min;
 	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 	let unit = 'year';
@@ -72,43 +72,43 @@ export const getGraphType = (actionType) => {
 export const barGraphData = (actions, unit) => {
 	const data = {};
 	actions.forEach((action) => {
-		const date = new Date(action.date.getTime());
+		const dateObject = new Date(action.dateObject.getTime());
 		if (unit === 'year') {
-			date.setSeconds(0);
-			date.setMinutes(0);
-			date.setHours(0);
-			date.setDate(1);
-			date.setMonth(0);
+			dateObject.setSeconds(0);
+			dateObject.setMinutes(0);
+			dateObject.setHours(0);
+			dateObject.setDate(1);
+			dateObject.setMonth(0);
 		} else if (unit === 'month') {
-			date.setSeconds(0);
-			date.setMinutes(0);
-			date.setHours(0);
-			date.setDate(1);
+			dateObject.setSeconds(0);
+			dateObject.setMinutes(0);
+			dateObject.setHours(0);
+			dateObject.setDate(1);
 		} else if (unit === 'week') {
-			date.setSeconds(0);
-			date.setMinutes(0);
-			date.setHours(0);
-			const weekday = date.getDay();
+			dateObject.setSeconds(0);
+			dateObject.setMinutes(0);
+			dateObject.setHours(0);
+			const weekday = dateObject.getDay();
 			if (weekday === 0) {
-				date.setDate(date.getDate() - 6);
+				dateObject.setDate(dateObject.getDate() - 6);
 			} else if (weekday !== 1) {
-				date.setDate(date.getDate() - (weekday - 1));
+				dateObject.setDate(dateObject.getDate() - (weekday - 1));
 			}
 		} else if (unit === 'day') {
-			date.setSeconds(0);
-			date.setMinutes(0);
-			date.setHours(0);
+			dateObject.setSeconds(0);
+			dateObject.setMinutes(0);
+			dateObject.setHours(0);
 		}
-		if (Object.prototype.hasOwnProperty.call(data, date)) {
-			data[date] += 1;
+		if (Object.prototype.hasOwnProperty.call(data, dateObject)) {
+			data[dateObject] += 1;
 		} else {
-			data[date] = 1;
+			data[dateObject] = 1;
 		}
 	});
 
 	const labels = [];
-	Object.keys(data).forEach((date) => {
-		labels.push(new Date(date));
+	Object.keys(data).forEach((dateObject) => {
+		labels.push(new Date(dateObject.getTime()));
 	});
 
 	return {
@@ -147,7 +147,7 @@ export const lineGraphData = (actionType, actions) => {
 	}
 
 	actions.forEach((action) => {
-		output.labels.push(action.date);
+		output.labels.push(action.dateObject);
 		if (/^[0-9./]+$/.test(action.value)) {
 			action.value.split('/').forEach((value, i) => {
 				if (points.length < (i + 1)) {

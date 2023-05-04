@@ -1,83 +1,83 @@
-import { formatDatetimeISO, pad } from '../../../Utilities/Datetime';
+import { getYmdhmsFromDateObject, pad } from '../../../Utilities/Datetime';
 import { Field } from '@jlbelanger/formosa';
 import { getChartTooltipFormat } from '../../../Utilities/Graph';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const getWeek = (date) => {
-	const year = date.getFullYear();
+const getWeek = (dateObject) => {
+	const year = dateObject.getFullYear();
 	const firstWeek = new Date(year, 0, 4); // https://en.wikipedia.org/wiki/ISO_week_date#First_week
 	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
-	const dayOfYear = Math.ceil((date.getTime() - firstWeek.getTime()) / oneDayInMilliseconds) - 3;
+	const dayOfYear = Math.ceil((dateObject.getTime() - firstWeek.getTime()) / oneDayInMilliseconds) - 3;
 	const week = 1 + Math.ceil(dayOfYear / 7);
 	return `${year}-w${pad(week)}`;
 };
 
-const getPeriod = (date, range) => {
-	const dateString = formatDatetimeISO(date);
+const getPeriod = (dateObject, range) => {
+	const ymdhms = getYmdhmsFromDateObject(dateObject);
 	if (range === 'year') {
-		return dateString.substring(0, 4);
+		return ymdhms.substring(0, 4);
 	}
 	if (range === 'month') {
-		return dateString.substring(0, 7);
+		return ymdhms.substring(0, 7);
 	}
 	if (range === 'week') {
-		return getWeek(date);
+		return getWeek(dateObject);
 	}
 	if (range === 'day') {
-		return dateString.substring(0, 10);
+		return ymdhms.substring(0, 10);
 	}
 	if (range === 'hour') {
-		return dateString.substring(0, 13);
+		return ymdhms.substring(0, 13);
 	}
 	return null;
 };
 
-const createPeriodGroups = (minDate, maxDate, range) => {
-	minDate.setMinutes(0);
-	minDate.setSeconds(0);
+const createPeriodGroups = (minDateObject, maxDateObject, range) => {
+	minDateObject.setMinutes(0);
+	minDateObject.setSeconds(0);
 
-	maxDate.setMinutes(0);
-	maxDate.setSeconds(0);
+	maxDateObject.setMinutes(0);
+	maxDateObject.setSeconds(0);
 
 	if (range !== 'hour') {
-		minDate.setHours(0);
+		minDateObject.setHours(0);
 
-		maxDate.setHours(0);
+		maxDateObject.setHours(0);
 
 		if (range === 'week') {
-			const minWeekday = minDate.getDay();
+			const minWeekday = minDateObject.getDay();
 			if (minWeekday !== 0) {
-				minDate.setDate(6 - minWeekday);
+				minDateObject.setDate(6 - minWeekday);
 			}
 		} else if (range !== 'day') {
-			minDate.setDate(1);
+			minDateObject.setDate(1);
 
-			maxDate.setDate(1);
+			maxDateObject.setDate(1);
 
 			if (range !== 'month') {
-				minDate.setMonth(0);
+				minDateObject.setMonth(0);
 
-				maxDate.setMonth(0);
+				maxDateObject.setMonth(0);
 			}
 		}
 	}
 
 	const output = {};
-	output[getPeriod(minDate, range)] = [];
+	output[getPeriod(minDateObject, range)] = [];
 
-	while (minDate < maxDate) {
+	while (minDateObject < maxDateObject) {
 		if (range === 'year') {
-			minDate.setFullYear(minDate.getFullYear() + 1);
+			minDateObject.setFullYear(minDateObject.getFullYear() + 1);
 		} else if (range === 'month') {
-			minDate.setMonth(minDate.getMonth() + 1);
+			minDateObject.setMonth(minDateObject.getMonth() + 1);
 		} else if (range === 'week' || range === 'day') {
-			minDate.setDate(minDate.getDate() + 1);
+			minDateObject.setDate(minDateObject.getDate() + 1);
 		} else if (range === 'hour') {
-			minDate.setHours(minDate.getHours() + 1);
+			minDateObject.setHours(minDateObject.getHours() + 1);
 		}
 
-		output[getPeriod(minDate, range)] = [];
+		output[getPeriod(minDateObject, range)] = [];
 	}
 
 	return output;
@@ -85,7 +85,7 @@ const createPeriodGroups = (minDate, maxDate, range) => {
 
 const groupByPeriod = (output, rows, range) => {
 	rows.forEach((row) => {
-		output[getPeriod(row.date, range)].push(row.value);
+		output[getPeriod(row.dateObject, range)].push(row.value);
 	});
 	return output;
 };
@@ -121,13 +121,13 @@ const calculate = (values) => {
 	};
 };
 
-export default function Stats({ actions, chartRef, fromDate, graphType, setUnit, suffix, toDate, total, unit }) {
+export default function Stats({ actions, chartRef, fromYmd, graphType, setUnit, suffix, toYmd, total, unit }) {
 	const rows = actions;
 
 	let results = {};
 
 	if (graphType === 'bar') {
-		let groupedRows = createPeriodGroups(new Date(`${fromDate}T00:00:00`), new Date(`${toDate}T23:59:59`), unit);
+		let groupedRows = createPeriodGroups(new Date(`${fromYmd}T00:00:00`), new Date(`${toYmd}T23:59:59`), unit);
 		groupedRows = groupByPeriod(groupedRows, rows, unit);
 
 		const numPerPeriod = {};
@@ -222,11 +222,11 @@ export default function Stats({ actions, chartRef, fromDate, graphType, setUnit,
 Stats.propTypes = {
 	actions: PropTypes.array.isRequired,
 	chartRef: PropTypes.object.isRequired,
-	fromDate: PropTypes.string.isRequired,
+	fromYmd: PropTypes.string.isRequired,
 	graphType: PropTypes.string.isRequired,
 	setUnit: PropTypes.func.isRequired,
 	suffix: PropTypes.string,
-	toDate: PropTypes.string.isRequired,
+	toYmd: PropTypes.string.isRequired,
 	total: PropTypes.number.isRequired,
 	unit: PropTypes.string.isRequired,
 };
