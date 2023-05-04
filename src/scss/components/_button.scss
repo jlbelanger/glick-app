@@ -3,6 +3,7 @@ button,
 .formosa-radio__label {
 	@include gradient($lighter-green, $green, $dark-green);
 
+	cursor: pointer;
 	font-weight: bold;
 	text-shadow: 0 1px 0 $lighter-green;
 	text-transform: uppercase;
