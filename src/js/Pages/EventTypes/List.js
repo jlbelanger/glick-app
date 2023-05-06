@@ -35,13 +35,17 @@ export default function List() {
 				<Link to="/event-types/new">+ Add New</Link>
 			</MetaTitle>
 
-			<ul className="list">
-				{rows.map((row) => (
-					<li className="list__item" key={row.id}>
-						<Link className="list__link" to={`/event-types/${row.id}`}>{row.label}</Link>
-					</li>
-				))}
-			</ul>
+			{rows.length > 0 ? (
+				<ul className="list">
+					{rows.map((row) => (
+						<li className="list__item" key={row.id}>
+							<Link className="list__link" to={`/event-types/${row.id}`}>{row.label}</Link>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p>No event types found.</p>
+			)}
 		</>
 	);
 }

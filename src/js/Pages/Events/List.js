@@ -39,13 +39,17 @@ export default function List() {
 				<Link to="/">+ Add New</Link>
 			</MetaTitle>
 
-			<table>
-				<tbody>
-					{Object.keys(rowsByYmd).map((ymd) => (
-						<Row key={ymd} rows={rowsByYmd[ymd]} ymd={ymd} />
-					))}
-				</tbody>
-			</table>
+			{rows.length > 0 ? (
+				<table>
+					<tbody>
+						{Object.keys(rowsByYmd).map((ymd) => (
+							<Row key={ymd} rows={rowsByYmd[ymd]} ymd={ymd} />
+						))}
+					</tbody>
+				</table>
+			) : (
+				<p>No events found.</p>
+			)}
 		</>
 	);
 }
