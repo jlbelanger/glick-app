@@ -47,6 +47,8 @@ describe('register', () => {
 
 	describe('with valid input', () => {
 		it('works', () => {
+			cy.intercept('DELETE', '**/api/users/*').as('deleteUser');
+
 			// Register.
 			const username = `foo+${Date.now()}`;
 			cy.clearCookies();
@@ -62,7 +64,9 @@ describe('register', () => {
 
 			// Delete.
 			cy.visit('/profile');
-			cy.get('.button--danger').click();
+			cy.get('.formosa-button--danger').contains('Delete').click();
+			cy.get('dialog .formosa-button--danger').contains('Delete').click();
+			cy.wait('@deleteUser').its('response.statusCode').should('equal', 204);
 			cy.location('pathname').should('eq', '/');
 		});
 	});

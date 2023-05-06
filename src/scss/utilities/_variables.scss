@@ -33,6 +33,17 @@ $nav-height: 44px;
 $list-padding-top: 14px;
 $list-padding-side: 16px;
 
+$modal-background-color: $darker-purple !default;
+$modal-button-margin-side: 8px !default;
+$modal-button-margin-top: 20px !default;
+$modal-container-background-color: rgba($black, .6) !default;
+$modal-input-background-color: $white !default;
+$modal-margin: 32px !default;
+$modal-max-width: 800px !default;
+$modal-padding: 32px !default;
+$modal-text-color: $black !default;
+$modal-zindex: 9999 !default;
+
 // Formosa overrides
 
 $formosa-input-border-color: #bbb;

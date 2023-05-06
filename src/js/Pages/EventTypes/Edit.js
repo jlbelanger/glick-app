@@ -1,16 +1,20 @@
-import { Api, Form, Message, Submit } from '@jlbelanger/formosa';
+import { Api, FormosaContext, Submit } from '@jlbelanger/formosa';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Error from '../../Error';
 import Fields from './Partials/Fields';
 import MetaTitle from '../../MetaTitle';
+import Modal from '../../Modal';
 import MyForm from '../../MyForm';
 
 export default function Edit() {
+	const { addToast } = useContext(FormosaContext);
 	const { id } = useParams();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 	const history = useHistory();
+
 	useEffect(() => {
 		Api.get(`action-types/${id}?include=options`)
 			.then((response) => {
@@ -33,6 +37,19 @@ export default function Edit() {
 		);
 	}
 
+	const deleteRow = () => {
+		setShowModal(false);
+		Api.delete(`action-types/${id}`)
+			.then(() => {
+				addToast('Event type deleted successfully.', 'success');
+				history.push('/event-types');
+			})
+			.catch((response) => {
+				const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
+				addToast(text, 'error', 10000);
+			});
+	};
+
 	return (
 		<>
 			<MetaTitle title={`Edit ${row.label}`}>
@@ -53,25 +70,24 @@ export default function Edit() {
 				<Submit />
 			</MyForm>
 
-			<Form
-				afterSubmit={() => {
-					history.push('/event-types');
-				}}
-				beforeSubmit={() => (
-					confirm('Are you sure you want to delete this event type?') // eslint-disable-line no-restricted-globals
-				)}
-				id={id}
-				method="DELETE"
-				path="action-types"
-				showMessage={false}
-				successToastText="Event type deleted successfully."
+			<h2>{`Delete ${row.label}`}</h2>
+			<button
+				className="formosa-button formosa-button--danger button--small"
+				onClick={(e) => { setShowModal(e); }}
+				type="button"
 			>
-				<h2>{`Delete ${row.label}`}</h2>
-
-				<Message />
-
-				<Submit className="button--danger" label="Delete" />
-			</Form>
+				Delete
+			</button>
+			{showModal && (
+				<Modal
+					event={showModal}
+					okButtonClass="formosa-button--danger"
+					okButtonText="Delete"
+					onClickOk={deleteRow}
+					onClickCancel={() => { setShowModal(false); }}
+					text="Are you sure you want to delete this event type?"
+				/>
+			)}
 		</>
 	);
 }

@@ -21,15 +21,16 @@ button,
 		text-shadow: 0 -1px 0 $light-green;
 	}
 
+	&.button--secondary,
 	&.formosa-button--toggle-password {
-		@include gradient($lightest-purple, $light-purple, $dark-purple);
+		@include gradient($lighter-purple, $light-purple, $dark-purple);
 
 		border-color: $purple;
 		color: $white;
 		text-shadow: 0 1px 0 $darkest-purple;
 
 		&:hover {
-			@include gradient($lightest-purple, $lighter-purple, $dark-purple);
+			@include gradient($lighter-purple, $lighter-purple, $dark-purple);
 		}
 
 		&:active,

@@ -8,6 +8,8 @@ describe('events', () => {
 			it('works', () => {
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -26,14 +28,22 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(name).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
 				cy.visit('/event-types');
 				cy.contains(name).click();
 				cy.contains('Edit').click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
+				cy.contains('Event type deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/event-types');
 			});
 		});
@@ -42,6 +52,8 @@ describe('events', () => {
 			it('works', () => {
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -65,7 +77,11 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (Foo)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Add event.
@@ -77,14 +93,22 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (Bar)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
 				cy.visit('/event-types');
 				cy.contains(name).click();
 				cy.contains('Edit').click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
+				cy.contains('Event type deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/event-types');
 			});
 		});
@@ -94,6 +118,8 @@ describe('events', () => {
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('PUT', '**/api/actions/**').as('updateAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -122,7 +148,11 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(name).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Start event.
@@ -147,14 +177,22 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(name).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
 				cy.visit('/event-types');
 				cy.contains(name).click();
 				cy.contains('Edit').click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
+				cy.contains('Event type deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/event-types');
 			});
 		});
@@ -164,6 +202,8 @@ describe('events', () => {
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('PUT', '**/api/actions/**').as('updateAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -203,7 +243,11 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (Foo)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Start event.
@@ -230,7 +274,11 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (Bar)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Start event.
@@ -262,20 +310,32 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (Foo)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (Bar)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
 				cy.visit('/event-types');
 				cy.contains(name).click();
 				cy.contains('Edit').click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
+				cy.contains('Event type deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/event-types');
 			});
 		});
@@ -284,6 +344,8 @@ describe('events', () => {
 			it('works', () => {
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -303,14 +365,22 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (123)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
 				cy.visit('/event-types');
 				cy.contains(name).click();
 				cy.contains('Edit').click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
+				cy.contains('Event type deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/event-types');
 			});
 		});
@@ -319,6 +389,8 @@ describe('events', () => {
 			it('works', () => {
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -338,14 +410,22 @@ describe('events', () => {
 				// Delete event.
 				cy.visit('/events');
 				cy.contains(`${name} (Foo)`).click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
+				cy.contains('Event deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
 				cy.visit('/event-types');
 				cy.contains(name).click();
 				cy.contains('Edit').click();
-				cy.get('.button--danger').click();
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
+				cy.contains('Event type deleted successfully.').should('exist');
+				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/event-types');
 			});
 		});

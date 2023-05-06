@@ -1,14 +1,30 @@
-import { Api, Field, Form, Message, Submit } from '@jlbelanger/formosa';
-import React, { useEffect, useState } from 'react';
+import { Api, Field, FormosaContext, Message, Submit } from '@jlbelanger/formosa';
+import React, { useContext, useEffect, useState } from 'react';
 import Auth from '../../Utilities/Auth';
 import Error from '../../Error';
 import MetaTitle from '../../MetaTitle';
+import Modal from '../../Modal';
 import MyForm from '../../MyForm';
 
 export default function Edit() {
+	const { addToast } = useContext(FormosaContext);
 	const id = Auth.id();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
+	const [showModal, setShowModal] = useState(false);
+
+	const onClickDelete = () => {
+		setShowModal(false);
+		Api.delete(`users/${row.id}`)
+			.then(() => {
+				Auth.logout();
+			})
+			.catch((response) => {
+				const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
+				addToast(text, 'error', 10000);
+			});
+	};
+
 	useEffect(() => {
 		Api.get(`users/${id}`)
 			.then((response) => {
@@ -132,24 +148,24 @@ export default function Edit() {
 				<Submit label="Change password" />
 			</MyForm>
 
-			<Form
-				afterSubmit={() => {
-					Auth.logout();
-				}}
-				beforeSubmit={() => (
-					confirm('Are you sure you want to delete your account?') // eslint-disable-line no-restricted-globals
-				)}
-				id={row.id}
-				method="DELETE"
-				path="users"
-				showMessage={false}
-			>
-				<h2>Delete account</h2>
+			<h2>Delete account</h2>
 
-				<Message />
+			<p>
+				<button className="formosa-button formosa-button--danger" onClick={(e) => { setShowModal(e); }} type="button">
+					Delete account
+				</button>
+			</p>
 
-				<Submit className="button--danger" label="Delete" />
-			</Form>
+			{showModal && (
+				<Modal
+					event={showModal}
+					okButtonClass="formosa-button--danger"
+					okButtonText="Delete"
+					onClickOk={onClickDelete}
+					onClickCancel={() => { setShowModal(false); }}
+					text="Are you sure you want to delete your account?"
+				/>
+			)}
 		</>
 	);
 }
