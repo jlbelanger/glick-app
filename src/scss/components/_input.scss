@@ -7,3 +7,13 @@ textarea {
 		box-shadow: none;
 	}
 }
+
+.formosa-input-wrapper--checkbox-list {
+	.formosa-radio {
+		display: flex;
+	}
+
+	.formosa-radio__item {
+		margin-right: 1rem;
+	}
+}

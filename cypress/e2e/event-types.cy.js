@@ -1,6 +1,7 @@
 describe('event types', () => {
 	beforeEach(() => {
 		cy.login();
+		cy.deleteAllData();
 	});
 
 	describe('add', () => {

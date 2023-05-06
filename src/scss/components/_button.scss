@@ -1,6 +1,6 @@
 button,
 .button,
-.formosa-radio__label {
+.formosa-input-wrapper--radio .formosa-radio__label {
 	@include gradient($lighter-green, $green, $dark-green);
 
 	cursor: pointer;
@@ -77,36 +77,38 @@ button,
 	font-weight: bold;
 }
 
-.formosa-radio__label {
-	&:focus-within {
-		@include gradient($dark-green, scale-color($green, $lightness: -10%), $green);
+.formosa-input-wrapper--radio {
+	.formosa-radio__label {
+		&:focus-within {
+			@include gradient($dark-green, scale-color($green, $lightness: -10%), $green);
 
-		border-color: $darker-green;
-		text-shadow: 0 -1px 0 $light-green;
+			border-color: $darker-green;
+			text-shadow: 0 -1px 0 $light-green;
+		}
 	}
-}
 
-.formosa-radio__label--checked {
-	@include gradient($darkest-green, $darker-green, $darker-green);
+	.formosa-radio__label--checked {
+		@include gradient($darkest-green, $darker-green, $darker-green);
 
-	color: $white;
-	text-shadow: 0 -1px 0 $darkest-green;
-
-	&.formosa-radio__label {
 		color: $white;
-	}
+		text-shadow: 0 -1px 0 $darkest-green;
 
-	&:hover {
-		@include gradient($darkest-green, $darker-green, $darker-green);
-	}
+		&.formosa-radio__label {
+			color: $white;
+		}
 
-	&:active,
-	&:focus,
-	&:focus-within {
-		@include gradient($darkest-green, $darker-green, $darker-green);
+		&:hover {
+			@include gradient($darkest-green, $darker-green, $darker-green);
+		}
 
-		border-color: $dark-green;
-		text-shadow: 0 -1px 0 $dark-green;
+		&:active,
+		&:focus,
+		&:focus-within {
+			@include gradient($darkest-green, $darker-green, $darker-green);
+
+			border-color: $dark-green;
+			text-shadow: 0 -1px 0 $dark-green;
+		}
 	}
 }
 

@@ -5,6 +5,7 @@ import Error from '../../Error';
 import MetaTitle from '../../MetaTitle';
 import Modal from '../../Modal';
 import MyForm from '../../MyForm';
+import UserDeleteData from '../../UserDeleteData';
 
 export default function Edit() {
 	const { addToast } = useContext(FormosaContext);
@@ -148,7 +149,9 @@ export default function Edit() {
 				<Submit label="Change password" />
 			</MyForm>
 
-			<h2>Delete account</h2>
+			<h2>Delete data</h2>
+
+			<UserDeleteData user={row} />
 
 			<p>
 				<button className="formosa-button formosa-button--danger" onClick={(e) => { setShowModal(e); }} type="button">
