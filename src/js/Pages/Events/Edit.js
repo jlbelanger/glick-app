@@ -1,4 +1,5 @@
 import { Api, FormosaContext, Submit } from '@jlbelanger/formosa';
+import { getLocalYmdmsFromYmdhmsz, getYmdhmszFromLocalYmdhms } from '../../Utilities/Datetime';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Error from '../../Error';
@@ -19,6 +20,12 @@ export default function Edit() {
 	useEffect(() => {
 		Api.get(`actions/${id}?include=action_type,option`)
 			.then((response) => {
+				if (response.start_date) {
+					response.start_date = getLocalYmdmsFromYmdhmsz(response.start_date);
+				}
+				if (response.end_date) {
+					response.end_date = getLocalYmdmsFromYmdhmsz(response.end_date);
+				}
 				setRow(response);
 			})
 			.catch((response) => {
@@ -51,12 +58,23 @@ export default function Edit() {
 			});
 	};
 
+	const filterValues = (values) => {
+		if (values.start_date) {
+			values.start_date = getYmdhmszFromLocalYmdhms(values.start_date);
+		}
+		if (values.end_date) {
+			values.end_date = getYmdhmszFromLocalYmdhms(values.end_date);
+		}
+		return values;
+	};
+
 	return (
 		<>
 			<MetaTitle title={`Edit ${getEventLabel(row)}`} />
 
 			<MyForm
 				id={id}
+				filterValues={filterValues}
 				method="PUT"
 				path="actions"
 				preventEmptyRequest

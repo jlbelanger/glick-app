@@ -7,6 +7,7 @@ describe('events', () => {
 	describe('add', () => {
 		describe('with valid minimal button', () => {
 			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
@@ -22,7 +23,8 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Add event.
-				cy.contains(name).parents('form').find('.formosa-radio__label').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').find('[type="submit"]').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
 
@@ -51,6 +53,7 @@ describe('events', () => {
 
 		describe('with valid button with options', () => {
 			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
@@ -71,6 +74,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Foo').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
@@ -87,6 +91,7 @@ describe('events', () => {
 
 				// Add event.
 				cy.visit('/');
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Bar').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.contains('Event added successfully.').should('exist');
@@ -116,6 +121,7 @@ describe('events', () => {
 
 		describe('with valid start/stop button', () => {
 			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('PUT', '**/api/actions/**').as('updateAction');
@@ -133,6 +139,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Start event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Start').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
@@ -158,6 +165,7 @@ describe('events', () => {
 
 				// Start event.
 				cy.visit('/');
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Start').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
@@ -200,6 +208,7 @@ describe('events', () => {
 
 		describe('with valid start/stop button with options', () => {
 			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('PUT', '**/api/actions/**').as('updateAction');
@@ -222,6 +231,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Start event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Foo').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
@@ -253,6 +263,7 @@ describe('events', () => {
 
 				// Start event.
 				cy.visit('/');
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Bar').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
@@ -284,6 +295,7 @@ describe('events', () => {
 
 				// Start event.
 				cy.visit('/');
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Foo').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
@@ -343,6 +355,7 @@ describe('events', () => {
 
 		describe('with valid minimal number', () => {
 			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
@@ -358,6 +371,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').find('.formosa-field__input').type(123);
 				cy.contains(name).parents('form').find('[type="submit"]').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
@@ -388,6 +402,7 @@ describe('events', () => {
 
 		describe('with valid minimal text', () => {
 			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
@@ -403,6 +418,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/');
 
 				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').find('.formosa-field__input').type('Foo');
 				cy.contains(name).parents('form').find('[type="submit"]').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
@@ -428,6 +444,184 @@ describe('events', () => {
 				cy.contains('Event type deleted successfully.').should('exist');
 				cy.get('.formosa-toast__close').click();
 				cy.location('pathname').should('eq', '/event-types');
+			});
+		});
+	});
+
+	describe('datetimes', () => {
+		describe('with non-continuous event type', () => {
+			it('works', () => {
+				const name = `Example ${Date.now()}`;
+				cy.clock(new Date('2001-01-01T12:00:00Z').getTime());
+
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypesFiltered');
+				cy.intercept('GET', '**/api/action-types/**').as('getActionType');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/**').as('getAction');
+				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('PUT', '**/api/actions/**').as('updateAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+
+				// Add event type.
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Add event.
+				cy.wait('@getActionTypesFiltered').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').find('[type="submit"]').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
+				cy.contains('Event added successfully.').should('exist');
+				cy.contains('since').should('not.exist');
+
+				// Move clock forward.
+				cy.clock().invoke('setSystemTime', new Date('2001-02-02T13:00:00Z').getTime() - 60);
+				cy.clock().invoke('tick', 60);
+
+				// Check event type page.
+				cy.contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
+				cy.contains('Mon, January 1, 2001 (1)').should('exist');
+				cy.contains('4:00 AM').should('exist');
+
+				// Check past events page.
+				cy.contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
+				cy.contains('Mon, January 1, 2001 (1)').should('exist');
+				cy.contains('4:00 AM').should('exist');
+
+				// Check event page.
+				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('[name="start_date"]').should('have.value', '2001-01-01 04:00:00');
+				cy.get('[name="end_date"]').should('not.exist');
+
+				// Edit date.
+				cy.get('[name="start_date"]').clear().type('2001-01-02 06:00:00');
+				cy.get('[type="submit"]').click();
+				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
+
+				// Check event type page.
+				cy.contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
+				cy.contains('Tue, January 2, 2001 (1)').should('exist');
+				cy.contains('6:00 AM').should('exist');
+
+				// Check past events page.
+				cy.contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
+				cy.contains('Tue, January 2, 2001 (1)').should('exist');
+				cy.contains('6:00 AM').should('exist');
+
+				// Check event page.
+				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('[name="start_date"]').should('have.value', '2001-01-02 06:00:00');
+			});
+		});
+
+		describe('with continuous event type', () => {
+			it('works', () => {
+				const name = `Example ${Date.now()}`;
+				cy.clock(new Date('2001-01-01T12:00:00Z').getTime());
+
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypesFiltered');
+				cy.intercept('GET', '**/api/action-types/**').as('getActionType');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/**').as('getAction');
+				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('PUT', '**/api/actions/**').as('updateAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+
+				// Add event type.
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[name="is_continuous"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Start event.
+				cy.wait('@getActionTypesFiltered').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').find('[type="submit"]').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
+				cy.contains('Event added successfully.').should('exist');
+				cy.contains('since 4:00 AM').should('exist');
+
+				// Move clock forward.
+				cy.clock().invoke('setSystemTime', new Date('2001-02-02T13:00:00Z').getTime() - 60);
+				cy.clock().invoke('tick', 60);
+				cy.contains('Profile').click();
+				cy.contains('New Event').click();
+				cy.wait('@getActionTypesFiltered').its('response.statusCode').should('equal', 200);
+				cy.contains('since Jan 1, 4:00 AM').should('exist');
+
+				// Stop event.
+				cy.contains(name).parents('form').find('[type="submit"]').click();
+				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
+				cy.contains('Event stopped successfully.').should('exist');
+
+				// Check event type page.
+				cy.contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
+				cy.contains('Mon, January 1, 2001 (1)').should('exist');
+				cy.contains('4:00 AM').should('exist');
+
+				// Check past events page.
+				cy.contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
+				cy.contains('Mon, January 1, 2001 (1)').should('exist');
+				cy.contains('4:00 AM').should('exist');
+
+				// Check event page.
+				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('[name="start_date"]').should('have.value', '2001-01-01 04:00:00');
+				cy.get('[name="end_date"]').should('have.value', '2001-02-02 05:00:00');
+
+				// Edit date.
+				cy.get('[name="start_date"]').clear().type('2001-01-02 06:00:00');
+				cy.get('[name="end_date"]').clear().type('2001-02-03 07:00:00');
+				cy.get('[type="submit"]').click();
+				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
+
+				// Check event type page.
+				cy.contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
+				cy.contains('Tue, January 2, 2001 (1)').should('exist');
+				cy.contains('6:00 AM').should('exist');
+
+				// Check past events page.
+				cy.contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
+				cy.contains('Tue, January 2, 2001 (1)').should('exist');
+				cy.contains('6:00 AM').should('exist');
+
+				// Check event page.
+				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('[name="start_date"]').should('have.value', '2001-01-02 06:00:00');
+				cy.get('[name="end_date"]').should('have.value', '2001-02-03 07:00:00');
 			});
 		});
 	});

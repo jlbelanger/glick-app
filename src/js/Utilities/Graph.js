@@ -99,16 +99,17 @@ export const barGraphData = (actions, unit) => {
 			dateObject.setMinutes(0);
 			dateObject.setHours(0);
 		}
-		if (Object.prototype.hasOwnProperty.call(data, dateObject)) {
-			data[dateObject] += 1;
+		const ymdhmsz = dateObject.toISOString();
+		if (Object.prototype.hasOwnProperty.call(data, ymdhmsz)) {
+			data[ymdhmsz] += 1;
 		} else {
-			data[dateObject] = 1;
+			data[ymdhmsz] = 1;
 		}
 	});
 
 	const labels = [];
-	Object.keys(data).forEach((dateObject) => {
-		labels.push(new Date(dateObject.getTime()));
+	Object.keys(data).forEach((ymdhmsz) => {
+		labels.push(new Date(ymdhmsz));
 	});
 
 	return {

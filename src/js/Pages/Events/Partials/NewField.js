@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function NewField({ actionType }) {
+	const attributes = {
+		className: 'formosa-prefix',
+		id: actionType.slug,
+		name: 'value',
+		postfix: (<button className="formosa-button formosa-postfix" type="submit">Add</button>),
+		required: true,
+		type: 'text',
+	};
+
 	if (actionType.field_type === 'number') {
 		return (
 			<Field
-				className="formosa-prefix"
-				id={actionType.slug}
-				name="value"
+				{...attributes}
 				inputMode="decimal"
-				postfix={(
-					<button className="formosa-button formosa-postfix" type="submit">Add</button>
-				)}
-				required
-				type="text"
 				suffix={actionType.suffix}
 				wrapperClassName="field--new-event field--number"
 			/>
@@ -24,15 +26,8 @@ export default function NewField({ actionType }) {
 	if (actionType.field_type === 'text') {
 		return (
 			<Field
-				className="formosa-prefix"
-				id={actionType.slug}
+				{...attributes}
 				maxLength={255}
-				name="value"
-				postfix={(
-					<button className="formosa-button formosa-postfix" type="submit">Add</button>
-				)}
-				required
-				type="text"
 				wrapperClassName="field--new-event field--text"
 			/>
 		);
@@ -55,16 +50,20 @@ export default function NewField({ actionType }) {
 	const options = [...actionType.options];
 	const hasOptions = options.length > 0;
 	if (!hasOptions) {
+		let label = 'Add';
 		if (actionType.is_continuous) {
 			if (actionType.in_progress) {
-				options.push('Stop');
+				label = 'Stop';
 			} else {
-				options.push('Start');
+				label = 'Start';
 			}
-		} else {
-			options.push('Add');
 		}
-	} else if (actionType.in_progress) {
+		return (
+			<button className="formosa-button" type="submit">{label}</button>
+		);
+	}
+
+	if (actionType.in_progress) {
 		options.push('Stop');
 	}
 
