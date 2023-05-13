@@ -1,17 +1,8 @@
-import { getYmdhmsFromDateObject, pad } from '../../../Utilities/Datetime';
+import { getWeek, getYmdhmsFromDateObject } from '../../../Utilities/Datetime';
 import { Field } from '@jlbelanger/formosa';
 import { getChartTooltipFormat } from '../../../Utilities/Graph';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-const getWeek = (dateObject) => {
-	const year = dateObject.getFullYear();
-	const firstWeek = new Date(year, 0, 4); // https://en.wikipedia.org/wiki/ISO_week_date#First_week
-	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
-	const dayOfYear = Math.ceil((dateObject.getTime() - firstWeek.getTime()) / oneDayInMilliseconds) - 3;
-	const week = 1 + Math.ceil(dayOfYear / 7);
-	return `${year}-w${pad(week)}`;
-};
 
 const getPeriod = (dateObject, range) => {
 	const ymdhms = getYmdhmsFromDateObject(dateObject);
@@ -34,9 +25,11 @@ const getPeriod = (dateObject, range) => {
 };
 
 const createPeriodGroups = (minDateObject, maxDateObject, range) => {
+	minDateObject.setMilliseconds(0);
 	minDateObject.setMinutes(0);
 	minDateObject.setSeconds(0);
 
+	maxDateObject.setMilliseconds(0);
 	maxDateObject.setMinutes(0);
 	maxDateObject.setSeconds(0);
 
@@ -46,9 +39,11 @@ const createPeriodGroups = (minDateObject, maxDateObject, range) => {
 		maxDateObject.setHours(0);
 
 		if (range === 'week') {
-			const minWeekday = minDateObject.getDay();
-			if (minWeekday !== 0) {
-				minDateObject.setDate(6 - minWeekday);
+			const weekday = minDateObject.getDay();
+			if (weekday === 0) {
+				minDateObject.setDate(minDateObject.getDate() - 6);
+			} else {
+				minDateObject.setDate(minDateObject.getDate() - weekday + 1);
 			}
 		} else if (range !== 'day') {
 			minDateObject.setDate(1);
@@ -87,6 +82,14 @@ const groupByPeriod = (output, rows, range) => {
 	rows.forEach((row) => {
 		output[getPeriod(row.dateObject, range)].push(row.value);
 	});
+
+	// Remove the last period if there are no events.
+	const periods = Object.keys(output);
+	const period = periods[periods.length - 1];
+	if (output[period].length <= 0) {
+		delete output[period];
+	}
+
 	return output;
 };
 

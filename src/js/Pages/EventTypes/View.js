@@ -89,6 +89,7 @@ export default function View() {
 					setActions(newActions);
 
 					let minTimestamp = null;
+					let maxTimestamp = null;
 					let minX = null;
 					let maxX = null;
 					newActions.forEach((action) => {
@@ -102,8 +103,13 @@ export default function View() {
 						if (!minTimestamp || timestamp < minTimestamp) {
 							minTimestamp = timestamp;
 						}
+						if (!maxTimestamp || timestamp > maxTimestamp) {
+							maxTimestamp = timestamp;
+						}
 					});
 					const newMinDateObject = new Date(minTimestamp);
+					const newMaxDateObject = new Date(maxTimestamp);
+					newMaxDateObject.setDate(newMaxDateObject.getDate() + 1);
 
 					const newUnit = getDefaultChartUnit(newMinDateObject, defaultDateObject);
 
@@ -182,6 +188,7 @@ export default function View() {
 
 					setMinDateObject(newMinDateObject);
 					setFromYmd(getYmdFromDateObject(newMinDateObject));
+					setToYmd(getYmdFromDateObject(newMaxDateObject));
 					setUnit(newUnit);
 					setGraphData(data);
 					setGraphOptions(newGraphOptions);

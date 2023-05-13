@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export const getYmdhmszFromLocalYmdhms = (ymdhms) => (
 	new Date(ymdhms).toISOString().substring(0, 19).replace('T', ' ')
 );
@@ -89,4 +91,9 @@ export const getRowsByYmd = (rows) => {
 		output[ymd].push(row);
 	});
 	return output;
+};
+
+export const getWeek = (dateObject) => {
+	const luxonDate = DateTime.fromJSDate(dateObject);
+	return `${luxonDate.weekYear}-w${pad(luxonDate.weekNumber)}`;
 };
