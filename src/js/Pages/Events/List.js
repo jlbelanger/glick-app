@@ -9,14 +9,73 @@ import Row from './Partials/Row';
 export default function List() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
-	useEffect(() => {
-		Api.get('actions?include=action_type,option')
+	const [currentPage, setCurrentPage] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+	const [loading, setLoading] = useState(false);
+
+	const getActions = () => {
+		Api.get(`actions?include=action_type,option&page[number]=${currentPage}&page[size]=100`)
 			.then((response) => {
-				setRows(response);
+				setHasMore(currentPage < response.meta.page.total_pages);
+				if (!Object.prototype.hasOwnProperty.call(response, 'data')) {
+					setRows([]);
+				} else if (rows === null) {
+					setRows(response.data);
+				} else {
+					setRows([...rows, ...response.data]);
+				}
+				setLoading(false);
 			})
 			.catch((response) => {
 				setError(response.status);
 			});
+	};
+
+	const debounce = (func, wait, immediate) => {
+		let timeout;
+		return function (...args) { // eslint-disable-line func-names
+			const context = this;
+			const later = () => {
+				timeout = null;
+				if (!immediate) {
+					func.apply(context, args);
+				}
+			};
+			const callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow) {
+				func.apply(context, args);
+			}
+		};
+	};
+
+	const onScroll = () => {
+		if (loading || !hasMore) {
+			return;
+		}
+
+		const pxFromTop = document.documentElement.scrollTop;
+		const pageHeight = document.documentElement.scrollHeight;
+		const browserHeight = document.documentElement.clientHeight;
+
+		if ((pxFromTop + (browserHeight * 2)) >= pageHeight) {
+			setCurrentPage((oldVal) => (oldVal + 1));
+		}
+	};
+
+	const debouncedOnScroll = debounce(onScroll, 100);
+
+	useEffect(() => {
+		setLoading(true);
+		getActions();
+	}, [currentPage]);
+
+	useEffect(() => {
+		window.addEventListener('scroll', debouncedOnScroll);
+		return () => {
+			window.removeEventListener('scroll', debouncedOnScroll);
+		};
 	}, []);
 
 	if (error) {
