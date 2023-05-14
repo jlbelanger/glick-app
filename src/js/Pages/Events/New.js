@@ -10,10 +10,23 @@ import { Redirect } from 'react-router-dom';
 export default function New() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
+	const [actions, setActions] = useState({});
+
 	useEffect(() => {
 		Api.get('action-types?filter[is_archived][eq]=0&include=options')
 			.then((response) => {
 				setRows(response);
+
+				const newActions = {};
+				response.forEach((actionType) => {
+					newActions[actionType.id] = {
+						action_type: {
+							id: actionType.id,
+							type: 'action_types',
+						},
+					};
+				});
+				setActions(newActions);
 			})
 			.catch((response) => {
 				setError(response.status);
@@ -94,59 +107,75 @@ export default function New() {
 		return 0;
 	});
 
+	const setInProgress = (actionTypeId, value) => {
+		const newActionTypes = [...rows];
+		const i = newActionTypes.findIndex((actionType) => (actionType.id === actionTypeId));
+		newActionTypes[i].in_progress = value;
+		setRows(newActionTypes);
+	};
+
 	return (
 		<>
 			<MetaTitle title="Add event" hideTitleText />
 
 			<ul className="list" id="list">
-				{sortedRows.map((row) => {
+				{sortedRows.map((actionType) => {
 					const defaultRow = {
 						action_type: {
-							id: row.id,
+							id: actionType.id,
 							type: 'action_types',
 						},
 					};
 
 					let className = 'list__item';
-					if (row.in_progress) {
+					if (actionType.in_progress) {
 						className += ' list__item--active';
-						if (row.in_progress.option) {
-							defaultRow.option = { id: row.in_progress.option.id, type: row.in_progress.option.type };
+						if (actionType.in_progress.option) {
+							defaultRow.option = {
+								id: actionType.in_progress.option.id,
+								type: actionType.in_progress.option.type,
+							};
 						}
 					}
 
-					const hasStopOnly = row.in_progress && row.options.length <= 0;
+					const hasStopOnly = actionType.in_progress && actionType.options.length <= 0;
 					return (
-						<li className={className} key={row.id}>
+						<li className={className} key={actionType.id}>
 							<Form
 								afterSubmit={afterSubmit}
-								clearOnSubmit={row.field_type !== 'button' || !row.is_continuous}
+								clearOnSubmit={actionType.field_type !== 'button' || !actionType.is_continuous}
 								defaultRow={defaultRow}
 								filterBody={hasStopOnly ? filterBodyStop : filterBody}
 								filterValues={filterValues}
-								id={hasStopOnly ? row.in_progress.id.toString() : ''}
+								id={hasStopOnly ? actionType.in_progress.id.toString() : ''}
 								method={hasStopOnly ? 'PUT' : 'POST'}
 								params="include=action_type,option"
 								path="actions"
 								relationshipNames={['action_type', 'option']}
-								row={defaultRow}
+								row={actions[actionType.id]}
+								setRow={(newRow) => {
+									setActions({
+										...actions,
+										[newRow.action_type.id]: newRow,
+									});
+								}}
 								successToastText={hasStopOnly ? 'Event stopped successfully.' : 'Event added successfully.'}
 							>
-								<NewLabel actionType={row} />
-								<NewField actionType={row} />
+								<NewLabel actionType={actionType} />
+								<NewField actionType={actionType} setInProgress={setInProgress} />
 							</Form>
-							{row.in_progress ? (
+							{actionType.in_progress ? (
 								<Form
 									afterSubmit={afterSubmit}
 									filterBody={filterBodyStop}
 									method="PUT"
 									params="include=action_type"
 									path="actions"
-									id={row.in_progress.id.toString()}
+									id={actionType.in_progress.id.toString()}
 									successToastText="Event stopped successfully."
 									style={{ display: 'none' }}
 								>
-									<button id={`submit-${row.id}-stop`} type="submit">Stop</button>
+									<button type="submit">Stop</button>
 								</Form>
 							) : null}
 						</li>

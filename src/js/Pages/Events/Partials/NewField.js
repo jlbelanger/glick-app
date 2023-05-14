@@ -1,8 +1,11 @@
-import { Field } from '@jlbelanger/formosa';
+import { Api, Field, FormosaContext } from '@jlbelanger/formosa';
+import React, { useContext, useState } from 'react';
+import { getCurrentYmdhmsz } from '../../../Utilities/Datetime';
 import PropTypes from 'prop-types';
-import React from 'react';
 
-export default function NewField({ actionType }) {
+export default function NewField({ actionType, setInProgress }) {
+	const { addToast } = useContext(FormosaContext);
+	const [value, setValue] = useState(actionType.in_progress ? actionType.in_progress.option : null);
 	const attributes = {
 		className: 'formosa-prefix',
 		id: actionType.slug,
@@ -33,22 +36,9 @@ export default function NewField({ actionType }) {
 		);
 	}
 
-	const submitId = `submit-${actionType.id}`;
-	const afterChange = (e) => {
-		// TODO: Ensure afterChange is called after the form state has been
-		// updated, then remove setTimeout here.
-		setTimeout(() => {
-			if (e.target.value === 'Stop') {
-				document.getElementById(`${submitId}-stop`).click();
-			} else {
-				document.getElementById(submitId).click();
-			}
-		}, 100);
-		return {};
-	};
-
 	const options = [...actionType.options];
 	const hasOptions = options.length > 0;
+	const name = hasOptions ? 'option' : 'value';
 	if (!hasOptions) {
 		let label = 'Add';
 		if (actionType.is_continuous) {
@@ -68,20 +58,68 @@ export default function NewField({ actionType }) {
 	}
 
 	return (
-		<>
-			<Field
-				afterChange={afterChange}
-				name={hasOptions ? 'option' : 'value'}
-				labelKey="label"
-				options={options}
-				type="radio"
-				valueKey={(option) => ({ id: option.id, type: option.type })}
-			/>
-			<button id={submitId} style={{ display: 'none' }} type="submit" />
-		</>
+		<Field
+			name={name}
+			labelKey="label"
+			options={options}
+			type="radio"
+			setValue={(newValue) => {
+				if (newValue === 'Stop') {
+					const data = {
+						id: actionType.in_progress.id,
+						type: 'actions',
+						attributes: {
+							end_date: getCurrentYmdhmsz(),
+						},
+					};
+					setValue(null);
+					Api.put(`/actions/${actionType.in_progress.id}`, JSON.stringify({ data }))
+						.then(() => {
+							addToast('Event stopped successfully.', 'success');
+							setInProgress(actionType.id, null);
+						})
+						.catch((response) => {
+							const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
+							addToast(text, 'error', 10000);
+						});
+					return;
+				}
+
+				const data = {
+					type: 'actions',
+					attributes: {
+						start_date: getCurrentYmdhmsz(),
+					},
+					relationships: {
+						action_type: {
+							data: {
+								id: actionType.id,
+								type: actionType.type,
+							},
+						},
+						option: {
+							data: newValue,
+						},
+					},
+				};
+				setValue(newValue);
+				Api.post('/actions?include=action_type,option', JSON.stringify({ data }))
+					.then((response) => {
+						addToast('Event added successfully.', 'success');
+						setInProgress(actionType.id, response);
+					})
+					.catch((response) => {
+						const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
+						addToast(text, 'error', 10000);
+					});
+			}}
+			value={value}
+			valueKey={(option) => ({ id: option.id, type: option.type })}
+		/>
 	);
 }
 
 NewField.propTypes = {
 	actionType: PropTypes.object.isRequired,
+	setInProgress: PropTypes.func.isRequired,
 };

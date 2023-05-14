@@ -452,7 +452,7 @@ describe('events', () => {
 		describe('with non-continuous event type', () => {
 			it('works', () => {
 				const name = `Example ${Date.now()}`;
-				cy.clock(new Date('2001-01-01T12:00:00Z').getTime());
+				cy.clock(new Date('2001-01-01T12:00:00Z').getTime(), ['Date']);
 
 				cy.intercept('GET', '**/api/action-types').as('getActionTypes');
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypesFiltered');
@@ -534,7 +534,7 @@ describe('events', () => {
 		describe('with continuous event type', () => {
 			it('works', () => {
 				const name = `Example ${Date.now()}`;
-				cy.clock(new Date('2001-01-01T12:00:00Z').getTime());
+				cy.clock(new Date('2001-01-01T12:00:00Z').getTime(), ['Date']);
 
 				cy.intercept('GET', '**/api/action-types').as('getActionTypes');
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypesFiltered');
