@@ -7,19 +7,21 @@ import MetaTitle from '../../MetaTitle';
 export default function List() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
+
 	useEffect(() => {
 		Api.get('action-types')
+			.catch((response) => {
+				setError(response);
+				throw response;
+			})
 			.then((response) => {
 				setRows(response);
-			})
-			.catch((response) => {
-				setError(response.status);
 			});
 	}, []);
 
 	if (error) {
 		return (
-			<Error status={error} />
+			<Error error={error} />
 		);
 	}
 

@@ -14,6 +14,10 @@ export default function New() {
 
 	useEffect(() => {
 		Api.get('action-types?filter[is_archived][eq]=0&include=options')
+			.catch((response) => {
+				setError(response);
+				throw response;
+			})
 			.then((response) => {
 				setRows(response);
 
@@ -27,15 +31,12 @@ export default function New() {
 					};
 				});
 				setActions(newActions);
-			})
-			.catch((response) => {
-				setError(response.status);
 			});
 	}, []);
 
 	if (error) {
 		return (
-			<Error status={error} />
+			<Error error={error} />
 		);
 	}
 

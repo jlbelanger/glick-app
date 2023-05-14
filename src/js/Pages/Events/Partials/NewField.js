@@ -74,13 +74,14 @@ export default function NewField({ actionType, setInProgress }) {
 					};
 					setValue(null);
 					Api.put(`/actions/${actionType.in_progress.id}`, JSON.stringify({ data }))
-						.then(() => {
-							addToast('Event stopped successfully.', 'success');
-							setInProgress(actionType.id, null);
-						})
 						.catch((response) => {
 							const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
 							addToast(text, 'error', 10000);
+							throw response;
+						})
+						.then(() => {
+							addToast('Event stopped successfully.', 'success');
+							setInProgress(actionType.id, null);
 						});
 					return;
 				}
@@ -104,13 +105,14 @@ export default function NewField({ actionType, setInProgress }) {
 				};
 				setValue(newValue);
 				Api.post('/actions?include=action_type,option', JSON.stringify({ data }))
-					.then((response) => {
-						addToast('Event added successfully.', 'success');
-						setInProgress(actionType.id, response);
-					})
 					.catch((response) => {
 						const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
 						addToast(text, 'error', 10000);
+						throw response;
+					})
+					.then((response) => {
+						addToast('Event added successfully.', 'success');
+						setInProgress(actionType.id, response);
 					});
 			}}
 			value={value}

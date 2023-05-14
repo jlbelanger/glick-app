@@ -75,6 +75,10 @@ export default function View() {
 
 		if (id) {
 			Api.get(`action-types/${id}?include=actions,actions.option`)
+				.catch((response) => {
+					setError(response);
+					throw response;
+				})
 				.then((response) => {
 					if (ignore) {
 						return;
@@ -193,9 +197,6 @@ export default function View() {
 					setGraphData(data);
 					setGraphOptions(newGraphOptions);
 					setGraphType(newGraphType);
-				})
-				.catch((response) => {
-					setError(response.status);
 				});
 		}
 
@@ -206,7 +207,7 @@ export default function View() {
 
 	if (error) {
 		return (
-			<Error status={error} />
+			<Error error={error} />
 		);
 	}
 

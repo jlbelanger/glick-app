@@ -29,7 +29,7 @@ describe('events', () => {
 				cy.closeToast('Event added successfully.');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(name).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -38,7 +38,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
-				cy.visit('/event-types');
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.contains(name).click();
 				cy.contains('Edit').click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
@@ -78,7 +78,7 @@ describe('events', () => {
 				cy.closeToast('Event added successfully.');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(`${name} (Foo)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -87,14 +87,14 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Add event.
-				cy.visit('/');
+				cy.get('.nav__link').contains('New Event').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Bar').click();
 				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
 				cy.closeToast('Event added successfully.');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(`${name} (Bar)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -103,7 +103,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
-				cy.visit('/event-types');
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.contains(name).click();
 				cy.contains('Edit').click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
@@ -149,7 +149,7 @@ describe('events', () => {
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(name).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -158,7 +158,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Start event.
-				cy.visit('/');
+				cy.get('.nav__link').contains('New Event').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Start').click();
@@ -167,10 +167,8 @@ describe('events', () => {
 				cy.contains(name).parents('form').contains('Stop').should('exist');
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
-				// Reload page.
-				cy.reload();
-
 				// Stop event.
+				cy.reload();
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 				cy.contains(name).parents('form').contains('Stop').click();
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
@@ -178,7 +176,7 @@ describe('events', () => {
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(name).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -187,7 +185,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
-				cy.visit('/event-types');
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.contains(name).click();
 				cy.contains('Edit').click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
@@ -234,7 +232,7 @@ describe('events', () => {
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
 				// Stop event.
-				cy.visit('/');
+				cy.get('.nav__link').contains('New Event').click();
 				cy.contains(name).parents('form').contains('Stop').click();
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 				cy.closeToast('Event stopped successfully.');
@@ -244,7 +242,7 @@ describe('events', () => {
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(`${name} (Foo)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -253,7 +251,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Start event.
-				cy.visit('/');
+				cy.get('.nav__link').contains('New Event').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Bar').click();
@@ -265,7 +263,7 @@ describe('events', () => {
 				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
 
 				// Stop event.
-				cy.visit('/');
+				cy.reload();
 				cy.contains(name).parents('form').contains('Stop').click();
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 				cy.closeToast('Event stopped successfully.');
@@ -275,7 +273,7 @@ describe('events', () => {
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(`${name} (Bar)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -284,7 +282,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Start event.
-				cy.visit('/');
+				cy.get('.nav__link').contains('New Event').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).parents('form').contains('Stop').should('not.exist');
 				cy.contains(name).parents('form').contains('Foo').click();
@@ -301,7 +299,7 @@ describe('events', () => {
 				cy.closeToast('Event added successfully.');
 
 				// Stop event.
-				cy.visit('/');
+				cy.reload();
 				cy.contains(name).parents('form').contains('Stop').click();
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 				cy.closeToast('Event stopped successfully.');
@@ -311,7 +309,7 @@ describe('events', () => {
 				cy.contains(name).parents('.list__item').should('not.have.class', 'list__item--active');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(`${name} (Foo)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -320,7 +318,6 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event.
-				cy.visit('/events');
 				cy.contains(`${name} (Bar)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -329,7 +326,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
-				cy.visit('/event-types');
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.contains(name).click();
 				cy.contains('Edit').click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
@@ -365,7 +362,7 @@ describe('events', () => {
 				cy.closeToast('Event added successfully.');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(`${name} (123)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -374,7 +371,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
-				cy.visit('/event-types');
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.contains(name).click();
 				cy.contains('Edit').click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
@@ -410,7 +407,7 @@ describe('events', () => {
 				cy.closeToast('Event added successfully.');
 
 				// Delete event.
-				cy.visit('/events');
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.contains(`${name} (Foo)`).click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
@@ -419,7 +416,7 @@ describe('events', () => {
 				cy.location('pathname').should('eq', '/events');
 
 				// Delete event type.
-				cy.visit('/event-types');
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.contains(name).click();
 				cy.contains('Edit').click();
 				cy.get('.formosa-button--danger').contains('Delete').click();
@@ -469,7 +466,7 @@ describe('events', () => {
 				cy.clock().invoke('tick', 60);
 
 				// Check event type page.
-				cy.contains('Event Types').click();
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
@@ -477,7 +474,7 @@ describe('events', () => {
 				cy.contains('4:00 AM').should('exist');
 
 				// Check past events page.
-				cy.contains('Past Events').click();
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains('Mon, January 1, 2001 (1)').should('exist');
 				cy.contains('4:00 AM').should('exist');
@@ -494,7 +491,7 @@ describe('events', () => {
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 
 				// Check event type page.
-				cy.contains('Event Types').click();
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
@@ -502,7 +499,7 @@ describe('events', () => {
 				cy.contains('6:00 AM').should('exist');
 
 				// Check past events page.
-				cy.contains('Past Events').click();
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains('Tue, January 2, 2001 (1)').should('exist');
 				cy.contains('6:00 AM').should('exist');
@@ -550,8 +547,8 @@ describe('events', () => {
 				// Move clock forward.
 				cy.clock().invoke('setSystemTime', new Date('2001-02-02T13:00:00Z').getTime() - 60);
 				cy.clock().invoke('tick', 60);
-				cy.contains('Profile').click();
-				cy.contains('New Event').click();
+				cy.get('.nav__link').contains('Profile').click();
+				cy.get('.nav__link').contains('New Event').click();
 				cy.wait('@getActionTypesFiltered').its('response.statusCode').should('equal', 200);
 				cy.contains('since Jan 1, 4:00 AM').should('exist');
 
@@ -561,7 +558,7 @@ describe('events', () => {
 				cy.closeToast('Event stopped successfully.');
 
 				// Check event type page.
-				cy.contains('Event Types').click();
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
@@ -569,7 +566,7 @@ describe('events', () => {
 				cy.contains('4:00 AM').should('exist');
 
 				// Check past events page.
-				cy.contains('Past Events').click();
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains('Mon, January 1, 2001 (1)').should('exist');
 				cy.contains('4:00 AM').should('exist');
@@ -587,7 +584,7 @@ describe('events', () => {
 				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
 
 				// Check event type page.
-				cy.contains('Event Types').click();
+				cy.get('.nav__link').contains('Event Types').click();
 				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
@@ -595,7 +592,7 @@ describe('events', () => {
 				cy.contains('6:00 AM').should('exist');
 
 				// Check past events page.
-				cy.contains('Past Events').click();
+				cy.get('.nav__link').contains('Past Events').click();
 				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains('Tue, January 2, 2001 (1)').should('exist');
 				cy.contains('6:00 AM').should('exist');

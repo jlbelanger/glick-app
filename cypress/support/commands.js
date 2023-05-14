@@ -1,5 +1,5 @@
 Cypress.Commands.add('deleteAllData', () => {
-	cy.intercept('GET', '**/api/users/**').as('getUser');
+	cy.intercept('GET', '**/api/users/*').as('getUser');
 	cy.intercept('POST', '**/api/users/delete-data').as('deleteData');
 
 	cy.visit('/profile');

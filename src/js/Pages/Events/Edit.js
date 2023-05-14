@@ -19,6 +19,10 @@ export default function Edit() {
 
 	useEffect(() => {
 		Api.get(`actions/${id}?include=action_type,option`)
+			.catch((response) => {
+				setError(response);
+				throw response;
+			})
 			.then((response) => {
 				if (response.start_date) {
 					response.start_date = getLocalYmdmsFromYmdhmsz(response.start_date);
@@ -27,15 +31,12 @@ export default function Edit() {
 					response.end_date = getLocalYmdmsFromYmdhmsz(response.end_date);
 				}
 				setRow(response);
-			})
-			.catch((response) => {
-				setError(response.status);
 			});
 	}, [id]);
 
 	if (error) {
 		return (
-			<Error status={error} />
+			<Error error={error} />
 		);
 	}
 
@@ -48,13 +49,14 @@ export default function Edit() {
 	const deleteRow = () => {
 		setShowModal(false);
 		Api.delete(`actions/${id}`)
-			.then(() => {
-				addToast('Event deleted successfully.', 'success');
-				history.push('/events');
-			})
 			.catch((response) => {
 				const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
 				addToast(text, 'error', 10000);
+				throw response;
+			})
+			.then(() => {
+				addToast('Event deleted successfully.', 'success');
+				history.push('/events');
 			});
 	};
 

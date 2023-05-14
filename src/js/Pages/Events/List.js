@@ -15,6 +15,10 @@ export default function List() {
 
 	const getActions = () => {
 		Api.get(`actions?include=action_type,option&page[number]=${currentPage}&page[size]=100`)
+			.catch((response) => {
+				setError(response);
+				throw response;
+			})
 			.then((response) => {
 				setHasMore(currentPage < response.meta.page.total_pages);
 				if (!Object.prototype.hasOwnProperty.call(response, 'data')) {
@@ -25,9 +29,6 @@ export default function List() {
 					setRows([...rows, ...response.data]);
 				}
 				setLoading(false);
-			})
-			.catch((response) => {
-				setError(response.status);
 			});
 	};
 
@@ -80,7 +81,7 @@ export default function List() {
 
 	if (error) {
 		return (
-			<Error status={error} />
+			<Error error={error} />
 		);
 	}
 

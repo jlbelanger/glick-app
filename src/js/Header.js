@@ -10,15 +10,15 @@ export default function Header() {
 
 	const logout = () => {
 		Api.delete('auth/logout')
-			.then(() => {
-				Auth.logout();
-			})
 			.catch((response) => {
-				if (response.status === 401 || response.status === 404) {
-					Auth.logout();
+				if (response.status === 401) {
 					return;
 				}
 				addToast('Error.', 'error');
+				throw response;
+			})
+			.then(() => {
+				Auth.logout();
 			});
 	};
 

@@ -17,17 +17,18 @@ export default function Edit() {
 
 	useEffect(() => {
 		Api.get(`action-types/${id}?include=options`)
+			.catch((response) => {
+				setError(response);
+				throw response;
+			})
 			.then((response) => {
 				setRow(response);
-			})
-			.catch((response) => {
-				setError(response.status);
 			});
 	}, [id]);
 
 	if (error) {
 		return (
-			<Error status={error} />
+			<Error error={error} />
 		);
 	}
 
@@ -40,13 +41,14 @@ export default function Edit() {
 	const deleteRow = () => {
 		setShowModal(false);
 		Api.delete(`action-types/${id}`)
-			.then(() => {
-				addToast('Event type deleted successfully.', 'success');
-				history.push('/event-types');
-			})
 			.catch((response) => {
 				const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
 				addToast(text, 'error', 10000);
+				throw response;
+			})
+			.then(() => {
+				addToast('Event type deleted successfully.', 'success');
+				history.push('/event-types');
 			});
 	};
 
