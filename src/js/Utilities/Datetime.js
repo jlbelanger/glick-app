@@ -1,8 +1,15 @@
 import { DateTime } from 'luxon';
 
-export const getYmdhmszFromLocalYmdhms = (ymdhms) => (
-	new Date(ymdhms).toISOString().substring(0, 19).replace('T', ' ')
-);
+export const getYmdhmszFromLocalYmdhms = (ymdhms) => {
+	const dateObject = new Date();
+	dateObject.setFullYear(ymdhms.substring(0, 4));
+	dateObject.setMonth(parseInt(ymdhms.substring(5, 7), 10) - 1);
+	dateObject.setDate(ymdhms.substring(8, 10));
+	dateObject.setHours(ymdhms.substring(11, 13));
+	dateObject.setMinutes(ymdhms.substring(14, 16));
+	dateObject.setSeconds(ymdhms.substring(17, 19));
+	return dateObject.toISOString().substring(0, 19).replace('T', ' ');
+};
 
 export const getCurrentYmdhmsz = () => (
 	new Date().toISOString().substring(0, 19).replace('T', ' ')
