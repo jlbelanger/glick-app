@@ -1,17 +1,175 @@
+import { mockServerError } from '../support/commands';
+
 describe('events', () => {
 	beforeEach(() => {
 		cy.login();
 		cy.deleteAllData();
 	});
 
+	describe('list', () => {
+		describe('with server error', () => {
+			it('shows an error', () => {
+				mockServerError('GET', '**/api/actions?*').as('getActions');
+
+				cy.visit('/events');
+				cy.wait('@getActions').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-alert--error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
+			});
+		});
+	});
+
 	describe('add', () => {
-		describe('with valid minimal button', () => {
-			it('works', () => {
+		describe('with server error on page load', () => {
+			it('shows an error', () => {
+				mockServerError('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-alert--error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
+			});
+		});
+
+		describe('with server error on start event', () => {
+			it('shows an error', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				mockServerError('POST', '**/api/actions?*').as('addAction');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').find('[type="submit"]').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-field__error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
+			});
+		});
+
+		describe('with server error on stop event', () => {
+			it('shows an error', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
-				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
+				mockServerError('PUT', '**/api/actions/*').as('updateAction');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[name="is_continuous"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Start event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').contains('Stop').should('not.exist');
+				cy.contains(name).parents('form').contains('Start').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
+				cy.closeToast('Event added successfully.');
+				cy.contains(name).parents('form').contains('Stop').should('exist');
+				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
+
+				// Stop event.
+				cy.contains(name).parents('form').contains('Stop').click();
+				cy.wait('@updateAction').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-field__error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
+			});
+		});
+
+		describe('with server error on start event with options', () => {
+			it('shows an error', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				mockServerError('POST', '**/api/actions?*').as('addAction');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('#new-label').type('Foo');
+				cy.get('.formosa-button--add-has-many').click();
+				cy.get('[id="options.0.label"]').should('exist');
+				cy.get('#new-label').type('Bar');
+				cy.get('.formosa-button--add-has-many').click();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').contains('Foo').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-field__error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
+			});
+		});
+
+		describe('with server error on stop event with options', () => {
+			it('shows an error', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				mockServerError('PUT', '**/api/actions/*').as('updateAction');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('#new-label').type('Foo');
+				cy.get('.formosa-button--add-has-many').click();
+				cy.get('[id="options.0.label"]').should('exist');
+				cy.get('#new-label').type('Bar');
+				cy.get('.formosa-button--add-has-many').click();
+				cy.get('[name="is_continuous"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Start event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').contains('Foo').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
+				cy.closeToast('Event added successfully.');
+				cy.contains(name).parents('form').contains('Stop').should('exist');
+				cy.contains(name).parents('.list__item').should('have.class', 'list__item--active');
+
+				// Stop event.
+				cy.contains(name).parents('form').contains('Stop').click();
+				cy.wait('@updateAction').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-field__error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
+			});
+		});
+
+		describe('with valid minimal button', () => {
+			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
+				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -30,7 +188,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -39,8 +199,11 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
@@ -52,10 +215,14 @@ describe('events', () => {
 		describe('with valid button with options', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
-				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -79,7 +246,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(`${name} (Foo)`).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -95,7 +264,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(`${name} (Bar)`).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -104,8 +275,11 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
@@ -117,11 +291,15 @@ describe('events', () => {
 		describe('with valid start/stop button', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('PUT', '**/api/actions/*').as('updateAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
-				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -150,7 +328,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -177,7 +357,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -186,8 +368,11 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
@@ -199,11 +384,15 @@ describe('events', () => {
 		describe('with valid start/stop button with options', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('PUT', '**/api/actions/*').as('updateAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
-				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -243,7 +432,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(`${name} (Foo)`).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -274,7 +465,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(`${name} (Bar)`).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -310,7 +503,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(`${name} (Foo)`).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -327,8 +522,11 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
@@ -340,10 +538,14 @@ describe('events', () => {
 		describe('with valid minimal number', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
-				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -363,7 +565,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(`${name} (123)`).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -372,8 +576,11 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
@@ -385,10 +592,14 @@ describe('events', () => {
 		describe('with valid minimal text', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
+				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
 				cy.intercept('POST', '**/api/actions?*').as('addAction');
 				cy.intercept('DELETE', '**/api/actions/*').as('deleteAction');
-				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
 
 				// Add event type.
 				const name = `Example ${Date.now()}`;
@@ -408,7 +619,9 @@ describe('events', () => {
 
 				// Delete event.
 				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
 				cy.contains(`${name} (Foo)`).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteAction').its('response.statusCode').should('equal', 204);
@@ -417,13 +630,43 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
+				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.get('.formosa-button--danger').contains('Delete').click();
 				cy.get('dialog .formosa-button--danger').contains('Delete').click();
 				cy.wait('@deleteActionType').its('response.statusCode').should('equal', 204);
 				cy.closeToast('Event type deleted successfully.');
 				cy.location('pathname').should('eq', '/event-types');
+			});
+		});
+
+		// TODO: With invalid input.
+	});
+
+	describe('view', () => {
+		describe('with not found', () => {
+			it('shows an error', () => {
+				cy.intercept('GET', '**/api/actions').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
+
+				// View.
+				cy.visit('/events/987654321');
+				cy.wait('@getAction').its('response.statusCode').should('equal', 404);
+				cy.get('.formosa-alert--error').invoke('text').should('equal', 'Error: This record does not exist.');
+			});
+		});
+
+		describe('with server error', () => {
+			it('shows an error', () => {
+				mockServerError('GET', '**/api/actions/*').as('getAction');
+
+				// View.
+				cy.visit('/events/987654321');
+				cy.wait('@getAction').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-alert--error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
 			});
 		});
 	});
@@ -602,6 +845,126 @@ describe('events', () => {
 				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
 				cy.get('[name="start_date"]').should('have.value', '2001-01-02 06:00:00');
 				cy.get('[name="end_date"]').should('have.value', '2001-02-03 07:00:00');
+			});
+		});
+	});
+
+	describe('edit', () => {
+		describe('with valid note', () => {
+			it('works', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
+				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				cy.intercept('PUT', '**/api/actions/*').as('updateAction');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').find('[type="submit"]').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
+				cy.closeToast('Event added successfully.');
+
+				// Edit.
+				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
+				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('[name="notes"]').type('Example note');
+				cy.get('[type="submit"]').click();
+				cy.wait('@updateAction').its('response.statusCode').should('equal', 200);
+				cy.closeToast('Event saved successfully.');
+
+				// Refresh.
+				cy.reload();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('[name="notes"]').should('have.value', 'Example note');
+			});
+		});
+
+		describe('with server error', () => {
+			it('shows an error', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
+				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				mockServerError('PUT', '**/api/actions/*').as('updateAction');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').find('[type="submit"]').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
+				cy.closeToast('Event added successfully.');
+
+				// Edit.
+				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
+				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('[name="notes"]').type('Example note');
+				cy.get('[type="submit"]').click();
+				cy.wait('@updateAction').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-alert--error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
+			});
+		});
+	});
+
+	describe('delete', () => {
+		describe('with server error', () => {
+			it('shows an error', () => {
+				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('POST', '**/api/action-types').as('addActionType');
+
+				cy.intercept('GET', '**/api/actions?*').as('getActions');
+				cy.intercept('GET', '**/api/actions/*').as('getAction');
+				cy.intercept('POST', '**/api/actions?*').as('addAction');
+				mockServerError('DELETE', '**/api/actions/*').as('deleteAction');
+
+				// Add event type.
+				const name = `Example ${Date.now()}`;
+				cy.visit('/event-types/new');
+				cy.get('[name="label"]').type(name);
+				cy.get('[name="field_type"][value="button"]').check();
+				cy.get('[type="submit"]').click();
+				cy.wait('@addActionType').its('response.statusCode').should('equal', 201);
+				cy.location('pathname').should('eq', '/');
+
+				// Add event.
+				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.contains(name).parents('form').find('[type="submit"]').click();
+				cy.wait('@addAction').its('response.statusCode').should('equal', 201);
+				cy.closeToast('Event added successfully.');
+
+				// Delete event.
+				cy.get('.nav__link').contains('Past Events').click();
+				cy.wait('@getActions').its('response.statusCode').should('equal', 200);
+				cy.contains(name).click();
+				cy.wait('@getAction').its('response.statusCode').should('equal', 200);
+				cy.get('.formosa-button--danger').contains('Delete').click();
+				cy.get('dialog .formosa-button--danger').contains('Delete').click();
+				cy.wait('@deleteAction').its('response.statusCode').should('equal', 500);
+				cy.get('.formosa-alert--error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
 			});
 		});
 	});

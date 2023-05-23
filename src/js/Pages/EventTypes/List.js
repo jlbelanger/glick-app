@@ -12,9 +12,11 @@ export default function List() {
 		Api.get('action-types')
 			.catch((response) => {
 				setError(response);
-				throw response;
 			})
 			.then((response) => {
+				if (!response) {
+					return;
+				}
 				setRows(response);
 			});
 	}, []);

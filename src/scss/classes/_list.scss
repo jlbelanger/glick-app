@@ -1,10 +1,13 @@
 #list {
 	form {
+		padding: $list-padding-top $list-padding-side;
+	}
+
+	.field {
 		align-items: center;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		padding: $list-padding-top $list-padding-side;
 	}
 
 	.formosa-field {

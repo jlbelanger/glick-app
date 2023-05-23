@@ -17,9 +17,11 @@ export default function List() {
 		Api.get(`actions?include=action_type,option&page[number]=${currentPage}&page[size]=100`)
 			.catch((response) => {
 				setError(response);
-				throw response;
 			})
 			.then((response) => {
+				if (!response) {
+					return;
+				}
 				setHasMore(currentPage < response.meta.page.total_pages);
 				if (!Object.prototype.hasOwnProperty.call(response, 'data')) {
 					setRows([]);

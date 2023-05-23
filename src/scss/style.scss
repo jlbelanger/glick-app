@@ -69,3 +69,8 @@ p,
 .submit-with-postfix {
 	display: flex;
 }
+
+#heading-spacer + .formosa-alert,
+#heading-spacer + form > .formosa-alert:first-child {
+	margin-top: 20px;
+}

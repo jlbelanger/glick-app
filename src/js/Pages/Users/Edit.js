@@ -1,28 +1,30 @@
-import { Api, Field, FormosaContext, Message, Submit } from '@jlbelanger/formosa';
-import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Api, Field, FormAlert, Submit } from '@jlbelanger/formosa';
+import React, { useEffect, useState } from 'react';
 import Auth from '../../Utilities/Auth';
 import Error from '../../Error';
+import { errorMessageText } from '../../Utilities/Helpers';
 import MetaTitle from '../../MetaTitle';
 import Modal from '../../Modal';
 import MyForm from '../../MyForm';
 import UserDeleteData from '../../UserDeleteData';
 
 export default function Edit() {
-	const { addToast } = useContext(FormosaContext);
 	const id = Auth.id();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
+	const [deleteError, setDeleteError] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
-	const onClickDelete = () => {
+	const deleteRow = () => {
 		setShowModal(false);
 		Api.delete(`users/${row.id}`)
 			.catch((response) => {
-				const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
-				addToast(text, 'error', 10000);
-				throw response;
+				setDeleteError(errorMessageText(response));
 			})
-			.then(() => {
+			.then((response) => {
+				if (!response) {
+					return;
+				}
 				Auth.logout();
 			});
 	};
@@ -31,9 +33,11 @@ export default function Edit() {
 		Api.get(`users/${id}`)
 			.catch((response) => {
 				setError(response);
-				throw response;
 			})
 			.then((response) => {
+				if (!response) {
+					return;
+				}
 				setRow(response);
 			});
 	}, [id]);
@@ -55,6 +59,7 @@ export default function Edit() {
 			<MetaTitle title="Edit profile" />
 
 			<MyForm
+				errorMessageText={errorMessageText}
 				id={row.id}
 				method="PUT"
 				path="users"
@@ -64,7 +69,7 @@ export default function Edit() {
 				showMessage={false}
 				successToastText="Username changed successfully."
 			>
-				<Message />
+				<FormAlert />
 
 				<Field
 					autoComplete="username"
@@ -77,6 +82,7 @@ export default function Edit() {
 			</MyForm>
 
 			<MyForm
+				errorMessageText={errorMessageText}
 				method="PUT"
 				path={`users/${row.id}/change-email`}
 				preventEmptyRequest
@@ -87,7 +93,7 @@ export default function Edit() {
 			>
 				<h2>Change email</h2>
 
-				<Message />
+				<FormAlert />
 
 				<Field
 					autoComplete="email"
@@ -110,6 +116,7 @@ export default function Edit() {
 			</MyForm>
 
 			<MyForm
+				errorMessageText={errorMessageText}
 				clearOnSubmit
 				method="PUT"
 				path={`users/${row.id}/change-password`}
@@ -121,7 +128,7 @@ export default function Edit() {
 			>
 				<h2>Change password</h2>
 
-				<Message />
+				<FormAlert />
 
 				<Field
 					autcomplete="new-password"
@@ -153,10 +160,19 @@ export default function Edit() {
 
 			<h2>Delete data</h2>
 
-			<UserDeleteData user={row} />
+			{deleteError && (<Alert type="error">{deleteError}</Alert>)}
+
+			<UserDeleteData setDeleteError={setDeleteError} user={row} />
 
 			<p>
-				<button className="formosa-button formosa-button--danger" onClick={(e) => { setShowModal(e); }} type="button">
+				<button
+					className="formosa-button formosa-button--danger"
+					onClick={(e) => {
+						setDeleteError(false);
+						setShowModal(e);
+					}}
+					type="button"
+				>
 					Delete account
 				</button>
 			</p>
@@ -166,7 +182,7 @@ export default function Edit() {
 					event={showModal}
 					okButtonClass="formosa-button--danger"
 					okButtonText="Delete"
-					onClickOk={onClickDelete}
+					onClickOk={deleteRow}
 					onClickCancel={() => { setShowModal(false); }}
 					text="Are you sure you want to delete your account?"
 				/>

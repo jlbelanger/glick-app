@@ -1,7 +1,8 @@
-import { Api, FormosaContext, Submit } from '@jlbelanger/formosa';
+import { Alert, Api, FormosaContext, Submit } from '@jlbelanger/formosa';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import Error from '../../Error';
+import { errorMessageText } from '../../Utilities/Helpers';
 import Fields from './Partials/Fields';
 import MetaTitle from '../../MetaTitle';
 import Modal from '../../Modal';
@@ -12,6 +13,7 @@ export default function Edit() {
 	const { id } = useParams();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
+	const [deleteError, setDeleteError] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const history = useHistory();
 
@@ -19,9 +21,11 @@ export default function Edit() {
 		Api.get(`action-types/${id}?include=options`)
 			.catch((response) => {
 				setError(response);
-				throw response;
 			})
 			.then((response) => {
+				if (!response) {
+					return;
+				}
 				setRow(response);
 			});
 	}, [id]);
@@ -42,11 +46,12 @@ export default function Edit() {
 		setShowModal(false);
 		Api.delete(`action-types/${id}`)
 			.catch((response) => {
-				const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
-				addToast(text, 'error', 10000);
-				throw response;
+				setDeleteError(errorMessageText(response));
 			})
-			.then(() => {
+			.then((response) => {
+				if (!response) {
+					return;
+				}
 				addToast('Event type deleted successfully.', 'success');
 				history.push('/event-types');
 			});
@@ -59,6 +64,7 @@ export default function Edit() {
 			</MetaTitle>
 
 			<MyForm
+				errorMessageText={errorMessageText}
 				id={id}
 				method="PUT"
 				path="action-types"
@@ -73,13 +79,19 @@ export default function Edit() {
 			</MyForm>
 
 			<h2>{`Delete ${row.label}`}</h2>
-			<button
-				className="formosa-button formosa-button--danger button--small"
-				onClick={(e) => { setShowModal(e); }}
-				type="button"
-			>
-				Delete
-			</button>
+			{deleteError && (<Alert type="error">{deleteError}</Alert>)}
+			<p>
+				<button
+					className="formosa-button formosa-button--danger button--small"
+					onClick={(e) => {
+						setDeleteError(false);
+						setShowModal(e);
+					}}
+					type="button"
+				>
+					Delete
+				</button>
+			</p>
 			{showModal && (
 				<Modal
 					event={showModal}

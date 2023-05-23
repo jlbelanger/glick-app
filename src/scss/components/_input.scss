@@ -17,3 +17,8 @@ textarea {
 		margin-right: 1rem;
 	}
 }
+
+.formosa-field__error > div::before {
+	content: 'Error: ';
+	display: inline;
+}

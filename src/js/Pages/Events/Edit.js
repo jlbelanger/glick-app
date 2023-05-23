@@ -1,8 +1,9 @@
-import { Api, FormosaContext, Submit } from '@jlbelanger/formosa';
+import { Alert, Api, FormosaContext, Submit } from '@jlbelanger/formosa';
 import { getLocalYmdmsFromYmdhmsz, getYmdhmszFromLocalYmdhms } from '../../Utilities/Datetime';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Error from '../../Error';
+import { errorMessageText } from '../../Utilities/Helpers';
 import Fields from './Partials/Fields';
 import { getEventLabel } from '../../Utilities';
 import MetaTitle from '../../MetaTitle';
@@ -14,6 +15,7 @@ export default function Edit() {
 	const { id } = useParams();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
+	const [deleteError, setDeleteError] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const history = useHistory();
 
@@ -21,9 +23,11 @@ export default function Edit() {
 		Api.get(`actions/${id}?include=action_type,option`)
 			.catch((response) => {
 				setError(response);
-				throw response;
 			})
 			.then((response) => {
+				if (!response) {
+					return;
+				}
 				if (response.start_date) {
 					response.start_date = getLocalYmdmsFromYmdhmsz(response.start_date);
 				}
@@ -50,11 +54,12 @@ export default function Edit() {
 		setShowModal(false);
 		Api.delete(`actions/${id}`)
 			.catch((response) => {
-				const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
-				addToast(text, 'error', 10000);
-				throw response;
+				setDeleteError(errorMessageText(response));
 			})
-			.then(() => {
+			.then((response) => {
+				if (!response) {
+					return;
+				}
 				addToast('Event deleted successfully.', 'success');
 				history.push('/events');
 			});
@@ -75,6 +80,7 @@ export default function Edit() {
 			<MetaTitle title={`Edit ${getEventLabel(row)}`} />
 
 			<MyForm
+				errorMessageText={errorMessageText}
 				id={id}
 				filterValues={filterValues}
 				method="PUT"
@@ -89,13 +95,19 @@ export default function Edit() {
 			</MyForm>
 
 			<h2>{`Delete ${row.action_type.label}`}</h2>
-			<button
-				className="formosa-button formosa-button--danger button--small"
-				onClick={(e) => { setShowModal(e); }}
-				type="button"
-			>
-				Delete
-			</button>
+			{deleteError && (<Alert type="error">{deleteError}</Alert>)}
+			<p>
+				<button
+					className="formosa-button formosa-button--danger button--small"
+					onClick={(e) => {
+						setDeleteError(false);
+						setShowModal(e);
+					}}
+					type="button"
+				>
+					Delete
+				</button>
+			</p>
 			{showModal && (
 				<Modal
 					event={showModal}

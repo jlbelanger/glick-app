@@ -77,10 +77,9 @@ export default function View() {
 			Api.get(`action-types/${id}?include=actions,actions.option`)
 				.catch((response) => {
 					setError(response);
-					throw response;
 				})
 				.then((response) => {
-					if (ignore) {
+					if (ignore || !response) {
 						return;
 					}
 

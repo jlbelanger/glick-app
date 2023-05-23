@@ -1,9 +1,10 @@
 import { Api, Field, FormosaContext } from '@jlbelanger/formosa';
 import React, { useContext, useState } from 'react';
+import { errorMessageText } from '../../../Utilities/Helpers';
 import { getCurrentYmdhmsz } from '../../../Utilities/Datetime';
 import PropTypes from 'prop-types';
 
-export default function NewField({ actionType, setInProgress }) {
+export default function NewField({ actionType, inlineErrors, setInProgress, setInlineErrors }) {
 	const { addToast } = useContext(FormosaContext);
 	const [value, setValue] = useState(actionType.in_progress ? actionType.in_progress.option : null);
 	const attributes = {
@@ -64,6 +65,8 @@ export default function NewField({ actionType, setInProgress }) {
 			options={options}
 			type="radio"
 			setValue={(newValue) => {
+				setInlineErrors({ ...inlineErrors, [actionType.id]: false });
+
 				if (newValue === 'Stop') {
 					const data = {
 						id: actionType.in_progress.id,
@@ -75,11 +78,12 @@ export default function NewField({ actionType, setInProgress }) {
 					setValue(null);
 					Api.put(`/actions/${actionType.in_progress.id}`, JSON.stringify({ data }))
 						.catch((response) => {
-							const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
-							addToast(text, 'error', 10000);
-							throw response;
+							setInlineErrors({ ...inlineErrors, [actionType.id]: errorMessageText(response) });
 						})
-						.then(() => {
+						.then((response) => {
+							if (!response) {
+								return;
+							}
 							addToast('Event stopped successfully.', 'success');
 							setInProgress(actionType.id, null);
 						});
@@ -106,11 +110,12 @@ export default function NewField({ actionType, setInProgress }) {
 				setValue(newValue);
 				Api.post('/actions?include=action_type,option', JSON.stringify({ data }))
 					.catch((response) => {
-						const text = response.message ? response.message : response.errors.map((err) => (err.title)).join(' ');
-						addToast(text, 'error', 10000);
-						throw response;
+						setInlineErrors({ ...inlineErrors, [actionType.id]: errorMessageText(response) });
 					})
 					.then((response) => {
+						if (!response) {
+							return;
+						}
 						addToast('Event added successfully.', 'success');
 						setInProgress(actionType.id, response);
 					});
@@ -123,5 +128,7 @@ export default function NewField({ actionType, setInProgress }) {
 
 NewField.propTypes = {
 	actionType: PropTypes.object.isRequired,
+	inlineErrors: PropTypes.object.isRequired,
 	setInProgress: PropTypes.func.isRequired,
+	setInlineErrors: PropTypes.func.isRequired,
 };

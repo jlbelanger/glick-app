@@ -1,6 +1,7 @@
 import { Api, Form } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
 import Error from '../../Error';
+import { errorMessageText } from '../../Utilities/Helpers';
 import { getCurrentYmdhmsz } from '../../Utilities/Datetime';
 import MetaTitle from '../../MetaTitle';
 import NewField from './Partials/NewField';
@@ -10,15 +11,18 @@ import { Redirect } from 'react-router-dom';
 export default function New() {
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
+	const [inlineErrors, setInlineErrors] = useState({});
 	const [actions, setActions] = useState({});
 
 	useEffect(() => {
 		Api.get('action-types?filter[is_archived][eq]=0&include=options')
 			.catch((response) => {
 				setError(response);
-				throw response;
 			})
 			.then((response) => {
+				if (!response) {
+					return;
+				}
 				setRows(response);
 
 				const newActions = {};
@@ -78,7 +82,7 @@ export default function New() {
 		return body;
 	};
 
-	const afterSubmit = (action) => {
+	const afterSubmitSuccess = (action) => {
 		if (!action.action_type.is_continuous) {
 			return;
 		}
@@ -143,7 +147,11 @@ export default function New() {
 					return (
 						<li className={className} key={actionType.id}>
 							<Form
-								afterSubmit={afterSubmit}
+								afterSubmitFailure={(response) => {
+									setInlineErrors({ ...inlineErrors, [actionType.id]: errorMessageText(response) });
+								}}
+								afterSubmitSuccess={afterSubmitSuccess}
+								beforeSubmit={() => { setInlineErrors({ ...inlineErrors, [actionType.id]: false }); return true; }}
 								clearOnSubmit={actionType.field_type !== 'button' || !actionType.is_continuous}
 								defaultRow={defaultRow}
 								filterBody={hasStopOnly ? filterBodyStop : filterBody}
@@ -154,6 +162,7 @@ export default function New() {
 								path="actions"
 								relationshipNames={['action_type', 'option']}
 								row={actions[actionType.id]}
+								showInlineErrors={false}
 								setRow={(newRow) => {
 									setActions({
 										...actions,
@@ -162,12 +171,23 @@ export default function New() {
 								}}
 								successToastText={hasStopOnly ? 'Event stopped successfully.' : 'Event added successfully.'}
 							>
-								<NewLabel actionType={actionType} />
-								<NewField actionType={actionType} setInProgress={setInProgress} />
+								<div className="field">
+									<NewLabel actionType={actionType} />
+									<NewField
+										actionType={actionType}
+										inlineErrors={inlineErrors}
+										setInlineErrors={setInlineErrors}
+										setInProgress={setInProgress}
+									/>
+								</div>
+								{inlineErrors[actionType.id] && <div className="formosa-field__error">{inlineErrors[actionType.id]}</div>}
 							</Form>
 							{actionType.in_progress ? (
 								<Form
-									afterSubmit={afterSubmit}
+									afterSubmitFailure={(response) => {
+										setInlineErrors({ ...inlineErrors, [actionType.id]: errorMessageText(response) });
+									}}
+									afterSubmitSuccess={afterSubmitSuccess}
 									filterBody={filterBodyStop}
 									method="PUT"
 									params="include=action_type"

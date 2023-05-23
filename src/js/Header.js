@@ -2,6 +2,7 @@ import { Api, FormosaContext } from '@jlbelanger/formosa';
 import { NavLink, useLocation } from 'react-router-dom';
 import React, { useContext } from 'react';
 import Auth from './Utilities/Auth';
+import { errorMessageText } from './Utilities/Helpers';
 import { ReactComponent as Logo } from '../svg/logo.svg';
 
 export default function Header() {
@@ -14,8 +15,7 @@ export default function Header() {
 				if (response.status === 401) {
 					return;
 				}
-				addToast('Error.', 'error');
-				throw response;
+				addToast(errorMessageText(response), 'error');
 			})
 			.then(() => {
 				Auth.logout();

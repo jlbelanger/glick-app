@@ -1,3 +1,5 @@
+import { mockServerError } from '../../support/commands';
+
 describe('register', () => {
 	describe('with username that is taken', () => {
 		it('shows an error', () => {
@@ -51,6 +53,7 @@ describe('register', () => {
 	describe('with valid input', () => {
 		it('works', () => {
 			cy.intercept('POST', '**/api/auth/register').as('register');
+			cy.intercept('GET', '**/api/users/*').as('getUser');
 			cy.intercept('DELETE', '**/api/users/*').as('deleteUser');
 
 			// Register.
@@ -67,10 +70,28 @@ describe('register', () => {
 
 			// Delete.
 			cy.get('.nav__link').contains('Profile').click();
+			cy.wait('@getUser').its('response.statusCode').should('equal', 200);
 			cy.get('.formosa-button--danger').contains('Delete account').click();
 			cy.get('dialog .formosa-button--danger').contains('Delete').click();
 			cy.wait('@deleteUser').its('response.statusCode').should('equal', 204);
 			cy.location('pathname').should('eq', '/');
+		});
+	});
+
+	describe('with server error', () => {
+		it('shows an error', () => {
+			mockServerError('POST', '**/api/auth/register').as('register');
+
+			const username = `foo+${Date.now()}`;
+			cy.clearCookies();
+			cy.visit('/register');
+			cy.get('[name="username"]').type(username);
+			cy.get('[name="email"]').type(`${username}@example.com`);
+			cy.get('[name="password"]').type(Cypress.env('default_password'));
+			cy.get('[name="password_confirmation"]').type(Cypress.env('default_password'));
+			cy.get('[type="submit"]').click();
+			cy.wait('@register').its('response.statusCode').should('equal', 500);
+			cy.get('.formosa-alert--error').invoke('text').should('equal', 'Error: Unable to connect to the server. Please try again later.');
 		});
 	});
 });

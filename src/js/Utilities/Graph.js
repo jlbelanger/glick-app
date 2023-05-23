@@ -22,7 +22,6 @@ export const getDefaultChartUnit = (fromDateObject, toDateObject) => {
 	const diff = max - min;
 	const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
 	let unit = 'year';
-	// TODO: if diff <= oneDayInMilliseconds then 'hour'.
 	if (diff <= (oneDayInMilliseconds * 7)) {
 		unit = 'day';
 	} else if (diff <= (oneDayInMilliseconds * 31)) {

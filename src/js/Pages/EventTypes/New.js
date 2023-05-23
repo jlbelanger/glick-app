@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { errorMessageText } from '../../Utilities/Helpers';
 import Fields from './Partials/Fields';
 import MetaTitle from '../../MetaTitle';
 import MyForm from '../../MyForm';
@@ -14,9 +15,10 @@ export default function New() {
 			<MetaTitle title="Add new event type" />
 
 			<MyForm
-				afterSubmit={() => {
+				afterSubmitSuccess={() => {
 					history.push('/');
 				}}
+				errorMessageText={errorMessageText}
 				filterBody={(body) => {
 					if (body.included) {
 						body.included = body.included.map((rel) => {
