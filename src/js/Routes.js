@@ -1,4 +1,4 @@
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Auth from './Utilities/Auth';
 import Error404 from './Error404';
 import EventEdit from './Pages/Events/Edit';
@@ -16,55 +16,31 @@ import Register from './Pages/Auth/Register';
 import ResetPassword from './Pages/Auth/ResetPassword';
 
 export default function Routes() {
+	const location = useLocation();
+
+	if (!Auth.isLoggedIn()) {
+		return (
+			<Switch>
+				<Route exact path="/"><Login /></Route>
+				<Route exact path="/register"><Register /></Route>
+				<Route exact path="/forgot-password"><ForgotPassword /></Route>
+				<Route exact path="/reset-password/:token"><ResetPassword /></Route>
+				<Route><Redirect to={`/?redirect=${encodeURIComponent(`${location.pathname}${location.search}`)}`} /></Route>
+			</Switch>
+		);
+	}
+
 	return (
 		<Switch>
-			<Route exact path="/">
-				{Auth.isLoggedIn() ? <EventNew /> : <Login />}
-			</Route>
-
-			<Route exact path="/register">
-				{Auth.isLoggedIn() ? <Redirect to="/" /> : <Register />}
-			</Route>
-
-			<Route exact path="/forgot-password">
-				{Auth.isLoggedIn() ? <Redirect to="/" /> : <ForgotPassword />}
-			</Route>
-
-			<Route exact path="/reset-password/:token">
-				{Auth.isLoggedIn() ? <Redirect to="/" /> : <ResetPassword />}
-			</Route>
-
-			<Route exact path="/event-types">
-				{Auth.isLoggedIn() ? <EventTypeList /> : <Redirect to="/" />}
-			</Route>
-
-			<Route exact path="/event-types/new">
-				{Auth.isLoggedIn() ? <EventTypeNew /> : <Redirect to="/" />}
-			</Route>
-
-			<Route path="/event-types/:id/edit">
-				{Auth.isLoggedIn() ? <EventTypeEdit /> : <Redirect to="/" />}
-			</Route>
-
-			<Route path="/event-types/:id">
-				{Auth.isLoggedIn() ? <EventTypeView /> : <Redirect to="/" />}
-			</Route>
-
-			<Route exact path="/events">
-				{Auth.isLoggedIn() ? <EventList /> : <Redirect to="/" />}
-			</Route>
-
-			<Route path="/events/:id">
-				{Auth.isLoggedIn() ? <EventEdit /> : <Redirect to="/" />}
-			</Route>
-
-			<Route exact path="/profile">
-				{Auth.isLoggedIn() ? <Profile /> : <Redirect to="/" />}
-			</Route>
-
-			<Route>
-				<Error404 />
-			</Route>
+			<Route exact path="/"><EventNew /></Route>
+			<Route exact path="/event-types"><EventTypeList /></Route>
+			<Route exact path="/event-types/new"><EventTypeNew /></Route>
+			<Route path="/event-types/:id/edit"><EventTypeEdit /></Route>
+			<Route path="/event-types/:id"><EventTypeView /></Route>
+			<Route exact path="/events"><EventList /></Route>
+			<Route path="/events/:id"><EventEdit /></Route>
+			<Route exact path="/profile"><Profile /></Route>
+			<Route><Error404 /></Route>
 		</Switch>
 	);
 }
