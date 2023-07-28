@@ -1,5 +1,5 @@
 import { FormContext, Input } from '@jlbelanger/formosa';
-import React, { useContext, useState } from 'react'; // eslint-disable-line import/no-unresolved
+import React, { useContext, useState } from 'react';
 
 export default function HasMany() {
 	const { formState } = useContext(FormContext);
