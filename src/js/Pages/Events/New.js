@@ -188,13 +188,13 @@ export default function New() {
 										setInlineErrors({ ...inlineErrors, [actionType.id]: errorMessageText(response) });
 									}}
 									afterSubmitSuccess={afterSubmitSuccess}
+									class="hide"
 									filterBody={filterBodyStop}
 									method="PUT"
 									params="include=action_type"
 									path="actions"
 									id={actionType.in_progress.id.toString()}
 									successToastText="Event stopped successfully."
-									style={{ display: 'none' }}
 								>
 									<button type="submit">Stop</button>
 								</Form>
