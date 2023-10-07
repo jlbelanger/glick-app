@@ -1,3 +1,5 @@
+// Colors
+
 $dark-green: #096;
 $darker-green: scale-color($dark-green, $lightness: -30%);
 $darkest-green: scale-color($darker-green, $lightness: -30%);
@@ -26,6 +28,8 @@ $bright-purple: #b656b6;
 $white: #fff;
 $black: #000;
 
+// Sizes
+
 $font-size: 16px;
 $max-width: 600px;
 $nav-height: 44px;
@@ -44,7 +48,7 @@ $modal-padding: 32px !default;
 $modal-text-color: $black !default;
 $modal-zindex: 9999 !default;
 
-// Formosa overrides
+// Overrides
 
 $formosa-input-border-color: #bbb;
 $formosa-input-border-radius: 10px;
