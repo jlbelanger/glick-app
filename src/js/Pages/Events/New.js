@@ -188,7 +188,7 @@ export default function New() {
 										setInlineErrors({ ...inlineErrors, [actionType.id]: errorMessageText(response) });
 									}}
 									afterSubmitSuccess={afterSubmitSuccess}
-									class="hide"
+									className="hide"
 									filterBody={filterBodyStop}
 									method="PUT"
 									params="include=action_type"
