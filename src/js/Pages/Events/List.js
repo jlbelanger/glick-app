@@ -11,7 +11,7 @@ export default function List() {
 	const [error, setError] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	const getActions = () => {
 		Api.get(`actions?include=action_type,option&page[number]=${currentPage}&page[size]=100`)
