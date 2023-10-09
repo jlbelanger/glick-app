@@ -14,6 +14,7 @@ import Profile from './Pages/Users/Edit';
 import React from 'react';
 import Register from './Pages/Auth/Register';
 import ResetPassword from './Pages/Auth/ResetPassword';
+import VerifyEmail from './Pages/Auth/VerifyEmail';
 
 export default function Routes() {
 	const location = useLocation();
@@ -25,6 +26,7 @@ export default function Routes() {
 				<Route exact path="/register"><Register /></Route>
 				<Route exact path="/forgot-password"><ForgotPassword /></Route>
 				<Route exact path="/reset-password/:token"><ResetPassword /></Route>
+				<Route exact path="/verify-email"><VerifyEmail /></Route>
 				<Route><Redirect to={`/?redirect=${encodeURIComponent(`${location.pathname}${location.search}`)}`} /></Route>
 			</Switch>
 		);

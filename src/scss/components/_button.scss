@@ -126,3 +126,18 @@ button,
 		background-color: transparent;
 	}
 }
+
+button.formosa-button.button--link {
+	background: transparent;
+	text-decoration: underline;
+	text-shadow: none;
+	text-transform: none;
+
+	&:hover,
+	&:active,
+	&:focus {
+		background: transparent;
+		border-color: transparent;
+		text-decoration: none;
+	}
+}
