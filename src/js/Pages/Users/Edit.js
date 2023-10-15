@@ -84,7 +84,7 @@ export default function Edit() {
 			<MyForm
 				errorMessageText={errorMessageText}
 				method="PUT"
-				path={`users/${row.id}/change-email`}
+				path="auth/change-email"
 				preventEmptyRequest
 				row={row}
 				setRow={setRow}
@@ -119,7 +119,7 @@ export default function Edit() {
 				errorMessageText={errorMessageText}
 				clearOnSubmit
 				method="PUT"
-				path={`users/${row.id}/change-password`}
+				path="auth/change-password"
 				preventEmptyRequest
 				row={row}
 				setRow={setRow}

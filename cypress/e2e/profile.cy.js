@@ -84,7 +84,7 @@ describe('profile', () => {
 		describe('with taken email', () => {
 			it('shows an error', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				cy.intercept('PUT', '**/api/users/*/change-email').as('changeEmail');
+				cy.intercept('PUT', '**/api/auth/change-email').as('changeEmail');
 
 				cy.visit('/profile');
 				cy.wait('@getUser').its('response.statusCode').should('equal', 200);
@@ -103,7 +103,7 @@ describe('profile', () => {
 		describe('with invalid current password', () => {
 			it('shows an error', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				cy.intercept('PUT', '**/api/users/*/change-email').as('changeEmail');
+				cy.intercept('PUT', '**/api/auth/change-email').as('changeEmail');
 
 				cy.visit('/profile');
 				cy.wait('@getUser').its('response.statusCode').should('equal', 200);
@@ -122,7 +122,7 @@ describe('profile', () => {
 		describe('with valid input', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				cy.intercept('PUT', '**/api/users/*/change-email').as('changeEmail');
+				cy.intercept('PUT', '**/api/auth/change-email').as('changeEmail');
 
 				// Change.
 				const email = `${Cypress.env('default_email')}2`;
@@ -152,7 +152,7 @@ describe('profile', () => {
 		describe('with server error', () => {
 			it('shows an error', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				mockServerError('PUT', '**/api/users/*/change-email').as('changeEmail');
+				mockServerError('PUT', '**/api/auth/change-email').as('changeEmail');
 
 				const email = `${Cypress.env('default_email')}2`;
 				cy.visit('/profile');
@@ -170,7 +170,7 @@ describe('profile', () => {
 		describe('with non-matching passwords', () => {
 			it('shows an error', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				cy.intercept('PUT', '**/api/users/*/change-password').as('changePassword');
+				cy.intercept('PUT', '**/api/auth/change-password').as('changePassword');
 
 				// Change.
 				cy.visit('/profile');
@@ -188,7 +188,7 @@ describe('profile', () => {
 		describe('with invalid current password', () => {
 			it('shows an error', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				cy.intercept('PUT', '**/api/users/*/change-password').as('changePassword');
+				cy.intercept('PUT', '**/api/auth/change-password').as('changePassword');
 
 				// Change.
 				const password = `${Cypress.env('default_password')}2`;
@@ -207,7 +207,7 @@ describe('profile', () => {
 		describe('with valid input', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				cy.intercept('PUT', '**/api/users/*/change-password').as('changePassword');
+				cy.intercept('PUT', '**/api/auth/change-password').as('changePassword');
 
 				// Change.
 				const password = `${Cypress.env('default_password')}2`;
@@ -235,7 +235,7 @@ describe('profile', () => {
 		describe('with server error', () => {
 			it('shows an error', () => {
 				cy.intercept('GET', '**/api/users/*').as('getUser');
-				mockServerError('PUT', '**/api/users/*/change-password').as('changePassword');
+				mockServerError('PUT', '**/api/auth/change-password').as('changePassword');
 
 				const password = `${Cypress.env('default_password')}2`;
 				cy.visit('/profile');
