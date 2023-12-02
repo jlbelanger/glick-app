@@ -25,10 +25,14 @@ export default function Header() {
 	return (
 		<header id="header">
 			<div className="contain" id="header__contain">
-				{Auth.isLoggedIn() && <NavLink activeClassName="nav__link--active" className="nav__link" to="/profile">Profile</NavLink>}
+				{Auth.isLoggedIn() && (
+					<NavLink activeClassName="nav__link--active" className="nav__link" data-cy="profile" to="/profile">Profile</NavLink>
+				)}
 				<div id="logo"><Logo height="28" fill="#fff" title={process.env.REACT_APP_TITLE} /></div>
 				{Auth.isLoggedIn() && (
-					<button className="nav__button" disabled={location.pathname !== '/profile'} onClick={logout} type="button">Logout</button>
+					<button className="nav__button" data-cy="logout" disabled={location.pathname !== '/profile'} onClick={logout} type="button">
+						Logout
+					</button>
 				)}
 			</div>
 		</header>

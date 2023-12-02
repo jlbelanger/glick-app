@@ -790,7 +790,7 @@ describe('events', () => {
 				// Move clock forward.
 				cy.clock().invoke('setSystemTime', new Date('2001-02-02T13:00:00Z').getTime() - 60);
 				cy.clock().invoke('tick', 60);
-				cy.get('.nav__link').contains('Profile').click();
+				cy.get('[data-cy="profile"]').click();
 				cy.get('.nav__link').contains('New Event').click();
 				cy.wait('@getActionTypesFiltered').its('response.statusCode').should('equal', 200);
 				cy.contains('since Jan 1, 4:00 AM').should('exist');
