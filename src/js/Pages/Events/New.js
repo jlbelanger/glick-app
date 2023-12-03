@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Error from '../../Error';
 import { errorMessageText } from '../../Utilities/Helpers';
 import { getCurrentYmdhmsz } from '../../Utilities/Datetime';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 import NewField from './Partials/NewField';
 import NewLabel from './Partials/NewLabel';
 import { Redirect } from 'react-router-dom';

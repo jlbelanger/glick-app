@@ -1,5 +1,5 @@
 import { Alert } from '@jlbelanger/formosa';
-import MetaTitle from './MetaTitle';
+import MetaTitle from './Components/MetaTitle';
 import React from 'react';
 
 export default function Error404() {

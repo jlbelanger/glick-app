@@ -2,7 +2,7 @@ import { Field, Form, Submit } from '@jlbelanger/formosa';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { errorMessageText } from '../../Utilities/Helpers';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 
 export default function ResetPassword() {
 	const [row, setRow] = useState({});

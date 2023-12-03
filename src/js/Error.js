@@ -1,6 +1,6 @@
 import { Alert } from '@jlbelanger/formosa';
 import Auth from './Utilities/Auth';
-import MetaTitle from './MetaTitle';
+import MetaTitle from './Components/MetaTitle';
 import PropTypes from 'prop-types';
 import React from 'react';
 

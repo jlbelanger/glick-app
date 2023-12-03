@@ -1,7 +1,7 @@
 import { Form, Submit } from '@jlbelanger/formosa';
 import React, { useEffect } from 'react';
 import { errorMessageText } from '../../Utilities/Helpers';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 import { useHistory } from 'react-router-dom';
 
 export default function VerifyEmail() {

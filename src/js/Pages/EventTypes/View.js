@@ -19,7 +19,7 @@ import { Api } from '@jlbelanger/formosa';
 import { Chart } from 'react-chartjs-2'; // eslint-disable-line import/no-unresolved
 import Error from '../../Error';
 import Filters from './Partials/Filters';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 import Row from '../Events/Partials/Row';
 import Stats from './Partials/Stats';
 import zoomPlugin from 'chartjs-plugin-zoom';

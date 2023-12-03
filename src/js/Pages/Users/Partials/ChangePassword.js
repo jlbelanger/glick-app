@@ -1,7 +1,7 @@
 import { Field, FormAlert, Submit } from '@jlbelanger/formosa';
 import React, { useState } from 'react';
 import { errorMessageText } from '../../../Utilities/Helpers';
-import MyForm from '../../../MyForm';
+import MyForm from '../../../Components/MyForm';
 
 export default function ChangePassword() {
 	const [row, setRow] = useState({});

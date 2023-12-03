@@ -1,5 +1,5 @@
 import { prettyDate, prettyTime } from '../../../Utilities/Datetime';
-import { getEventLabel } from '../../../Utilities';
+import { getEventLabel } from '../../../Utilities/Helpers';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';

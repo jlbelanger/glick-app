@@ -2,7 +2,7 @@ import { Alert, Field, Form } from '@jlbelanger/formosa';
 import { Link, useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { errorMessageText } from '../../Utilities/Helpers';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 
 export default function ForgotPassword() {
 	const history = useHistory();

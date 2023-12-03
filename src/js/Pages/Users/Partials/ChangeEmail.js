@@ -1,7 +1,7 @@
 import { Field, FormAlert, FormosaContext, Submit } from '@jlbelanger/formosa';
 import React, { useContext, useState } from 'react';
 import { errorMessageText } from '../../../Utilities/Helpers';
-import MyForm from '../../../MyForm';
+import MyForm from '../../../Components/MyForm';
 import PropTypes from 'prop-types';
 
 export default function ChangeEmail({ email }) {

@@ -3,7 +3,7 @@ import Auth from '../../Utilities/Auth';
 import { errorMessageText } from '../../Utilities/Helpers';
 import { Form } from '@jlbelanger/formosa';
 import LoginForm from './LoginForm';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 import { useHistory } from 'react-router-dom';
 
 export default function Login() {

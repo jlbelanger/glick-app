@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Api } from '@jlbelanger/formosa';
 import Error from '../../Error';
 import { Link } from 'react-router-dom';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 
 export default function List() {
 	const [rows, setRows] = useState(null);

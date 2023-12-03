@@ -3,7 +3,7 @@ import { Api } from '@jlbelanger/formosa';
 import Error from '../../Error';
 import { getRowsByYmd } from '../../Utilities/Datetime';
 import { Link } from 'react-router-dom';
-import MetaTitle from '../../MetaTitle';
+import MetaTitle from '../../Components/MetaTitle';
 import Row from './Partials/Row';
 
 export default function List() {

@@ -1,14 +1,13 @@
 import { Alert, Api, FormosaContext, Submit } from '@jlbelanger/formosa';
+import { errorMessageText, getEventLabel } from '../../Utilities/Helpers';
 import { getLocalYmdmsFromYmdhmsz, getYmdhmszFromLocalYmdhms } from '../../Utilities/Datetime';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Error from '../../Error';
-import { errorMessageText } from '../../Utilities/Helpers';
 import Fields from './Partials/Fields';
-import { getEventLabel } from '../../Utilities';
-import MetaTitle from '../../MetaTitle';
-import Modal from '../../Modal';
-import MyForm from '../../MyForm';
+import MetaTitle from '../../Components/MetaTitle';
+import Modal from '../../Components/Modal';
+import MyForm from '../../Components/MyForm';
 
 export default function Edit() {
 	const { addToast } = useContext(FormosaContext);

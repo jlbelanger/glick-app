@@ -4,9 +4,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import Error from '../../Error';
 import { errorMessageText } from '../../Utilities/Helpers';
 import Fields from './Partials/Fields';
-import MetaTitle from '../../MetaTitle';
-import Modal from '../../Modal';
-import MyForm from '../../MyForm';
+import MetaTitle from '../../Components/MetaTitle';
+import Modal from '../../Components/Modal';
+import MyForm from '../../Components/MyForm';
 
 export default function Edit() {
 	const { addToast } = useContext(FormosaContext);

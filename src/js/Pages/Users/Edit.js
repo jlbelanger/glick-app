@@ -7,8 +7,8 @@ import ChangeUsername from './Partials/ChangeUsername';
 import DeleteData from './Partials/DeleteData';
 import Error from '../../Error';
 import { errorMessageText } from '../../Utilities/Helpers';
-import MetaTitle from '../../MetaTitle';
-import Modal from '../../Modal';
+import MetaTitle from '../../Components/MetaTitle';
+import Modal from '../../Components/Modal';
 
 export default function Edit() {
 	const id = Auth.id();

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { errorMessageText } from '../../Utilities/Helpers';
 import Fields from './Partials/Fields';
-import MetaTitle from '../../MetaTitle';
-import MyForm from '../../MyForm';
+import MetaTitle from '../../Components/MetaTitle';
+import MyForm from '../../Components/MyForm';
 import { Submit } from '@jlbelanger/formosa';
 import { useHistory } from 'react-router-dom';
 
