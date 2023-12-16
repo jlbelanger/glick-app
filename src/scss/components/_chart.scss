@@ -14,7 +14,7 @@
 #chart-filters {
 	display: flex;
 
-	@media (min-width: 321px) {
+	@media (width > 320px) {
 		justify-content: flex-start;
 	}
 }
@@ -22,7 +22,7 @@
 #chart-stats {
 	margin: #{$list-padding-top - 8px} #{$list-padding-side - 8px};
 
-	@media (min-width: 321px) {
+	@media (width > 320px) {
 		display: flex;
 	}
 }
