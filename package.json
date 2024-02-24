@@ -22,7 +22,7 @@
 		"test:cypress": "TZ=America/Los_Angeles node_modules/.bin/cypress open"
 	},
 	"dependencies": {
-		"@jlbelanger/formosa": "jlbelanger/formosa#27a1b4ad6b84404cf1424e0569243e50cd869b2d",
+		"@jlbelanger/formosa": "jlbelanger/formosa#19b0791991938b94dc0a25422b89264cd8bd92e7",
 		"@svgr/webpack": "^8.1.0",
 		"chart.js": "^4.4.1",
 		"chartjs-adapter-luxon": "^1.3.1",
