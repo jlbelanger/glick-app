@@ -162,6 +162,7 @@ describe('events', () => {
 		describe('with valid minimal button', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes2');
 				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
@@ -199,7 +200,7 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
-				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.wait('@getActionTypes2').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
@@ -215,6 +216,7 @@ describe('events', () => {
 		describe('with valid button with options', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes2');
 				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
@@ -275,7 +277,7 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
-				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.wait('@getActionTypes2').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
@@ -291,6 +293,7 @@ describe('events', () => {
 		describe('with valid start/stop button', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes2');
 				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
@@ -368,7 +371,7 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
-				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.wait('@getActionTypes2').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
@@ -384,6 +387,7 @@ describe('events', () => {
 		describe('with valid start/stop button with options', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes2');
 				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
@@ -522,7 +526,7 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
-				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.wait('@getActionTypes2').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
@@ -538,6 +542,7 @@ describe('events', () => {
 		describe('with valid minimal number', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes2');
 				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
@@ -576,7 +581,7 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
-				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.wait('@getActionTypes2').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();
@@ -592,6 +597,7 @@ describe('events', () => {
 		describe('with valid minimal text', () => {
 			it('works', () => {
 				cy.intercept('GET', '**/api/action-types?*').as('getActionTypes');
+				cy.intercept('GET', '**/api/action-types').as('getActionTypes2');
 				cy.intercept('GET', '**/api/action-types/*').as('getActionType');
 				cy.intercept('POST', '**/api/action-types').as('addActionType');
 				cy.intercept('DELETE', '**/api/action-types/*').as('deleteActionType');
@@ -630,7 +636,7 @@ describe('events', () => {
 
 				// Delete event type.
 				cy.get('.nav__link').contains('Event Types').click();
-				cy.wait('@getActionTypes').its('response.statusCode').should('equal', 200);
+				cy.wait('@getActionTypes2').its('response.statusCode').should('equal', 200);
 				cy.contains(name).click();
 				cy.wait('@getActionType').its('response.statusCode').should('equal', 200);
 				cy.contains('Edit').click();

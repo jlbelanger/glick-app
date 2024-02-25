@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import MetaTitle from '../../Components/MetaTitle';
 
 export default function List() {
+	const api = Api.instance();
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		Api.get('action-types')
+		api('action-types')
 			.catch((response) => {
 				setError(response);
 			})

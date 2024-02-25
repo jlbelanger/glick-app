@@ -11,6 +11,7 @@ import MetaTitle from '../../Components/MetaTitle';
 import Modal from '../../Components/Modal';
 
 export default function Edit() {
+	const api = Api.instance();
 	const id = Auth.id();
 	const [row, setRow] = useState(null);
 	const [error, setError] = useState(false);
@@ -32,7 +33,7 @@ export default function Edit() {
 	};
 
 	useEffect(() => {
-		Api.get(`users/${id}`)
+		api(`users/${id}`)
 			.catch((response) => {
 				setError(response);
 			})

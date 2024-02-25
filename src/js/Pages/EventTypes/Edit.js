@@ -9,6 +9,7 @@ import Modal from '../../Components/Modal';
 import MyForm from '../../Components/MyForm';
 
 export default function Edit() {
+	const api = Api.instance();
 	const { addToast } = useContext(FormosaContext);
 	const { id } = useParams();
 	const [row, setRow] = useState(null);
@@ -18,7 +19,7 @@ export default function Edit() {
 	const history = useHistory();
 
 	useEffect(() => {
-		Api.get(`action-types/${id}?include=options`)
+		api(`action-types/${id}?include=options`)
 			.catch((response) => {
 				setError(response);
 			})

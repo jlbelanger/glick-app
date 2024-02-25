@@ -55,6 +55,7 @@ const filterByDates = (rows, fromYmd, toYmd) => {
 };
 
 export default function View() {
+	const api = Api.instance();
 	const { id } = useParams();
 	const chartRef = useRef(null);
 	const [row, setRow] = useState(null);
@@ -74,7 +75,7 @@ export default function View() {
 		let ignore = false;
 
 		if (id) {
-			Api.get(`action-types/${id}?include=actions,actions.option`)
+			api(`action-types/${id}?include=actions,actions.option`)
 				.catch((response) => {
 					setError(response);
 				})

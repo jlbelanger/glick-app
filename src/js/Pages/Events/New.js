@@ -9,13 +9,14 @@ import NewLabel from './Partials/NewLabel';
 import { Redirect } from 'react-router-dom';
 
 export default function New() {
+	const api = Api.instance();
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 	const [inlineErrors, setInlineErrors] = useState({});
 	const [actions, setActions] = useState({});
 
 	useEffect(() => {
-		Api.get('action-types?filter[is_archived][eq]=0&include=options')
+		api('action-types?filter[is_archived][eq]=0&include=options')
 			.catch((response) => {
 				setError(response);
 			})

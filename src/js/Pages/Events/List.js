@@ -7,6 +7,7 @@ import MetaTitle from '../../Components/MetaTitle';
 import Row from './Partials/Row';
 
 export default function List() {
+	const api = Api.instance();
 	const [rows, setRows] = useState(null);
 	const [error, setError] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +15,7 @@ export default function List() {
 	const [loading, setLoading] = useState(true);
 
 	const getActions = () => {
-		Api.get(`actions?include=action_type,option&page[number]=${currentPage}&page[size]=100`)
+		api(`actions?include=action_type,option&page[number]=${currentPage}&page[size]=100`)
 			.catch((response) => {
 				setError(response);
 			})

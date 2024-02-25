@@ -10,6 +10,7 @@ import Modal from '../../Components/Modal';
 import MyForm from '../../Components/MyForm';
 
 export default function Edit() {
+	const api = Api.instance();
 	const { addToast } = useContext(FormosaContext);
 	const { id } = useParams();
 	const [row, setRow] = useState(null);
@@ -19,7 +20,7 @@ export default function Edit() {
 	const history = useHistory();
 
 	useEffect(() => {
-		Api.get(`actions/${id}?include=action_type,option`)
+		api(`actions/${id}?include=action_type,option`)
 			.catch((response) => {
 				setError(response);
 			})
@@ -28,10 +29,16 @@ export default function Edit() {
 					return;
 				}
 				if (response.start_date) {
-					response.start_date = getLocalYmdmsFromYmdhmsz(response.start_date);
+					if (!response.start_date_original) {
+						response.start_date_original = response.start_date;
+					}
+					response.start_date = getLocalYmdmsFromYmdhmsz(response.start_date_original);
 				}
 				if (response.end_date) {
-					response.end_date = getLocalYmdmsFromYmdhmsz(response.end_date);
+					if (!response.end_date_original) {
+						response.end_date_original = response.end_date;
+					}
+					response.end_date = getLocalYmdmsFromYmdhmsz(response.end_date_original);
 				}
 				setRow(response);
 			});
