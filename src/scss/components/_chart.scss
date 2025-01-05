@@ -1,14 +1,16 @@
+@use '../utilities/variables';
+
 #chart-container {
 	height: 250px;
 	margin: 0 8px;
-	max-height: calc(100vh - #{($nav-height * 5)});
+	max-height: calc(100vh - #{(variables.$nav-height * 5)});
 }
 
 .chart-field-container {
 	align-items: center;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	margin: $list-padding-top $list-padding-side;
+	margin: variables.$list-padding-top variables.$list-padding-side;
 }
 
 #chart-filters {
@@ -20,7 +22,7 @@
 }
 
 #chart-stats {
-	margin: #{$list-padding-top - 8px} #{$list-padding-side - 8px};
+	margin: calc(variables.$list-padding-top - 8px) calc(variables.$list-padding-side - 8px);
 
 	@media (width > 320px) {
 		display: flex;

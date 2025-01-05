@@ -1,5 +1,7 @@
+@use '../utilities/variables';
+
 .formosa-toast-container {
-	bottom: $nav-height;
+	bottom: variables.$nav-height;
 }
 
 .formosa-toast__close {

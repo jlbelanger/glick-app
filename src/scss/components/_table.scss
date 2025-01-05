@@ -1,16 +1,18 @@
+@use '../utilities/variables';
+
 table {
 	border-spacing: 0;
 	width: 100%;
 }
 
 th {
-	background: $darker-purple;
-	color: $white;
-	font-size: $font-size;
+	background: variables.$darker-purple;
+	color: variables.$white;
+	font-size: variables.$font-size;
 	letter-spacing: 2px;
-	padding: $list-padding-top $list-padding-side;
+	padding: variables.$list-padding-top variables.$list-padding-side;
 	text-align: left;
-	text-shadow: 0 2px 0 $black;
+	text-shadow: 0 2px 0 variables.$black;
 	text-transform: uppercase;
 }
 
@@ -19,19 +21,19 @@ td {
 }
 
 .table__row + .table__row td {
-	border-top: 1px solid $purple;
+	border-top: 1px solid variables.$purple;
 }
 
 .table__link {
-	color: $white;
+	color: variables.$white;
 	display: flex;
-	padding: $list-padding-top $list-padding-side;
+	padding: variables.$list-padding-top variables.$list-padding-side;
 	text-decoration: none;
 
 	&:hover,
 	&:active,
 	&:focus {
-		background: $darkest-purple;
+		background: variables.$darkest-purple;
 	}
 }
 

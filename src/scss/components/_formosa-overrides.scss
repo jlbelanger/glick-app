@@ -1,11 +1,13 @@
+@use '../utilities/variables';
+
 p,
 .formosa-field {
 	margin: 24px 0 0;
 }
 
 .formosa-field {
-	padding-left: $list-padding-side;
-	padding-right: $list-padding-side;
+	padding-left: variables.$list-padding-side;
+	padding-right: variables.$list-padding-side;
 }
 
 .formosa-label-wrapper:empty {

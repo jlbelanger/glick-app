@@ -1,3 +1,5 @@
+@use '~@jlbelanger/formosa/src/scss/utilities/variables' as formosa;
+
 .formosa-input-wrapper--radio {
 	.formosa-radio {
 		display: flex;
@@ -8,14 +10,14 @@
 	}
 
 	.formosa-radio__label {
-		border-color: $formosa-button-border-color;
+		border-color: formosa.$formosa-button-border-color;
 		border-radius: 0;
 		border-style: solid;
-		border-width: $formosa-input-border-width 0 $formosa-input-border-width 1px;
-		color: $formosa-button-color;
+		border-width: formosa.$formosa-input-border-width 0 formosa.$formosa-input-border-width 1px;
+		color: formosa.$formosa-button-color;
 		display: inline-block;
 		line-height: 1;
-		padding: $formosa-button-padding;
+		padding: formosa.$formosa-button-padding;
 		position: relative;
 	}
 
@@ -35,8 +37,8 @@
 
 	input.formosa-radio__input {
 		box-shadow: none;
-		height: #{$formosa-radio-size + ($formosa-input-border-width * 2)};
-		top: #{$formosa-input-border-width * -1};
+		height: calc(formosa.$formosa-radio-size + (formosa.$formosa-input-border-width * 2));
+		top: calc(formosa.$formosa-input-border-width * -1);
 
 		&.formosa-field__input {
 			width: 100%;
@@ -53,32 +55,32 @@
 	}
 
 	.formosa-radio__item:first-of-type .formosa-radio__label {
-		border-radius: $formosa-input-border-radius 0 0 $formosa-input-border-radius;
+		border-radius: formosa.$formosa-input-border-radius 0 0 formosa.$formosa-input-border-radius;
 		border-right-width: 0;
 		margin: 0;
 
 		input:focus {
-			border-radius: $formosa-input-border-radius 0 0 $formosa-input-border-radius;
+			border-radius: formosa.$formosa-input-border-radius 0 0 formosa.$formosa-input-border-radius;
 		}
 	}
 
 	.formosa-radio__item:last-of-type .formosa-radio__label {
 		border-left-width: 1px;
-		border-radius: 0 $formosa-input-border-radius $formosa-input-border-radius 0;
+		border-radius: 0 formosa.$formosa-input-border-radius formosa.$formosa-input-border-radius 0;
 		margin: 0;
 
 		input:focus {
-			border-radius: 0 $formosa-input-border-radius $formosa-input-border-radius 0;
+			border-radius: 0 formosa.$formosa-input-border-radius formosa.$formosa-input-border-radius 0;
 		}
 	}
 
 	.formosa-radio__item:first-of-type:last-of-type .formosa-radio__label {
 		border-left-width: 1px;
-		border-radius: $formosa-input-border-radius;
+		border-radius: formosa.$formosa-input-border-radius;
 		border-right-width: 1px;
 
 		input:focus {
-			border-radius: $formosa-input-border-radius;
+			border-radius: formosa.$formosa-input-border-radius;
 		}
 	}
 }

@@ -1,3 +1,6 @@
+@use '../utilities/mixins';
+@use '../utilities/variables';
+
 #nav {
 	display: flex;
 	justify-content: space-between;
@@ -6,11 +9,11 @@
 
 .nav__button,
 .nav__link {
-	@include gradient($light-purple, $dark-purple, $black);
+	@include mixins.gradient(variables.$light-purple, variables.$dark-purple, variables.$black);
 
-	color: $white;
-	height: $nav-height;
-	text-shadow: 0 2px 0 $black;
+	color: variables.$white;
+	height: variables.$nav-height;
+	text-shadow: 0 2px 0 variables.$black;
 }
 
 .nav__link {
@@ -21,7 +24,7 @@
 	text-decoration: none;
 
 	&:hover {
-		@include gradient($light-purple, $purple, $black);
+		@include mixins.gradient(variables.$light-purple, variables.$purple, variables.$black);
 	}
 
 	& + .nav__link {
@@ -30,11 +33,11 @@
 }
 
 .nav__link--active {
-	background: $darkest-purple;
+	background: variables.$darkest-purple;
 
 	&:hover,
 	&:active,
 	&:focus {
-		background: $black;
+		background: variables.$black;
 	}
 }

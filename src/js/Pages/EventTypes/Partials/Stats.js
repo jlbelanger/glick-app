@@ -124,7 +124,7 @@ const calculate = (values) => {
 	};
 };
 
-export default function Stats({ actions, chartRef, fromYmd, graphType, setUnit, suffix, toYmd, total, unit }) {
+export default function Stats({ actions, chartRef, fromYmd, graphType, setUnit, suffix = '', toYmd, total, unit }) {
 	const rows = actions;
 
 	let results = {};
@@ -232,8 +232,4 @@ Stats.propTypes = {
 	toYmd: PropTypes.string.isRequired,
 	total: PropTypes.number.isRequired,
 	unit: PropTypes.string.isRequired,
-};
-
-Stats.defaultProps = {
-	suffix: '',
 };

@@ -1,6 +1,8 @@
+@use '../utilities/variables';
+
 #article {
 	flex: 1 1 auto;
-	margin: 0 auto $nav-height;
+	margin: 0 auto variables.$nav-height;
 	padding-bottom: 20px;
 
 	& > form:first-child > :first-child {

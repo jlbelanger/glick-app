@@ -1,6 +1,8 @@
+@use '../utilities/variables';
+
 #list {
 	form {
-		padding: $list-padding-top $list-padding-side;
+		padding: variables.$list-padding-top variables.$list-padding-side;
 	}
 
 	.field {
@@ -62,22 +64,22 @@
 }
 
 .list__item--active {
-	background: rgba($darkest-green, .5);
+	background: rgba(variables.$darkest-green, .5);
 }
 
 .list__link {
-	color: $white;
+	color: variables.$white;
 	display: block;
-	padding: $list-padding-top $list-padding-side;
+	padding: variables.$list-padding-top variables.$list-padding-side;
 	text-decoration: none;
 
 	&:hover,
 	&:active,
 	&:focus {
-		background: $darker-purple;
+		background: variables.$darker-purple;
 	}
 }
 
 .list > li + li {
-	border-top-color: $purple;
+	border-top-color: variables.$purple;
 }

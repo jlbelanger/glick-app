@@ -1,12 +1,15 @@
+@use '~@jlbelanger/formosa/src/scss/utilities/variables' as formosa;
+@use '../utilities/variables';
+
 * {
 	box-sizing: border-box;
 }
 
 body {
-	background: $black;
-	color: $white;
-	font-family: $formosa-input-font-family;
-	font-size: $font-size;
+	background: variables.$black;
+	color: variables.$white;
+	font-family: formosa.$formosa-input-font-family;
+	font-size: variables.$font-size;
 	margin: 0;
 }
 
@@ -18,8 +21,8 @@ body {
 
 #header,
 #footer {
-	background: $darker-purple;
-	height: $nav-height;
+	background: variables.$darker-purple;
+	height: variables.$nav-height;
 	left: 0;
 	position: fixed;
 	right: 0;

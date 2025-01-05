@@ -1,7 +1,9 @@
+@use '../utilities/mixins';
+
 input,
 select,
 textarea {
-	@include gradient(#fff, #fff, #ccc);
+	@include mixins.gradient(#fff, #fff, #ccc);
 
 	&:invalid:not(:focus) {
 		box-shadow: none;

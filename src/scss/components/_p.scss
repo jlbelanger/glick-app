@@ -1,4 +1,6 @@
+@use '../utilities/variables';
+
 p {
-	color: $white;
-	padding: 0 $list-padding-side;
+	color: variables.$white;
+	padding: 0 variables.$list-padding-side;
 }

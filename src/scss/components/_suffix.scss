@@ -1,3 +1,5 @@
+@use '../utilities/variables';
+
 .formosa-suffix {
-	color: $black;
+	color: variables.$black;
 }

@@ -1,8 +1,10 @@
-// Colors
+@use 'sass:color';
+
+/* Colors. */
 
 $dark-green: #096;
-$darker-green: scale-color($dark-green, $lightness: -30%);
-$darkest-green: scale-color($darker-green, $lightness: -30%);
+$darker-green: color.scale($dark-green, $lightness: -30%);
+$darkest-green: color.scale($darker-green, $lightness: -30%);
 $green: #3c9;
 $light-green: #4da;
 $lighter-green: #6fc;
@@ -10,26 +12,28 @@ $lightest-green: #8fe;
 
 $darkest-purple: #101;
 $purple: #4b318c;
-$darker-purple: scale-color($purple, $lightness: -50%);
-$dark-purple: scale-color($purple, $lightness: -35%);
-$light-purple: scale-color($purple, $lightness: 5%);
-$lighter-purple: scale-color($purple, $lightness: 20%);
-$lightest-purple: scale-color($purple, $lightness: 50%);
+$darker-purple: color.scale($purple, $lightness: -50%);
+$dark-purple: color.scale($purple, $lightness: -35%);
+$light-purple: color.scale($purple, $lightness: 5%);
+$lighter-purple: color.scale($purple, $lightness: 20%);
+$lightest-purple: color.scale($purple, $lightness: 50%);
 
 $red: #cc411f;
-$darker-red: scale-color($red, $lightness: -50%);
-$dark-red: scale-color($red, $lightness: -35%);
-$light-red: scale-color($red, $lightness: 5%);
-$lighter-red: scale-color($red, $lightness: 20%);
-$lightest-red: scale-color($red, $lightness: 50%);
+$darker-red: color.scale($red, $lightness: -50%);
+$dark-red: color.scale($red, $lightness: -35%);
+$light-red: color.scale($red, $lightness: 5%);
+$lighter-red: color.scale($red, $lightness: 20%);
+$lightest-red: color.scale($red, $lightness: 50%);
 
 $bright-purple: #b656b6;
 
 $white: #fff;
 $black: #000;
 
-// Sizes
+/* Sizes. */
 
+$border-radius: 10px;
+$padding: 8px;
 $font-size: 16px;
 $max-width: 600px;
 $nav-height: 44px;
@@ -37,52 +41,18 @@ $nav-height: 44px;
 $list-padding-top: 14px;
 $list-padding-side: 16px;
 
-$modal-background-color: $darker-purple !default;
-$modal-button-margin-side: 8px !default;
-$modal-button-margin-top: 20px !default;
-$modal-container-background-color: rgba($black, .6) !default;
-$modal-input-background-color: $white !default;
-$modal-margin: 32px !default;
-$modal-max-width: 800px !default;
-$modal-padding: 32px !default;
-$modal-text-color: $black !default;
-$modal-zindex: 9999 !default;
+$modal-background-color: $darker-purple;
+$modal-button-margin-side: 8px;
+$modal-button-margin-top: 20px;
+$modal-container-background-color: rgba($black, .6);
+$modal-input-background-color: $white;
+$modal-margin: 32px;
+$modal-max-width: 800px;
+$modal-padding: 32px;
+$modal-text-color: $black;
+$modal-zindex: 9999;
 
-// Overrides
+$has-many-padding: 4px;
+$has-many-padding-side: 0;
 
-$formosa-input-border-color: #bbb;
-$formosa-input-border-radius: 10px;
-$formosa-input-border-width: 2px;
-$formosa-input-font-size: $font-size;
-$formosa-input-line-height: 1.25;
-$formosa-input-padding: 8px;
-$formosa-input-font-family: 'Trebuchet MS', sans-serif;
-
-$formosa-button-background-color: $lighter-green;
-$formosa-button-border-color: $dark-green;
-$formosa-button-padding-side: $formosa-input-padding;
-$formosa-input-line-height: 1;
-
-$formosa-checkbox-border-radius: $formosa-input-border-radius;
-
-$formosa-color-danger: $lighter-red;
-
-$formosa-focus-border-color: $lighter-purple;
-$formosa-focus-box-shadow-color: $bright-purple;
-
-$formosa-has-many-padding: 4px;
-$formosa-has-many-padding-side: 0;
-
-$formosa-label-font-weight: normal;
-
-$formosa-postfix-border-width: 1px;
-
-$formosa-radio-border-radius: $formosa-input-border-radius;
-$formosa-radio-border-width: 0;
-$formosa-radio-margin: 0;
-$formosa-radio-margin-side: 0;
-
-$formosa-spinner-color: $green;
-$formosa-spinner-color-alternate: $darker-purple;
-
-$formosa-success-background-color: $green;
+$font: 'Trebuchet MS', sans-serif;
