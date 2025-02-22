@@ -77,8 +77,8 @@
 	}
 
 	.formosa-radio__item:last-of-type .formosa-radio__label {
-		border-radius: 0 formosa.$formosa-input-border-radius formosa.$formosa-input-border-radius 0;
 		border-left-width: 1px;
+		border-radius: 0 formosa.$formosa-input-border-radius formosa.$formosa-input-border-radius 0;
 		margin: 0;
 
 		input {
