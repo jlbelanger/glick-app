@@ -50,3 +50,11 @@ p,
 #heading-spacer + form > .formosa-alert:first-child {
 	margin-top: 20px;
 }
+
+.formosa-prefix {
+	border-right-color: transparent;
+}
+
+.formosa-postfix {
+	border-left-color: transparent;
+}
